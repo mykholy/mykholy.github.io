@@ -777,12 +777,8 @@
     let ticking=false;
     window.addEventListener('scroll',()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{$('#header').classList.toggle('scrolled',window.scrollY>28);const max=document.documentElement.scrollHeight-innerHeight;$('#readingProgress').style.transform=`scaleX(${max>0?window.scrollY/max:0})`;ticking=false;});},{passive:true});
     if(window.matchMedia('(pointer:fine)').matches)window.addEventListener('pointermove',e=>{document.body.style.setProperty('--mx',e.clientX+'px');document.body.style.setProperty('--my',e.clientY+'px');},{passive:true});
-    // Canonical and share metadata are pinned to the GitHub Pages origin.
-    if(location.protocol==='https:'||location.protocol==='http:'){
-      const can=document.createElement('link');can.rel='canonical';can.href=location.origin+location.pathname;document.head.appendChild(can);
-      const url=document.createElement('meta');url.setAttribute('property','og:url');url.content=can.href;document.head.appendChild(url);
-    }
-    renderProjects();observeReveal();
+    // Canonical and social metadata are defined once in the HTML head.
+        renderProjects();observeReveal();
     if(document.readyState!=='loading'){icons();}else{document.addEventListener('DOMContentLoaded',icons,{once:true});}
     window.addEventListener('load',icons,{once:true});
   })();
