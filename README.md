@@ -1,30 +1,49 @@
 # Ahmed Elkholy — Engineering Portfolio
 
-Personal portfolio for Ahmed Elkholy, a Senior Backend Engineer working on Laravel applications, Shopify systems, Filament extensions, SaaS platforms, payments, and reliable APIs.
+Personal engineering portfolio, live at **https://mykholy.github.io/**.
 
-**Live:** https://mykholy.github.io/
+This site presents selected Laravel, Shopify, Filament, payments, SaaS, commerce, AI/media and EdTech work with engineering context rather than feature lists. Project artwork is illustrative, not screenshots of production software.
 
-## What is included
+## Site structure
 
-- Responsive, bilingual (English / Arabic RTL) portfolio with a dark editorial design
-- Filterable project cards and accessible details dialogs
-- Curated open-source packages, SaaS platforms, Shopify and Filament case studies
-- Seven optimized, original illustrations in `assets/` (WebP)
-- Original PDF resume served as a directly downloadable file
-- GitHub Pages automatic deployment and search-engine metadata
+- `index.html` — semantic page markup, SEO metadata, structured data and content sections
+- `assets/css/site.css` — responsive styling, dark visual system, accessible focus and reduced-motion treatment
+- `assets/js/site.js` — project catalog, English/Arabic translations, keyboard-accessible dialogs and UI interactions
+- `assets/images/` — optimized WebP illustrations for projects and hero sections
+- `Ahmed_Elkholy_CV_Senior_Backend_Laravel_Master_2026-10-14.pdf` — original PDF CV
+- `sitemap.xml`, `robots.txt` and `.nojekyll` — static site publishing support
 
-## Development and deployment
+## Features
 
-The site is a static `index.html` served from `main`. It does not need npm or a build step. Push changes to the default branch to trigger GitHub Pages.
+- 17 selected projects with category filtering and details about **role, challenge, engineering approach and scope**
+- Engineering highlights for commerce reliability, Shopify catalog QA and AI media workflows
+- Capability/service descriptions and delivery process for clients
+- Responsive desktop, tablet and mobile layouts
+- Lightweight scroll reveals, hover cues, progress indicator and `prefers-reduced-motion` support
+- English/Arabic toggle with RTL-aware styling
+- Native PDF download and direct email / WhatsApp contact links
+- Open Graph, Twitter Card, JSON-LD (`Person`, `WebSite`, `ProfilePage`, `ItemList`) and sitemap metadata
 
-Project illustrations are in `assets/project-*.webp`. The original resume is at `Ahmed_Elkholy_CV_Senior_Backend_Laravel_Master_2026-10-14.pdf`.
+## Development
 
-GitHub Pages: **Settings → Pages**. The workflow at `.github/workflows/deploy.yml` handles deployment.
+No build tools are required. To preview locally, serve the repository with a static HTTP server such as:
 
-Visuals are conceptual illustrations rather than screenshots of production applications. Project copy describes engineering involvement and does not claim unverified customer endorsements.
+```bash
+python3 -m http.server 8000
+```
+
+Then visit `http://localhost:8000`.
+
+Update the project data and translations in `assets/js/site.js`, and add new images under `assets/images/`. Keep case-study claims grounded in actual work and never attribute fabricated testimonials or benchmark improvements.
+
+## Publishing
+
+GitHub Pages is configured to publish this user site from `main`. Commits to `main` trigger deployment.
 
 ## Contact
 
-- [GitHub](https://github.com/mykholy)
-- [LinkedIn](https://www.linkedin.com/in/mykholy)
-- [Email](mailto:mykholys30@gmail.com)
+- GitHub: https://github.com/mykholy
+- LinkedIn: https://www.linkedin.com/in/mykholy
+- Email: mykholys30@gmail.com
+
+© 2026 Ahmed Elkholy.
