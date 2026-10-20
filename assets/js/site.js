@@ -729,55 +729,13 @@
         el.outerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-${name}" aria-hidden="true">${iconPaths[name]||'<circle cx="12" cy="12" r="8"/>'}</svg>`;
       });
     };
-    const motionPreviews=Object.freeze({
-      vericatalog:'assets/video/vericatalog-motion.mp4',
-      tikvideo:'assets/video/tikvideo-motion.mp4',
-      safeactions:'assets/video/safeactions-motion.mp4',
-      jomlakwt:'assets/video/jomlakwt-motion.mp4'
-    });
     const imageFor=(p)=>assets[p.image]||'';
     const cardMarkup=(p,i)=>{
       const name=safe(p.title),sub=safe(lang==='ar'?p.arBlurb:p.blurb);
       const visual=p.image==='grid'?'visual-grid':p.image==='blue'?'visual-blue':p.image==='code'?'visual-code':'';
       const image=assets[p.image]?`<img src="${assets[p.image]}" loading="lazy" alt="Conceptual project artwork for ${name}; not an actual UI screenshot" />`:'';
-      const motionMarkup=motionPreviews[p.id]
-        ? `<video class="project-motion" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1" poster="${assets[p.image]}"><source data-src="${motionPreviews[p.id]}" type="video/mp4"></video><span class="preview-chip">${lang==='ar'?'تصوّر متحرك':'MOTION CONCEPT'}</span>`
-        : '';
-      return `<article class="project-card reveal ${motionPreviews[p.id]?'has-motion ':''}${p.featured?'wide':''}" role="button" tabindex="0" data-id="${p.id}" aria-label="${safe(i18n[lang].projectDetails)}: ${name}"><div class="project-cover ${visual}">${image}${motionMarkup}<span class="project-number">${String(i+1).padStart(2,'0')} / PROJECT</span><span class="cover-icon"><i data-lucide="arrow-up-right"></i></span><span class="cover-word">${name.toUpperCase()}</span></div><div class="project-body"><div class="project-meta"><span>${safe(p.label)}</span><span class="year">${safe(p.year)}</span></div><h3>${name}</h3><p>${sub}</p><div class="tag-row">${p.tags.slice(0,3).map(t=>`<span class="tag">${safe(t)}</span>`).join('')}<span class="card-view">${i18n[lang].view} <i data-lucide="arrow-up-right"></i></span></div></div></article>`;
+      return `<article class="project-card reveal ${p.featured?'wide':''}" role="button" tabindex="0" data-id="${p.id}" aria-label="${safe(i18n[lang].projectDetails)}: ${name}"><div class="project-cover ${visual}">${image}<span class="project-number">${String(i+1).padStart(2,'0')} / PROJECT</span><span class="cover-icon"><i data-lucide="arrow-up-right"></i></span><span class="cover-word">${name.toUpperCase()}</span></div><div class="project-body"><div class="project-meta"><span>${safe(p.label)}</span><span class="year">${safe(p.year)}</span></div><h3>${name}</h3><p>${sub}</p><div class="tag-row">${p.tags.slice(0,3).map(t=>`<span class="tag">${safe(t)}</span>`).join('')}<span class="card-view">${i18n[lang].view} <i data-lucide="arrow-up-right"></i></span></div></div></article>`;
     };
-
-    let motionObserver;
-    function setupMotionPreviews(){
-      if(motionObserver)motionObserver.disconnect();
-      if(!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection && navigator.connection.saveData))return;
-      motionObserver=new IntersectionObserver(entries=>{
-        for(const entry of entries){
-          const video=entry.target;
-          if(entry.isIntersecting && document.visibilityState==='visible'){
-            const source=video.querySelector('source[data-src]');
-            if(source){source.src=source.dataset.src;source.removeAttribute('data-src');video.load();}
-            const task=video.play();
-            if(task && typeof task.catch==='function')task.catch(()=>{});
-          }else{video.pause();}
-        }
-      },{threshold:.18,rootMargin:'40px 0px'});
-      $('#projectGrid video.project-motion').forEach(video=>{
-        video.addEventListener('playing',()=>video.classList.add('is-playing'));
-        video.addEventListener('pause',()=>video.classList.remove('is-playing'));
-        motionObserver.observe(video);
-      });
-    }
-    document.addEventListener('visibilitychange',()=>{
-      const videos=$('#projectGrid video.project-motion');
-      if(document.hidden){videos.forEach(v=>v.pause());return;}
-      if(!motionObserver)return;
-      videos.forEach(v=>{
-        const b=v.getBoundingClientRect();
-        if(b.bottom>0&&b.top<innerHeight && v.querySelector('source[src]')){
-          const task=v.play();if(task&&typeof task.catch==='function')task.catch(()=>{});
-        }
-      });
-    });
     function renderProjects(){
       let filtered=projects.filter(p=>activeFilter==='all'||p.category===activeFilter);
       const limit=expanded?filtered.length:6;
@@ -788,9 +746,9 @@
         el.addEventListener('click',()=>openProject(el.dataset.id));
         el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openProject(el.dataset.id);}});
       });
-      icons();observeReveal();setupMotionPreviews();
+      icons();observeReveal();
     }
-    $('.impact-card [data-project-link]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openProject(a.dataset.projectLink);}));
+    $$('.impact-card [data-project-link]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();openProject(a.dataset.projectLink);}));
     const dialog=$('#projectDialog');
     const projectHash=id=>'#project/'+encodeURIComponent(id);
     function openProject(id){
