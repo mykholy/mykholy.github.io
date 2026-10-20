@@ -97,3 +97,40 @@
 }
 @media(max-width:375px) { .container{margin-inline:15px!important;} .filter-nav{margin-inline:-15px;padding-inline:15px;} .hero h1 {font-size:clamp(39px,12vw,50px);} .brand-name{font-size:12px;} .hero-actions{grid-template-columns:1fr;} .hero-actions > *{min-height:46px;} }
 @media(prefers-reduced-motion:reduce) { .service-card:hover,.impact-card:hover,.project-card:hover{transform:none;} .project-cover img{transition:none!important;} }
+
+
+/* Portfolio finish: mobile rhythm, readable typography and controlled motion */
+.hero h1{overflow-wrap:normal;text-wrap:balance}
+#projectDialog{max-height:calc(100dvh - 36px)}
+.project-dialog .dialog-body{overscroll-behavior:contain}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+  .project-card:hover .project-cover img{transform:scale(1.035)}
+  .btn-primary:hover,.btn-outline:hover{transform:translateY(-2px)}
+}
+@media(max-width:640px){
+  .container{width:calc(100% - 36px)}
+  .hero{min-height:initial;padding-top:108px;padding-bottom:46px}
+  .hero-content{padding-bottom:75px}
+  .hero-kicker{margin-top:32px}
+  .hero h1{font-size:clamp(43px,12vw,65px);letter-spacing:-.066em;line-height:1.04;max-width:100%;text-wrap:balance}
+  .hero-description{margin:24px 0 26px;max-width:39ch;line-height:1.73}
+  .hero-actions{width:100%;gap:9px}
+  .hero-actions>a{flex:1 1 142px;padding:0 12px;text-align:center}
+  .hero-proof{margin-top:18px;gap:7px}
+  .hero-chip{font-size:10px;padding:8px 10px}
+  .section{padding-top:70px;padding-bottom:70px}
+  .section-heading{margin-bottom:24px}
+  .project-cover,.project-card.wide .project-cover{height:205px}
+  .project-body{padding:20px}
+  .impact-card{min-width:0}
+  .impact-card>a{min-height:44px;display:inline-flex;align-items:center}
+  .project-dialog{width:calc(100vw - 24px);max-height:calc(100dvh - 24px);margin:auto}
+  .project-dialog .dialog-body{padding:22px 18px 26px}
+  .quick-contact{right:16px;bottom:max(16px,env(safe-area-inset-bottom))}
+}
+@media(max-width:370px){
+  .container{width:calc(100% - 28px)}
+  .hero h1{font-size:clamp(38px,11.8vw,47px);letter-spacing:-.073em}
+  .hero-actions>a{flex-basis:100%}
+  .hero-description{font-size:13.5px}
+}
