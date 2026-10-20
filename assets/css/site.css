@@ -134,3 +134,35 @@
   .hero-actions>a{flex-basis:100%}
   .hero-description{font-size:13.5px}
 }
+
+
+/* Motion-led portfolio previews: illustrative concept footage, not product captures. */
+.project-cover .project-motion{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:1;pointer-events:none;transition:opacity .55s ease;}
+.project-cover .project-motion.is-playing{opacity:1;}
+.project-cover .preview-chip{position:absolute;right:16px;bottom:17px;z-index:4;padding:7px 10px;border:1px solid #e1b78b63;border-radius:6px;background:#0d0d0ddd;color:#ead3b9;font:700 9px/1.3 var(--mono);letter-spacing:.085em;white-space:nowrap;backdrop-filter:blur(10px);box-shadow:0 4px 16px #0008;}
+.project-card.has-motion .cover-word{max-width:52%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+@media(prefers-reduced-motion:no-preference){
+  @keyframes ae-intro{from{opacity:0;transform:translate3d(0,24px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+  @keyframes ae-drift{0%{transform:scale(1) translate3d(0,0,0)}100%{transform:scale(1.055) translate3d(-1.1%,.5%,0)}}
+  .hero-content .status{animation:ae-intro .75s .06s both cubic-bezier(.2,.8,.2,1);}
+  .hero-content .hero-kicker{animation:ae-intro .8s .18s both cubic-bezier(.2,.8,.2,1);}
+  .hero h1 span:nth-child(1){animation:ae-intro .85s .29s both cubic-bezier(.2,.8,.2,1);}
+  .hero h1 span:nth-child(2){animation:ae-intro .85s .41s both cubic-bezier(.2,.8,.2,1);}
+  .hero h1 span:nth-child(3){animation:ae-intro .85s .53s both cubic-bezier(.2,.8,.2,1);}
+  .hero .hero-description{animation:ae-intro .8s .68s both cubic-bezier(.2,.8,.2,1);}
+  .hero .hero-actions{animation:ae-intro .8s .79s both cubic-bezier(.2,.8,.2,1);}
+  .hero-art{animation:ae-drift 20s ease-in-out infinite alternate;}
+  .project-card .preview-chip{transition:background .3s,border-color .3s,transform .3s;}
+  .project-card:hover .preview-chip{background:#18110de8;border-color:#edba8a;transform:translateY(-3px);}
+  .btn-primary,.btn-outline{transition:transform .25s ease,background .25s ease,border-color .25s ease,box-shadow .25s ease;}
+  .btn-primary:hover,.btn-outline:hover{transform:translateY(-3px);box-shadow:0 12px 32px #0007;}
+}
+@media(max-width:430px){
+  .hero h1{font-size:clamp(42px,12.1vw,60px);letter-spacing:-.075em;overflow-wrap:normal;}
+  .hero .hero-description{max-width:100%;}
+  .project-cover .preview-chip{right:12px;bottom:13px;padding:6px 8px;font-size:8px;}
+}
+@media(prefers-reduced-motion:reduce){
+  .project-cover .project-motion{display:none!important;}
+  .hero-art{animation:none!important;}
+}
