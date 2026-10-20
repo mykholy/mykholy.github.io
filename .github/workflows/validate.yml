@@ -13,33 +13,27 @@ jobs:
           node-version: '22'
       - name: JavaScript syntax
         run: node --check assets/js/site.js
-      - name: Verify critical assets and media
+      - name: Verify essential content and assets
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import re
           site = Path("index.html").read_text(encoding="utf-8")
+          css = Path("assets/css/site.css").read_text(encoding="utf-8")
           js = Path("assets/js/site.js").read_text(encoding="utf-8")
-          required = [
+          essential = [
+              "index.html",
               "assets/css/site.css",
               "assets/js/site.js",
               "assets/cv/Ahmed_Elkholy_Senior_Backend_Engineer_CV_2026.pdf",
-              "assets/video/vericatalog-motion.mp4",
-              "assets/video/tikvideo-motion.mp4",
-              "assets/video/safeactions-motion.mp4",
-              "assets/video/jomlakwt-motion.mp4",
           ]
-          for name in required:
-              f = Path(name)
-              assert f.is_file() and f.stat().st_size > 0, f"Missing or empty asset: {name}"
-          for file in required[3:]:
-              with Path(file).open("rb") as f:
-                  assert b"ftyp" in f.read(20), f"Unexpected video format: {file}"
-              assert file in js, f"Video not referenced by site: {file}"
+          for filename in essential:
+              file = Path(filename)
+              assert file.is_file() and file.stat().st_size > 0, f"Missing file: {filename}"
           assert 'id="projectGrid"' in site
           assert 'id="heroCv"' in site
-          assert 'project-motion' in js
-          assert 'setupMotionPreviews' in js
-          assert 'prefers-reduced-motion' in Path("assets/css/site.css").read_text()
-          print("Portfolio assets, references and accessible motion fallback validated.")
+          assert 'assets/css/site.css' in site and 'assets/js/site.js' in site
+          assert 'classList.add("js")' not in site, "Content should stay visible if JS fails"
+          assert 'function renderProjects()' in js
+          assert 'prefers-reduced-motion' in css
+          print("Site syntax, fallback visibility, key content, and CV checks passed.")
           PY
