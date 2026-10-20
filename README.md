@@ -1,35 +1,30 @@
 # Ahmed Elkholy — Engineering Portfolio
 
-Interactive personal portfolio for Ahmed Elkholy, Senior Backend Engineer specializing in Laravel, SaaS platforms, payment integrations, API design, and open-source developer tools.
+Personal portfolio for Ahmed Elkholy, a Senior Backend Engineer working on Laravel applications, Shopify systems, Filament extensions, SaaS platforms, payments, and reliable APIs.
 
-## Live website
+**Live:** https://mykholy.github.io/
 
-https://mykholy.github.io/
+## What is included
 
-## Features
+- Responsive, bilingual (English / Arabic RTL) portfolio with a dark editorial design
+- Filterable project cards and accessible details dialogs
+- Curated open-source packages, SaaS platforms, Shopify and Filament case studies
+- Seven optimized, original illustrations in `assets/` (WebP)
+- Original PDF resume served as a directly downloadable file
+- GitHub Pages automatic deployment and search-engine metadata
 
-- Responsive dark Bento Grid layout
-- English and Arabic (RTL) support
-- Filterable projects with accessible detail modals
-- Self-contained HTML with embedded project artwork and downloadable PDF CV
-- GitHub, LinkedIn, email, and WhatsApp contact links
-- SEO metadata, Schema.org `Person` JSON-LD, sitemap and robots rules
-- Reduced-motion support
+## Development and deployment
 
-## Deployment
+The site is a static `index.html` served from `main`. It does not need npm or a build step. Push changes to the default branch to trigger GitHub Pages.
 
-This repository hosts a static GitHub Pages user site. The production entry point is `index.html` on the `main` branch. No build step or package installation is required. In **Settings → Pages**, choose **Deploy from a branch**, then select `main` and `/ (root)`.
+Project illustrations are in `assets/project-*.webp`. The original resume is at `Ahmed_Elkholy_CV_Senior_Backend_Laravel_Master_2026-10-14.pdf`.
 
-The page includes inline assets. Google Fonts, the Tailwind CDN and Lucide use external networks for optional styling/icons.
+GitHub Pages: **Settings → Pages**. The workflow at `.github/workflows/deploy.yml` handles deployment.
 
-## Updating
-
-Edit `index.html`, commit to `main`, and GitHub Pages will publish the change once deployment is enabled. Update `sitemap.xml` when adding new public pages. Replace the Open Graph image URL if you upload the standalone social share preview.
+Visuals are conceptual illustrations rather than screenshots of production applications. Project copy describes engineering involvement and does not claim unverified customer endorsements.
 
 ## Contact
 
-- GitHub: https://github.com/mykholy
-- LinkedIn: https://www.linkedin.com/in/mykholy
-- Email: mykholys30@gmail.com
-
-© 2026 Ahmed Elkholy.
+- [GitHub](https://github.com/mykholy)
+- [LinkedIn](https://www.linkedin.com/in/mykholy)
+- [Email](mailto:mykholys30@gmail.com)
