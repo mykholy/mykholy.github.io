@@ -1,0 +1,302 @@
+[
+  {
+    "title": "AI Automation Roadmap: From Spreadsheets to Reliable Workflows",
+    "slug": "ai-automation-roadmap-from-spreadsheets-to-reliable-workflows",
+    "category": "Automation",
+    "summary": "Spreadsheet handoffs lead to lost accountability and repeated data entry."
+  },
+  {
+    "title": "AI Agents vs Rules: What to Build?",
+    "slug": "ai-agents-vs-rules-what-to-build",
+    "category": "Automation",
+    "summary": "An agent is often used where a deterministic rule would be easier to audit."
+  },
+  {
+    "title": "How to Scope a 30-Day AI Pilot",
+    "slug": "how-to-scope-a-30-day-ai-pilot",
+    "category": "Strategy",
+    "summary": "A striking demo is not useful unless a baseline and an outcome are agreed."
+  },
+  {
+    "title": "Production-Ready Automation Checklist",
+    "slug": "production-ready-automation-checklist",
+    "category": "Engineering",
+    "summary": "Retries, duplicate webhooks and provider outages turn demos into incidents."
+  },
+  {
+    "title": "n8n vs Laravel Automation",
+    "slug": "n8n-vs-laravel-automation",
+    "category": "Engineering",
+    "summary": "Visual workflows become harder to govern when authorization and billing grow complex."
+  },
+  {
+    "title": "Webhooks Without Duplicate Orders",
+    "slug": "webhooks-without-duplicate-orders",
+    "category": "Engineering",
+    "summary": "A webhook may arrive again after the first response is lost in transit."
+  },
+  {
+    "title": "Human-in-the-Loop AI Workflows",
+    "slug": "human-in-the-loop-ai-workflows",
+    "category": "Automation",
+    "summary": "Employees need review evidence and accountability for impactful changes."
+  },
+  {
+    "title": "AI Automation Cost: Beyond Tokens",
+    "slug": "ai-automation-cost-beyond-tokens",
+    "category": "Strategy",
+    "summary": "A small model bill ignores messaging, corrections, audits and ongoing support."
+  },
+  {
+    "title": "Picking Your First AI Automation",
+    "slug": "picking-your-first-ai-automation",
+    "category": "Strategy",
+    "summary": "The most noticeable task might be infrequent, ambiguous or irreversible."
+  },
+  {
+    "title": "Automation Observability for Operators",
+    "slug": "automation-observability-for-operators",
+    "category": "Engineering",
+    "summary": "Server health does not show which customer request remains stuck."
+  },
+  {
+    "title": "Voice AI for Booking Appointments",
+    "slug": "voice-ai-for-booking-appointments",
+    "category": "Voice AI",
+    "summary": "Natural speech does not prove a real booking slot was reserved."
+  },
+  {
+    "title": "AI Phone Agents: Latency and Handoff",
+    "slug": "ai-phone-agents-latency-and-handoff",
+    "category": "Voice AI",
+    "summary": "An agent may sound natural yet frustrate callers through pauses and missed interruptions."
+  },
+  {
+    "title": "Arabic Voice AI and Dialect Testing",
+    "slug": "arabic-voice-ai-and-dialect-testing",
+    "category": "Voice AI",
+    "summary": "Egyptian and Gulf callers mix dialects with English terms and numbers."
+  },
+  {
+    "title": "Voice AI Support: When to Escalate",
+    "slug": "voice-ai-support-when-to-escalate",
+    "category": "Voice AI",
+    "summary": "Some support requests involve protected accounts or disputed transactions."
+  },
+  {
+    "title": "Text-to-Speech Pipelines with Queues",
+    "slug": "text-to-speech-pipelines-with-queues",
+    "category": "Voice AI",
+    "summary": "Audio generation may be asynchronous and may cost money before a completion callback."
+  },
+  {
+    "title": "Call Summaries and CRM Updates",
+    "slug": "call-summaries-and-crm-updates",
+    "category": "Voice AI",
+    "summary": "An AI summary can turn a tentative customer remark into a firm commitment."
+  },
+  {
+    "title": "Voice AI Proof of Concept Without Lock-In",
+    "slug": "voice-ai-proof-of-concept-without-lock-in",
+    "category": "Voice AI",
+    "summary": "Fast voice demos often hard-code the entire system to one telephony or speech vendor."
+  },
+  {
+    "title": "WhatsApp AI from Question to Order",
+    "slug": "whatsapp-ai-from-question-to-order",
+    "category": "Commerce",
+    "summary": "Answering chat questions is not the same as checking stock and completing checkout."
+  },
+  {
+    "title": "Cart Recovery Without Spam",
+    "slug": "cart-recovery-without-spam",
+    "category": "Commerce",
+    "summary": "Automated reminders can continue after the customer already bought."
+  },
+  {
+    "title": "Shopify Catalog QA Before AI Suggestions",
+    "slug": "shopify-catalog-qa-before-ai-suggestions",
+    "category": "Commerce",
+    "summary": "Missing GTINs, SKUs and invalid variants require exact data-quality checks."
+  },
+  {
+    "title": "Product Recommendations Grounded in Inventory",
+    "slug": "product-recommendations-grounded-in-inventory",
+    "category": "Commerce",
+    "summary": "A conversational shopping assistant may hallucinate availability or discounts."
+  },
+  {
+    "title": "AI Support for Returns and Refunds",
+    "slug": "ai-support-for-returns-and-refunds",
+    "category": "Commerce",
+    "summary": "Refund decisions depend on policy, order state and provider settlement."
+  },
+  {
+    "title": "B2B Lead Qualification and CRM Routing",
+    "slug": "b2b-lead-qualification-and-crm-routing",
+    "category": "Commerce",
+    "summary": "Incomplete leads reach the wrong sales owner or disappear between channels."
+  },
+  {
+    "title": "Automated Invoices and Reminders",
+    "slug": "automated-invoices-and-reminders",
+    "category": "Commerce",
+    "summary": "Payment reminders remain active when transfers are not reconciled."
+  },
+  {
+    "title": "Omnichannel CRM with AI Context",
+    "slug": "omnichannel-crm-with-ai-context",
+    "category": "Commerce",
+    "summary": "One customer creates duplicate tickets across WhatsApp, email and web chat."
+  },
+  {
+    "title": "Clinic Appointment Automation",
+    "slug": "clinic-appointment-automation",
+    "category": "Industry Playbooks",
+    "summary": "Reception teams struggle with missed inquiries and inconsistent calendars."
+  },
+  {
+    "title": "Dental Clinic Lead Follow-Up",
+    "slug": "dental-clinic-lead-follow-up",
+    "category": "Industry Playbooks",
+    "summary": "Treatment inquiries arrive through social channels and disappear across shifts."
+  },
+  {
+    "title": "AI Real Estate Property Matching",
+    "slug": "ai-real-estate-property-matching",
+    "category": "Industry Playbooks",
+    "summary": "Prospects describe budgets and neighborhoods in informal language."
+  },
+  {
+    "title": "Property Maintenance Automation",
+    "slug": "property-maintenance-automation",
+    "category": "Industry Playbooks",
+    "summary": "Repair requests lack exact units, urgency and useful photos."
+  },
+  {
+    "title": "School Administration Workflows",
+    "slug": "school-administration-workflows",
+    "category": "Industry Playbooks",
+    "summary": "Attendance and parent messages are copied between disconnected systems."
+  },
+  {
+    "title": "Learning Assistants with Course Citations",
+    "slug": "learning-assistants-with-course-citations",
+    "category": "Industry Playbooks",
+    "summary": "Generic answers can contradict the teacher's actual lesson."
+  },
+  {
+    "title": "Restaurant Booking Automation",
+    "slug": "restaurant-booking-automation",
+    "category": "Industry Playbooks",
+    "summary": "Chat reservations become inconsistent with actual table availability."
+  },
+  {
+    "title": "AI Dispatch for Field Service",
+    "slug": "ai-dispatch-for-field-service",
+    "category": "Industry Playbooks",
+    "summary": "Schedules ignore technician qualifications, spare parts and travel constraints."
+  },
+  {
+    "title": "Legal Inquiry Intake Automation",
+    "slug": "legal-inquiry-intake-automation",
+    "category": "Industry Playbooks",
+    "summary": "Firms receive inquiries without complete dates or supporting documents."
+  },
+  {
+    "title": "Recruitment Automation with Fair Review",
+    "slug": "recruitment-automation-with-fair-review",
+    "category": "Industry Playbooks",
+    "summary": "Recruiters spend hours on calendar coordination and document completeness."
+  },
+  {
+    "title": "HR and IT Onboarding Automation",
+    "slug": "hr-and-it-onboarding-automation",
+    "category": "Industry Playbooks",
+    "summary": "New hires wait for disconnected account access and equipment workflows."
+  },
+  {
+    "title": "Access-Controlled Enterprise RAG",
+    "slug": "access-controlled-enterprise-rag",
+    "category": "Engineering",
+    "summary": "An AI answer may leak a restricted document even when the answer is accurate."
+  },
+  {
+    "title": "RAG vs Fine-Tuning for Business Knowledge",
+    "slug": "rag-vs-fine-tuning-for-business-knowledge",
+    "category": "Engineering",
+    "summary": "Teams try to train models on policies that change every week."
+  },
+  {
+    "title": "Hybrid Search and Citation-Ready RAG",
+    "slug": "hybrid-search-and-citation-ready-rag",
+    "category": "Engineering",
+    "summary": "Poor chunk boundaries hide the exact passage needed for a question."
+  },
+  {
+    "title": "LLM Regression Testing for Customers",
+    "slug": "llm-regression-testing-for-customers",
+    "category": "Engineering",
+    "summary": "Five cherry-picked prompts cannot represent production traffic."
+  },
+  {
+    "title": "Prompt Injection Safety for AI Tools",
+    "slug": "prompt-injection-safety-for-ai-tools",
+    "category": "Engineering",
+    "summary": "Untrusted PDFs and webpages can contain malicious tool instructions."
+  },
+  {
+    "title": "LLM Routing, Caching and Cost Control",
+    "slug": "llm-routing-caching-and-cost-control",
+    "category": "Engineering",
+    "summary": "Always selecting the largest model increases latency and spend."
+  },
+  {
+    "title": "AI Media Jobs, Webhooks and Credits",
+    "slug": "ai-media-jobs-webhooks-and-credits",
+    "category": "Engineering",
+    "summary": "A video render may succeed remotely after the local request timed out."
+  },
+  {
+    "title": "Multi-Tenant AI SaaS Security",
+    "slug": "multi-tenant-ai-saas-security",
+    "category": "Engineering",
+    "summary": "Vector stores and background workers can lose tenant isolation."
+  },
+  {
+    "title": "AI Content Moderation with Review",
+    "slug": "ai-content-moderation-with-review",
+    "category": "Engineering",
+    "summary": "Automated moderation can misinterpret context and reject valid use."
+  },
+  {
+    "title": "Prioritizing AI Features in SaaS",
+    "slug": "prioritizing-ai-features-in-saas",
+    "category": "Strategy",
+    "summary": "A fashionable assistant can add cost without solving a customer pain."
+  },
+  {
+    "title": "AI Automation Discovery Workshop",
+    "slug": "ai-automation-discovery-workshop",
+    "category": "Strategy",
+    "summary": "Teams compare models before mapping the process or who owns it."
+  },
+  {
+    "title": "AI Prototype to Production Checklist",
+    "slug": "ai-prototype-to-production-checklist",
+    "category": "Strategy",
+    "summary": "A demo does not prove safe and recoverable operation."
+  },
+  {
+    "title": "Custom AI System vs SaaS Subscription",
+    "slug": "custom-ai-system-vs-saas-subscription",
+    "category": "Strategy",
+    "summary": "Off-the-shelf software can fail unique approvals or data portability needs."
+  },
+  {
+    "title": "Measuring Automation ROI Honestly",
+    "slug": "measuring-automation-roi-honestly",
+    "category": "Strategy",
+    "summary": "The number of agent messages does not establish business value."
+  }
+]

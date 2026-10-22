@@ -55,3 +55,14 @@ The portfolio includes a dedicated AI section covering AI product integrations, 
 ## Analytics and privacy
 
 Google Analytics 4 and Microsoft Clarity use portfolio-specific project IDs and **load only after visitor opt-in**. Search Console owner verification meta is included in the homepage; ownership still needs the Verify action in Google's UI. See [owner setup, events, KPIs and privacy guidance](docs/ANALYTICS.md). The public [privacy page](privacy.html) explains what is and is not collected.
+
+## Engineering insights blog
+
+The site publishes **50 standalone practical articles** under [Insights](https://mykholy.github.io/blog/) about AI automation, Voice AI, commerce, RAG, Laravel architecture, and sector-specific workflows. Articles have canonical URLs, `BlogPosting` structured data, related reading and consultation links. The index supports client-side search and categories while remaining readable without JavaScript.
+
+- `blog/index.html` — article discovery
+- `blog/*/index.html` — 50 crawlable articles
+- `blog/articles.json` — metadata manifest
+- `assets/css/blog.css` and `assets/js/blog.js` — accessible responsive UI
+
+The blog text includes AI-assisted editorial drafting and illustrative workflows. It does not claim that every sector example has been deployed for a client. Review and update technical examples as provider capabilities change.

@@ -14,6 +14,7 @@ jobs:
       - name: JavaScript syntax
         run: |
           node --check assets/js/site.js
+          node --check assets/js/blog.js
           node --check assets/js/analytics-config.js
           node --check assets/js/analytics.js
       - name: Verify essential content and assets
@@ -27,6 +28,10 @@ jobs:
               "index.html",
               "assets/css/site.css",
               "assets/js/site.js",
+              "assets/js/blog.js",
+              "assets/css/blog.css",
+              "blog/index.html",
+              "blog/articles.json",
               "assets/js/analytics.js",
               "assets/js/analytics-config.js",
               "privacy.html",
@@ -56,7 +61,27 @@ jobs:
           assert 'if(!ga&&!cl)return' in analytics_script
           assert 'analytics_storage:"granted"' in analytics_script
           assert 'ad_storage:"denied"' in analytics_script
-          assert '<lastmod>2026-10-22</lastmod>' in Path("sitemap.xml").read_text()
+          assert '<lastmod>2026-10-23</lastmod>' in Path("sitemap.xml").read_text()
+          import json
+          from html.parser import HTMLParser
+          articles = list(Path('blog').glob('*/index.html'))
+          assert len(articles) == 50, f"Expected 50 articles, found {len(articles)}"
+          index = Path("blog/index.html").read_text(encoding="utf-8")
+          catalog = json.loads(Path("blog/articles.json").read_text(encoding="utf-8"))
+          assert len(catalog) == 50
+          sitemap = Path("sitemap.xml").read_text(encoding="utf-8")
+          assert sitemap.count('<loc>') == 52
+          assert 'href="/blog/"' in site
+          assert 'id="blogFeatured"' in site
+          for f in articles:
+              page = f.read_text(encoding="utf-8")
+              url = 'https://mykholy.github.io/' + str(f.parent).replace('\\', '/') + '/'
+              assert f'<link rel="canonical" href="{url}">' in page, f
+              assert '"@type":"BlogPosting"' in page, f
+              assert f'/blog/{f.parent.name}/' in index, f
+              assert url in sitemap, f
+          assert 'blog_article_view' in analytics_script
+          print("Validated 50 standalone blog articles, canonical URLs, markup and sitemap.")
 
           assert 'class="project-card static-project"' in site
           assert 'assets/css/site.css' in site and 'assets/js/site.js' in site

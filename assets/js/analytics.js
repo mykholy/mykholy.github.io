@@ -44,6 +44,7 @@ function start(){
  }
  observeAI();
  send("analytics_opt_in");
+ const blogSlug=document.body.getAttribute("data-blog-slug");if(blogSlug)send("blog_article_view",{article_slug:blogSlug.slice(0,90)});
 }
 const css=document.createElement("style");
 css.textContent=".ae-consent{position:fixed;z-index:10000;bottom:max(16px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(580px,calc(100vw - 24px));padding:19px;background:#191817;color:#e8dfd4;border:1px solid #e5a76e77;border-radius:13px;box-shadow:0 20px 60px #000d;font:14px/1.7 system-ui,sans-serif}.ae-consent strong{color:#fff4e7;font-size:16px}.ae-consent p{color:#c0b8ac;margin:8px 0 14px}.ae-consent a{color:#e5a76e;text-decoration:underline}.ae-consent-buttons{display:flex;gap:9px;flex-wrap:wrap}.ae-consent button{min-height:43px;padding:0 16px;border-radius:8px;border:1px solid #ffffff50;background:#27231f;color:#eee;cursor:pointer;font-weight:700}.ae-consent button[data-agree]{background:#e5a76e;color:#1a1009;border-color:#e5a76e}.ae-settings{background:none;border:0;color:#c9b6a4;text-decoration:underline;cursor:pointer;font:inherit}@media(max-width:480px){.ae-consent{padding:15px}.ae-consent-buttons button{flex:1 1 110px}}";
@@ -53,7 +54,7 @@ function show(){
  hide();panel=document.createElement("aside");panel.className="ae-consent";panel.setAttribute("role","dialog");panel.setAttribute("aria-label","Analytics privacy preferences");
  const title=document.createElement("strong");title.textContent=lang("Analytics preferences","اختيارات الخصوصية");
  const text=document.createElement("p");text.appendChild(document.createTextNode(lang("Help improve the portfolio with optional aggregate analytics and session insights. Nothing loads before you agree. ","قياس اختياري للزيارات والتفاعل لتحسين الموقع. لا يتم تحميل أدوات القياس قبل موافقتك. ")));
- const link=document.createElement("a");link.href="privacy.html";link.textContent=lang("Privacy details","تفاصيل الخصوصية");text.appendChild(link);
+ const link=document.createElement("a");link.href="/privacy.html";link.textContent=lang("Privacy details","تفاصيل الخصوصية");text.appendChild(link);
  const actions=document.createElement("div");actions.className="ae-consent-buttons";
  const yes=document.createElement("button");yes.type="button";yes.dataset.agree="1";yes.textContent=lang("Allow analytics","موافق");
  const no=document.createElement("button");no.type="button";no.textContent=lang("Keep private","بدون تتبع");
@@ -80,6 +81,8 @@ document.addEventListener("click",e=>{
  const filter=el.closest("[data-filter]");if(filter){send("project_filter",{project_category:String(filter.dataset.filter||"").slice(0,30)});return}
  if(el.closest("#langSwitch")){send("language_toggle",{to_language:ar()?"en":"ar"});return}
  const a=el.closest("a[href]");if(!a)return;const href=a.getAttribute("href")||"";
+ if(a.hasAttribute("data-blog-cta"))send("blog_cta_click",{placement:(a.dataset.blogCta||"link").slice(0,32),article_slug:(document.body.dataset.blogSlug||"index").slice(0,90)});
+ if(a.closest("#blogList")&&href.includes("/blog/"))send("blog_article_click",{article_slug:href.split("/").filter(Boolean).pop().slice(0,90)});
  if(href.includes(".pdf")||a.id==="heroCv"||a.id==="quickCv"){send("cv_download_click",{placement:a.id||"link"});return}
  if(href.startsWith("mailto:")){send("contact_intent",{channel:"email"});return}
  if(href.includes("wa.me/")){send("contact_intent",{channel:"whatsapp"});return}
