@@ -655,7 +655,7 @@
     Object.assign(i18n.en,{
       heroKicker:'AHMED ELKHOLY · SENIOR BACKEND ENGINEER',
       heroLine1:'BACKENDS',heroLine2:'BUILT TO',heroLine3:'SCALE.',
-      heroDescription:"I engineer <strong>Laravel backends for products that need to scale</strong> — SaaS platforms, Shopify apps, payment systems and dependable APIs. From architecture and delivery to the difficult production edge cases.",
+      heroDescription:"I build <strong>reliable Laravel backends and AI-powered workflows</strong> for SaaS platforms, Shopify systems, media generation, voice/audio integrations and payments. From system design to production reliability.",
       impactEyebrow:'02 / ENGINEERING IN PRACTICE',
       servicesEyebrow:'03 / HOW I CAN HELP',
       aboutEyebrow:'04 / BEHIND THE CODE',
@@ -668,7 +668,7 @@
     Object.assign(i18n.ar,{
       heroKicker:'أحمد الخولي · مهندس Backend أول',
       heroLine1:'أنظمة',heroLine2:'تعتمد',heroLine3:'عليها.',
-      heroDescription:'أبني <strong>أنظمة Backend موثوقة باستخدام Laravel</strong> لمنصات SaaS وتطبيقات Shopify وتكاملات الدفع وواجهات API. من تصميم الحل لحد تشغيله ومعالجة أعطال الإنتاج.',
+      heroDescription:'أبني <strong>أنظمة Laravel موثوقة وتكاملات AI وأتمتة ذكية</strong> لمنصات SaaS وShopify والميديا والصوت والمدفوعات، من التصميم لحد التشغيل واستعادة الأعطال.',
       impactEyebrow:'02 / الهندسة في التطبيق',
       servicesEyebrow:'03 / خدماتي',
       aboutEyebrow:'04 / ما وراء الكود',
@@ -796,7 +796,7 @@
       $$('[data-i18n]').forEach(el=>{const t=i18n[lang][el.dataset.i18n];if(t!==undefined)el.textContent=t;});
       $$('[data-i18n-html]').forEach(el=>{const t=i18n[lang][el.dataset.i18nHtml];if(t!==undefined)el.innerHTML=t;});
 
-      document.title=isAR?'أحمد الخولي — مهندس Backend متخصص في Laravel':'Ahmed Elkholy | Senior Laravel Backend Engineer, SaaS & Shopify';
+      document.title=isAR?'أحمد الخولي — مهندس Backend متخصص في Laravel':'Ahmed Elkholy — Senior Laravel Engineer | AI Automation & SaaS';
       renderProjects();icons();
     }
     $('#langSwitch').addEventListener('click',()=>translate(lang==='en'?'ar':'en'));
