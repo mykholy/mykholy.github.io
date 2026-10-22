@@ -2,5 +2,5 @@
    Do not add duplicate gtag.js or Clarity tags. See docs/ANALYTICS.md. */
 window.PORTFOLIO_ANALYTICS = Object.freeze({
   ga4MeasurementId: "G-XFZZ8J7Q4F",
-  clarityProjectId: "z1tgj7ku7n"
+  clarityProjectId: "" // Project z1tgj7ku7n belongs to mavvix.com; do NOT mix business and portfolio traffic
 });

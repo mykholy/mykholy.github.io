@@ -54,4 +54,4 @@ The portfolio includes a dedicated AI section covering AI product integrations, 
 
 ## Analytics and privacy
 
-Analytics scripts are **off until configured** with owner-controlled Google Analytics 4 / Microsoft Clarity project IDs. When configured, they load only after explicit visitor consent. See [owner setup, events, KPIs and privacy guidance](docs/ANALYTICS.md). The public [privacy page](privacy.html) explains what is and is not collected.
+GA4 is configured but **loads only after visitor opt-in**; Microsoft Clarity is intentionally disabled until a portfolio-specific project is available. When configured, they load only after explicit visitor consent. See [owner setup, events, KPIs and privacy guidance](docs/ANALYTICS.md). The public [privacy page](privacy.html) explains what is and is not collected.

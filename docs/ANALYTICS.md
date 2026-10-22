@@ -1,21 +1,21 @@
 # Portfolio analytics — owner setup & KPI guide
 
-This GitHub Pages portfolio is **configured with the site owner’s GA4 and Microsoft Clarity IDs**. No external analytics tag loads before visitor opt-in (or when Global Privacy Control is enabled).
+This GitHub Pages portfolio is **configured with the GA4 measurement ID supplied by the owner**. Clarity is intentionally disabled because the supplied project belongs to `mavvix.com`, not this personal portfolio. No external analytics tag loads before visitor opt-in (or when Global Privacy Control is enabled).
 
 ## Confirm the configured analytics properties
 
-1. GA4 web data stream supplied by the site owner: **`G-XFZZ8J7Q4F`**. In [Google Analytics](https://analytics.google.com/) confirm the property corresponds to `https://mykholy.github.io/`, not another company website.
-2. Microsoft Clarity project ID supplied by the site owner: **`z1tgj7ku7n`**. In [Microsoft Clarity](https://clarity.microsoft.com/), confirm the project URL and configure privacy/masking and consent mode.
+1. GA4 web data stream supplied by the site owner: **`G-XFZZ8J7Q4F`**. In [Google Analytics](https://analytics.google.com/) confirm the property corresponds to `https://mykholy.github.io/`. **Attention:** a distinct stream `G-777MHCRRZZ` was visible in another GA4 property labelled `mykholy.github.io`. Determine which stream should receive portfolio events and keep only that one configured; do not install both.
+2. The supplied Microsoft Clarity project **`z1tgj7ku7n`** was verified as **`mavvix.com`**. It is deliberately **not activated here** to prevent mixing company and personal portfolio visitor data. Create a separate Clarity project for **`mykholy.github.io`** and replace the empty ID in `assets/js/analytics-config.js` with its new project ID. Configure privacy/masking and consent mode.
 3. The file `assets/js/analytics-config.js` is already configured:
 
 ```js
 window.PORTFOLIO_ANALYTICS = Object.freeze({
   ga4MeasurementId: "G-XFZZ8J7Q4F",
-  clarityProjectId: "z1tgj7ku7n"
+  clarityProjectId: "" // Add a NEW Clarity project ID for mykholy.github.io
 });
 ```
 
-4. Open the portfolio in a **new private browser**, choose **Allow analytics**, then verify in GA4 **Realtime** and Microsoft Clarity. Test **Keep private** using Network tools: no `googletagmanager.com/gtag/js` or `clarity.ms/tag/` should load before opt-in.
+4. Open the portfolio in a **new private browser**, choose **Allow analytics**, then verify in GA4 **Realtime**. Microsoft Clarity will remain inactive until a separate portfolio project ID is set. Test **Keep private** using Network tools: no `googletagmanager.com/gtag/js` or `clarity.ms/tag/` should load before opt-in.
 5. The site sends **analytics consent only**: GA4 `analytics_storage=granted`, advertising consent denied; Clarity Consent API V2 uses `analytics_Storage=granted`, `ad_Storage=denied`.
 6. Do **not** paste a second standalone Google Analytics/Clarity script into `index.html`. An extra snippet will double-count events and may bypass user consent.
 7. If you need to stop future analytics collection, clear the IDs and deploy the change; existing provider data must be managed at the providers.

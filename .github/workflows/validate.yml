@@ -44,7 +44,7 @@ jobs:
           analytics_config = Path("assets/js/analytics-config.js").read_text(encoding="utf-8")
           analytics_script = Path("assets/js/analytics.js").read_text(encoding="utf-8")
           assert 'ga4MeasurementId: "G-XFZZ8J7Q4F"' in analytics_config
-          assert 'clarityProjectId: "z1tgj7ku7n"' in analytics_config
+          assert 'clarityProjectId: ""' in analytics_config, "Clarity must remain disabled until a portfolio-specific project is available"
           assert 'consentv2' in analytics_script
           assert 'if(!ga&&!cl)return' in analytics_script
           assert 'analytics_storage:"granted"' in analytics_script
