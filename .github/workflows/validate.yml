@@ -12,7 +12,10 @@ jobs:
         with:
           node-version: '22'
       - name: JavaScript syntax
-        run: node --check assets/js/site.js
+        run: |
+          node --check assets/js/site.js
+          node --check assets/js/analytics-config.js
+          node --check assets/js/analytics.js
       - name: Verify essential content and assets
         run: |
           python3 - <<'PY'
@@ -24,6 +27,10 @@ jobs:
               "index.html",
               "assets/css/site.css",
               "assets/js/site.js",
+              "assets/js/analytics.js",
+              "assets/js/analytics-config.js",
+              "privacy.html",
+              "docs/ANALYTICS.md",
               "assets/cv/Ahmed_Elkholy_Senior_Backend_Engineer_CV_2026.pdf",
           ]
           for filename in essential:
@@ -31,9 +38,13 @@ jobs:
               assert file.is_file() and file.stat().st_size > 0, f"Missing file: {filename}"
           assert 'id="projectGrid"' in site
           assert 'id="heroCv"' in site
+          assert 'id="ai"' in site
+          assert 'href="privacy.html"' in site
+          assert 'analytics-config.js' in site and 'analytics.js' in site
+          assert 'class="project-card static-project"' in site
           assert 'assets/css/site.css' in site and 'assets/js/site.js' in site
           assert 'classList.add("js")' not in site, "Content should stay visible if JS fails"
           assert 'function renderProjects()' in js
           assert 'prefers-reduced-motion' in css
-          print("Site syntax, fallback visibility, key content, and CV checks passed.")
+          print("Site syntax, AI content, privacy-first analytics, fallback projects, assets and CV passed.")
           PY

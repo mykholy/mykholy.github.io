@@ -47,3 +47,11 @@ GitHub Pages is configured to publish this user site from `main`. Commits to `ma
 - Email: mykholys30@gmail.com
 
 © 2026 Ahmed Elkholy.
+
+## AI engineering specialization
+
+The portfolio includes a dedicated AI section covering AI product integrations, automation and agent workflows, voice/audio API pipelines (including ElevenLabs), and production AI video/media orchestration. All published project numbers refer to documented work; example use cases are not presented as prior client deployments.
+
+## Analytics and privacy
+
+Analytics scripts are **off until configured** with owner-controlled Google Analytics 4 / Microsoft Clarity project IDs. When configured, they load only after explicit visitor consent. See [owner setup, events, KPIs and privacy guidance](docs/ANALYTICS.md). The public [privacy page](privacy.html) explains what is and is not collected.
