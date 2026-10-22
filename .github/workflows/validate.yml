@@ -41,6 +41,16 @@ jobs:
           assert 'id="ai"' in site
           assert 'href="privacy.html"' in site
           assert 'analytics-config.js' in site and 'analytics.js' in site
+          analytics_config = Path("assets/js/analytics-config.js").read_text(encoding="utf-8")
+          analytics_script = Path("assets/js/analytics.js").read_text(encoding="utf-8")
+          assert 'ga4MeasurementId: "G-XFZZ8J7Q4F"' in analytics_config
+          assert 'clarityProjectId: "z1tgj7ku7n"' in analytics_config
+          assert 'consentv2' in analytics_script
+          assert 'if(!ga&&!cl)return' in analytics_script
+          assert 'analytics_storage:"granted"' in analytics_script
+          assert 'ad_storage:"denied"' in analytics_script
+          assert '<lastmod>2026-10-22</lastmod>' in Path("sitemap.xml").read_text()
+
           assert 'class="project-card static-project"' in site
           assert 'assets/css/site.css' in site and 'assets/js/site.js' in site
           assert 'classList.add("js")' not in site, "Content should stay visible if JS fails"

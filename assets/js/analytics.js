@@ -27,12 +27,19 @@ function start(){
  if(ga){
   window.dataLayer=window.dataLayer||[];
   window.gtag=function(){window.dataLayer.push(arguments)};
+  // Analytics permission only; advertising/personalization remain denied.
+  window.gtag("consent","default",{
+    analytics_storage:"granted",ad_storage:"denied",
+    ad_user_data:"denied",ad_personalization:"denied"
+  });
   window.gtag("js",new Date());
   window.gtag("config",ga,{send_page_view:true});
   add("https://www.googletagmanager.com/gtag/js?id="+encodeURIComponent(ga));
  }
  if(cl){
   window.clarity=window.clarity||function(){(window.clarity.q=window.clarity.q||[]).push(arguments)};
+  // Clarity Consent API v2, analytics permission only (no ad storage).
+  window.clarity("consentv2",{analytics_Storage:"granted",ad_Storage:"denied"});
   add("https://www.clarity.ms/tag/"+encodeURIComponent(cl));
  }
  observeAI();
@@ -51,7 +58,14 @@ function show(){
  const yes=document.createElement("button");yes.type="button";yes.dataset.agree="1";yes.textContent=lang("Allow analytics","موافق");
  const no=document.createElement("button");no.type="button";no.textContent=lang("Keep private","بدون تتبع");
  yes.addEventListener("click",()=>{write("yes");hide();start()});
- no.addEventListener("click",()=>{write("no");hide();if(accepted)location.reload()});
+ no.addEventListener("click",()=>{
+  write("no");hide();
+  if(accepted){
+    if(ga&&typeof window.gtag==="function")window.gtag("consent","update",{analytics_storage:"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
+    if(cl&&typeof window.clarity==="function")window.clarity("consentv2",{analytics_Storage:"denied",ad_Storage:"denied"});
+    location.reload();
+  }
+});
  actions.append(yes,no);panel.append(title,text,actions);document.body.appendChild(panel);
 }
 const footer=document.querySelector(".footer-links");

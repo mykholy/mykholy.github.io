@@ -1,22 +1,31 @@
 # Portfolio analytics — owner setup & KPI guide
 
-This GitHub Pages portfolio is **instrumented but NOT connected** to analytics accounts by default. No external analytics tag loads without a valid provider ID and visitor opt-in.
+This GitHub Pages portfolio is **configured with the site owner’s GA4 and Microsoft Clarity IDs**. No external analytics tag loads before visitor opt-in (or when Global Privacy Control is enabled).
 
-## Connect your own analytics properties
+## Confirm the configured analytics properties
 
-1. Create or select a Google Analytics 4 property at [Google Analytics](https://analytics.google.com/), then create a **Web data stream** for `https://mykholy.github.io/`. Copy the Measurement ID beginning with `G-`.
-2. Optionally create a project at [Microsoft Clarity](https://clarity.microsoft.com/), set the portfolio URL and copy the Clarity Project ID. Review privacy and masking settings.
-3. Edit `assets/js/analytics-config.js` on GitHub:
+1. GA4 web data stream supplied by the site owner: **`G-XFZZ8J7Q4F`**. In [Google Analytics](https://analytics.google.com/) confirm the property corresponds to `https://mykholy.github.io/`, not another company website.
+2. Microsoft Clarity project ID supplied by the site owner: **`z1tgj7ku7n`**. In [Microsoft Clarity](https://clarity.microsoft.com/), confirm the project URL and configure privacy/masking and consent mode.
+3. The file `assets/js/analytics-config.js` is already configured:
 
 ```js
 window.PORTFOLIO_ANALYTICS = Object.freeze({
-  ga4MeasurementId: "G-YOUR-REAL-ID",
-  clarityProjectId: "YOUR-REAL-CLARITY-ID" // Optional; leave "" if unused.
+  ga4MeasurementId: "G-XFZZ8J7Q4F",
+  clarityProjectId: "z1tgj7ku7n"
 });
 ```
 
-4. Commit to `main`, wait for GitHub Pages to deploy, open the site in a **fresh/private browser**, choose **Allow analytics**, then check GA4 **Realtime** and Clarity. Repeat with **Keep private** and confirm external analytics scripts do not load.
-5. **Do not** add a second standalone `gtag.js` / Clarity snippet: this integration already loads them conditionally. Remove both IDs to stop future loading (does not erase previously collected data).
+4. Open the portfolio in a **new private browser**, choose **Allow analytics**, then verify in GA4 **Realtime** and Microsoft Clarity. Test **Keep private** using Network tools: no `googletagmanager.com/gtag/js` or `clarity.ms/tag/` should load before opt-in.
+5. The site sends **analytics consent only**: GA4 `analytics_storage=granted`, advertising consent denied; Clarity Consent API V2 uses `analytics_Storage=granted`, `ad_Storage=denied`.
+6. Do **not** paste a second standalone Google Analytics/Clarity script into `index.html`. An extra snippet will double-count events and may bypass user consent.
+7. If you need to stop future analytics collection, clear the IDs and deploy the change; existing provider data must be managed at the providers.
+
+### Search Console for this portfolio
+
+- Confirm the selected Search Console **URL-prefix property** is exactly `https://mykholy.github.io/`. A verified property for `mavvix.com` does not cover this GitHub Pages host.
+- Submit `https://mykholy.github.io/sitemap.xml` in **Indexing → Sitemaps**, and use URL Inspection on the homepage.
+- The site publishes a canonical homepage, robots.txt reference, JSON-LD Person/WebSite/ProfilePage and current sitemap lastmod date.
+- Search Console verification itself happens within Google or via an ownership token. Merely adding GA4 to the site does not demonstrate Search Console ownership.
 
 ## Custom events collected after opt-in
 
