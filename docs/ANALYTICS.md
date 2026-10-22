@@ -1,31 +1,44 @@
 # Portfolio analytics — owner setup & KPI guide
 
-This GitHub Pages portfolio is **configured with the GA4 measurement ID supplied by the owner**. Clarity is intentionally disabled because the supplied project belongs to `mavvix.com`, not this personal portfolio. No external analytics tag loads before visitor opt-in (or when Global Privacy Control is enabled).
+This GitHub Pages portfolio uses two **dedicated site-owner-confirmed** web analytics properties, loaded **only after visitors opt in**. No third-party analytics tag loads before consent, including when Global Privacy Control is enabled.
 
-## Confirm the configured analytics properties
+## Configured portfolio measurement properties
 
-1. GA4 web data stream supplied by the site owner: **`G-XFZZ8J7Q4F`**. In [Google Analytics](https://analytics.google.com/) confirm the property corresponds to `https://mykholy.github.io/`. **Attention:** a distinct stream `G-777MHCRRZZ` was visible in another GA4 property labelled `mykholy.github.io`. Determine which stream should receive portfolio events and keep only that one configured; do not install both.
-2. The supplied Microsoft Clarity project **`z1tgj7ku7n`** was verified as **`mavvix.com`**. It is deliberately **not activated here** to prevent mixing company and personal portfolio visitor data. Create a separate Clarity project for **`mykholy.github.io`** and replace the empty ID in `assets/js/analytics-config.js` with its new project ID. Configure privacy/masking and consent mode.
-3. The file `assets/js/analytics-config.js` is already configured:
+| Service | Identifier | Website |
+| --- | --- | --- |
+| Google Analytics 4 | `G-777MHCRRZZ` | `https://mykholy.github.io/` |
+| Microsoft Clarity | `z1tp5tfopd` | `https://mykholy.github.io/` |
+| Google Search Console | HTML verification meta | URL-prefix property `https://mykholy.github.io/` |
+
+The IDs are published in `assets/js/analytics-config.js`:
 
 ```js
 window.PORTFOLIO_ANALYTICS = Object.freeze({
-  ga4MeasurementId: "G-XFZZ8J7Q4F",
-  clarityProjectId: "" // Add a NEW Clarity project ID for mykholy.github.io
+  ga4MeasurementId: "G-777MHCRRZZ",
+  clarityProjectId: "z1tp5tfopd"
 });
 ```
 
-4. Open the portfolio in a **new private browser**, choose **Allow analytics**, then verify in GA4 **Realtime**. Microsoft Clarity will remain inactive until a separate portfolio project ID is set. Test **Keep private** using Network tools: no `googletagmanager.com/gtag/js` or `clarity.ms/tag/` should load before opt-in.
-5. The site sends **analytics consent only**: GA4 `analytics_storage=granted`, advertising consent denied; Clarity Consent API V2 uses `analytics_Storage=granted`, `ad_Storage=denied`.
-6. Do **not** paste a second standalone Google Analytics/Clarity script into `index.html`. An extra snippet will double-count events and may bypass user consent.
-7. If you need to stop future analytics collection, clear the IDs and deploy the change; existing provider data must be managed at the providers.
+**Consent:** a fresh `ae_portfolio_analytics_consent_v2` preference is required to add Clarity alongside GA4. Rejecting consent prevents both provider scripts from loading. After opt-in the site sends GA4 `analytics_storage=granted` with ad-related storage and personalization denied, and uses Clarity `consentv2` with `analytics_Storage=granted`, `ad_Storage=denied`. Consent is local to the current browser; ads and analytics blockers can suppress collection.
 
-### Search Console for this portfolio
+**QA after deployment**
 
-- Confirm the selected Search Console **URL-prefix property** is exactly `https://mykholy.github.io/`. A verified property for `mavvix.com` does not cover this GitHub Pages host.
-- Submit `https://mykholy.github.io/sitemap.xml` in **Indexing → Sitemaps**, and use URL Inspection on the homepage.
-- The site publishes a canonical homepage, robots.txt reference, JSON-LD Person/WebSite/ProfilePage and current sitemap lastmod date.
-- Search Console verification itself happens within Google or via an ownership token. Merely adding GA4 to the site does not demonstrate Search Console ownership.
+1. Visit the live portfolio in a private/incognito browser, choose **Keep private**; confirm no GA4/Clarity network requests.
+2. Open it in a separate fresh private browser, choose **Allow analytics**, and confirm GA4 **Realtime** receives a `page_view` in the property associated with `G-777MHCRRZZ`. Check Microsoft's Clarity dashboard for the **z1tp5tfopd** project. These services may take time to show reports.
+3. Test project cards, the AI section, CV download and email/WhatsApp clicks; verify custom events in GA4's event reports. Link clicks indicate intent, not a successful contact.
+4. Don't paste additional GA4 or Clarity snippets elsewhere; duplicate installation can overcount events.
+
+### Search Console ownership / sitemap
+
+The homepage now contains this owner-supplied tag **inside the `<head>`**:
+
+```html
+<meta name="google-site-verification" content="gGALLmLXcsQgPzB3QUhtmsG-rPC9-fKQ8ZGuegDaBTY" />
+```
+
+Open [Search Console](https://search.google.com/search-console), select **`https://mykholy.github.io/`** as a URL-prefix property, and click **Verify**. Publishing the tag prepares verification but does not complete the Google ownership step automatically.
+
+Next submit **`https://mykholy.github.io/sitemap.xml`** in **Indexing → Sitemaps**, and inspect the homepage URL. `robots.txt`, canonical URL, structured data and sitemap are already deployed. The `mavvix.com` property is separate and must not be used for this portfolio.
 
 ## Custom events collected after opt-in
 
@@ -60,8 +73,8 @@ In GA4 use acquisition reports for source/medium and UTMs, geography for approxi
 ## Privacy and limitations
 
 - GitHub Pages does not identify named visitors. Aggregate analytics can show coarse country, device, source, and activity, **not individuals**.
-- No analytics is collected by this optional integration when either property is unconfigured, the user declines, or Global Privacy Control is on. Consent-based and blocker-filtered analytics will undercount total visits.
-- Choices are stored locally using `ae_portfolio_analytics_consent_v1` and can be changed with **Privacy settings** in the footer.
+- No analytics is collected by this optional integration when the visitor declines, Global Privacy Control is on, or both tracking IDs are empty. Consent-based and blocker-filtered analytics will undercount total visits.
+- Choices are stored locally using `ae_portfolio_analytics_consent_v2` and can be changed with **Privacy settings** in the footer.
 - There is no backend lead form. To measure real qualified leads, reconcile subsequent voluntary emails/WhatsApp inquiries in a CRM.
 - Verify privacy obligations for countries you target before enabling any tracking.
 

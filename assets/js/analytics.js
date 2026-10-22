@@ -1,11 +1,11 @@
-/* Privacy-first analytics: only enabled with valid IDs and explicit consent. */
+/* Privacy-first portfolio analytics: separate GA4 and Clarity properties; fresh opt-in for both. */
 (() => {
 "use strict";
 const cfg=window.PORTFOLIO_ANALYTICS||{};
 const ga=/^G-[A-Z0-9]+$/i.test(cfg.ga4MeasurementId||"")?cfg.ga4MeasurementId.toUpperCase():"";
 const cl=/^[a-z0-9]{5,24}$/i.test(cfg.clarityProjectId||"")?cfg.clarityProjectId:"";
 if(!ga&&!cl)return;
-const key="ae_portfolio_analytics_consent_v1";
+const key="ae_portfolio_analytics_consent_v2";
 const read=()=>{try{return localStorage.getItem(key)}catch(e){return null}};
 const write=x=>{try{localStorage.setItem(key,x)}catch(e){}};
 const ar=()=>document.documentElement.lang==="ar";

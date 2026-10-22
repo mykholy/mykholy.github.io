@@ -54,4 +54,4 @@ The portfolio includes a dedicated AI section covering AI product integrations, 
 
 ## Analytics and privacy
 
-GA4 is configured but **loads only after visitor opt-in**; Microsoft Clarity is intentionally disabled until a portfolio-specific project is available. When configured, they load only after explicit visitor consent. See [owner setup, events, KPIs and privacy guidance](docs/ANALYTICS.md). The public [privacy page](privacy.html) explains what is and is not collected.
+Google Analytics 4 and Microsoft Clarity use portfolio-specific project IDs and **load only after visitor opt-in**. Search Console owner verification meta is included in the homepage; ownership still needs the Verify action in Google's UI. See [owner setup, events, KPIs and privacy guidance](docs/ANALYTICS.md). The public [privacy page](privacy.html) explains what is and is not collected.

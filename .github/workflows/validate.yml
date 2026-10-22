@@ -43,8 +43,15 @@ jobs:
           assert 'analytics-config.js' in site and 'analytics.js' in site
           analytics_config = Path("assets/js/analytics-config.js").read_text(encoding="utf-8")
           analytics_script = Path("assets/js/analytics.js").read_text(encoding="utf-8")
-          assert 'ga4MeasurementId: "G-XFZZ8J7Q4F"' in analytics_config
-          assert 'clarityProjectId: ""' in analytics_config, "Clarity must remain disabled until a portfolio-specific project is available"
+          assert 'ga4MeasurementId: "G-777MHCRRZZ"' in analytics_config
+          assert 'clarityProjectId: "z1tp5tfopd"' in analytics_config
+          assert site.count('name="google-site-verification"') == 1
+          assert 'content="gGALLmLXcsQgPzB3QUhtmsG-rPC9-fKQ8ZGuegDaBTY"' in site.split('</head>', 1)[0]
+          assert 'ae_portfolio_analytics_consent_v2' in analytics_script
+          assert 'G-XFZZ8J7Q4F' not in analytics_config
+          assert 'z1tgj7ku7n' not in analytics_config
+          assert 'analytics-config.js?v=portfolio-ga-20261022' in site
+          assert 'analytics.js?v=portfolio-ga-20261022' in site
           assert 'consentv2' in analytics_script
           assert 'if(!ga&&!cl)return' in analytics_script
           assert 'analytics_storage:"granted"' in analytics_script
