@@ -146,6 +146,22 @@ def share_markup(lang: str, title: str, absolute_url: str) -> str:
     return '<nav class="article-share" aria-label="' + escape(label) + '"><strong>' + escape(label) + '</strong><div>' + rendered + '<button type="button" data-copy-article="' + escape(absolute_url) + '">' + copy + '</button></div><span class="share-status" role="status" aria-live="polite"></span></nav>'
 
 
+def responsive_article_thumbs(markup: str) -> str:
+    """Use a source image that matches the viewport; preserve the existing image for Retina screens."""
+    def update(match: re.Match) -> str:
+        tag = match[0]
+        if ('home-insight-image' not in tag and 'editorial-thumb' not in tag) or 'srcset=' in tag:
+            return tag
+        source = re.search(r'src="(/assets/images/articles/)([^"]+)-thumb.webp"', tag)
+        if not source:
+            return tag
+        prefix, theme = source.group(1), source.group(2)
+        sizes = '(max-width: 700px) 94vw, (max-width: 1100px) 48vw, 33vw'
+        images = (prefix + theme + '-small.webp 420w, ' + prefix + theme + '-thumb.webp 680w')
+        return tag.replace(source[0], source[0] + ' srcset="' + images + '" sizes="' + sizes + '"', 1)
+    return re.sub(r'<img\b[^>]*>', update, markup)
+
+
 def process_article(item: dict, index: int, lang: str) -> str:
     slug = item["slug"]
     path = ROOT / "blog" / ("ar/" if lang == "ar" else "") / slug / "index.html"
@@ -224,6 +240,7 @@ def process_index(lang: str) -> str:
     s = re.sub(r'(src="/assets/images/articles/)([^"]+)(-thumb.webp")',
                lambda m: (m[1] + "ai-architecture" + m[3])
                if (ROOT / "assets/images/articles" / (m[2] + "-thumb.webp")).stat().st_size < 1024 else m[0], s)
+    s = responsive_article_thumbs(s)
     s = re.sub(r'<span>\s*\d{1,3}\s*/\s*200\s*</span>', '', s)
     # Publication metadata in the listing uses original publication commits in UTC.
     for i, item in enumerate(CATALOG):
@@ -307,6 +324,7 @@ def process_home(lang: str, original: str) -> str:
     # Static artwork and icons must work without JavaScript or third-party CDNs.
     source = re.sub(r'<script\b[^>]*src="https://unpkg.com/lucide[^"]+"[^>]*></script>', '', source)
     source = render_homepage_icons(source)
+    source = responsive_article_thumbs(source)
     # Below-fold artwork should never compete with the first viewport for bandwidth.
     source = source.replace('loading="lazy"', 'loading="lazy" fetchpriority="low"')
     # Prefer rendering immediately with system fallback to late webfont swaps on slow mobile links.
