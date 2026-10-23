@@ -285,9 +285,9 @@ def process_index(lang: str) -> str:
     summary = (f'{total_published} مقال منشور · {total_review} موضوع قيد المراجعة وغير مفهرس'
                if lang == 'ar' else
                f'{total_published} published articles · {total_review} editorial previews (not indexed)')
-    s = re.sub(r'(<h2>[^<]*(?:200|٢٠٠)[^<]*</h2>)',
+    s = re.sub(r'(<section class="catalog blogwrap">.*?<h2>.*?</h2>)',
                lambda m: m[1] + '<p class="publication-note">' + summary + '</p>',
-               s, count=1)
+               s, count=1, flags=re.S)
     # Rewrite editor picks and search results without serial counting.
     s = re.sub(r'<p id="blogCount"[^>]*>.*?</p>', '<p id="blogCount" aria-live="polite"></p>', s, count=1, flags=re.S)
     title = 'مقالات هندسة البرمجيات وLaravel وأتمتة AI | أحمد الخولي' if lang == 'ar' else 'Laravel, AI Automation & Backend Engineering Articles | Ahmed Elkholy'
