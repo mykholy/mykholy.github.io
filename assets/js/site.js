@@ -797,6 +797,12 @@
       $$('[data-i18n-html]').forEach(el=>{const t=i18n[lang][el.dataset.i18nHtml];if(t!==undefined)el.innerHTML=t;});
 
       document.title=isAR?'أحمد الخولي — مهندس Backend متخصص في Laravel':'Ahmed Elkholy — Senior Laravel Engineer | AI Automation & SaaS';
+      $('.home-insight-card a').forEach(a=>{
+        const base=a.getAttribute('href').replace(/^\/blog\/(?:ar\/)?/,'/blog/');
+        a.href=isAR?base.replace('/blog/','/blog/ar/'):base;
+      });
+      const insightsLink=$('#insights .insights-foot a');
+      if(insightsLink)insightsLink.href=isAR?'/blog/ar/':'/blog/';
       renderProjects();icons();
     }
     $('#langSwitch').addEventListener('click',()=>translate(lang==='en'?'ar':'en'));
