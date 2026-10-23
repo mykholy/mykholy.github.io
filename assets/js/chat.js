@@ -6,6 +6,12 @@
   if (window.__aeChatInitialized) return;
   window.__aeChatInitialized = true;
 
+  // An explicit browser privacy signal or site opt-out always wins.
+  let optedOut = navigator.globalPrivacyControl === true;
+  try { optedOut ||= localStorage.getItem('ae_tawk_visitor_optout_v1') === 'yes'; }
+  catch (_) { /* Restricted storage must not prevent the page from rendering. */ }
+  if (optedOut) return;
+
   const embed = 'https://embed.tawk.to/6adba7539cb48b346f87ea7e/default';
   const welcomeKey = 'ae_tawk_welcome_dismissed_v3';
   let welcome = null;
@@ -115,6 +121,7 @@
   // window.load, idle callbacks, large images, or a visitor click.
   const script = document.createElement('script');
   script.async = true;
+  script.fetchPriority = 'low'; // Keep the critical hero image ahead of third-party work.
   script.src = embed;
   script.charset = 'UTF-8';
   script.setAttribute('crossorigin', '*');

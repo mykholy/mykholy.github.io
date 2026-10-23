@@ -13,6 +13,7 @@ import json
 import re
 import urllib.parse
 from pathlib import Path
+from datetime import datetime, timezone
 from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,11 +21,39 @@ ORIGIN = "https://mykholy.github.io"
 CATALOG = json.loads((ROOT / "blog/articles.json").read_text(encoding="utf8"))
 FIRST_RELEASE = "2026-10-22T23:54:00Z"
 LIBRARY_RELEASE = "2026-10-23T00:30:41Z"
-LAST_REVISED = "2026-10-23"
+LAST_REVISED = "2026-10-24"
 XMLNS = "http://www.sitemaps.org/schemas/sitemap/0.9"
 XHTML = "http://www.w3.org/1999/xhtml"
 ET.register_namespace("", XMLNS)
 ET.register_namespace("xhtml", XHTML)
+
+
+
+def publication_metadata(item: dict, index: int, lang: str = 'en') -> tuple[str, str, str]:
+    """Use explicit per-article UTC dates when provided. Fall back to real
+    historical batch-publication timestamps; do not invent unique dates.
+    """
+    original = item.get('publishedAt') or (FIRST_RELEASE if index < 50 else LIBRARY_RELEASE)
+    changed = item.get('modifiedAt') or original
+
+    def parse(value: str) -> datetime:
+        instant = datetime.fromisoformat(str(value).replace('Z', '+00:00'))
+        if instant.tzinfo is None:
+            raise ValueError('Article timestamp requires timezone: ' + str(value))
+        return instant.astimezone(timezone.utc)
+
+    published = parse(original)
+    modified = parse(changed)
+    if modified < published:
+        raise ValueError('modifiedAt precedes publishedAt: ' + item['slug'])
+    months_en = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
+    months_ar = ('يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر')
+    if lang == 'ar':
+        display = f'{published.day} {months_ar[published.month - 1]} {published.year}'
+        display = display.translate(str.maketrans('0123456789', '٠١٢٣٤٥٦٧٨٩'))
+    else:
+        display = f'{published.day} {months_en[published.month - 1]} {published.year}'
+    return published.strftime('%Y-%m-%dT%H:%M:%SZ'), modified.strftime('%Y-%m-%dT%H:%M:%SZ'), display + ' (UTC)'
 
 
 def put(path: Path, content: str) -> None:
@@ -71,7 +100,8 @@ def rewrite_links(source: str, lang: str) -> str:
 
 
 def head_metadata(source: str, title: str, description: str, page: str, lang: str,
-                  image: str, kind: str, schema: dict, published: str | None = None) -> str:
+                  image: str, kind: str, schema: dict, published: str | None = None,
+                  modified: str | None = None) -> str:
     """Replace, never stack, crawling and social metadata in static HTML."""
     pattern = r'(<head\b[^>]*>)(.*?)(</head>)'
     found = re.search(pattern, source, flags=re.I | re.S)
@@ -119,7 +149,7 @@ def head_metadata(source: str, title: str, description: str, page: str, lang: st
     if published:
         x.extend([
             '<meta property="article:published_time" content="' + published + '">',
-            '<meta property="article:modified_time" content="' + LAST_REVISED + '">',
+            '<meta property="article:modified_time" content="' + (modified or published or LAST_REVISED) + '">',
             '<meta property="article:author" content="' + ORIGIN + '/en/">',
         ])
     if kind != 'article':
@@ -193,12 +223,12 @@ def process_article(item: dict, index: int, lang: str) -> str:
     source = source.replace("تصميم توضيحي بالذكاء الاصطناعي، وليس لقطة شاشة من نظام حقيقي.", "رسم توضيحي للفكرة الهندسية.")
     source = source.replace(" — AI-generated editorial illustration", " — engineering illustration")
     source = source.replace(" — رسم توضيحي بالذكاء الاصطناعي", " — رسم هندسي توضيحي")
-    published = FIRST_RELEASE if index < 50 else LIBRARY_RELEASE
+    published, modified, display_date = publication_metadata(item, index, lang)
     schema = {
         "@context": "https://schema.org", "@type": "BlogPosting", "@id": page + "#article",
         "mainEntityOfPage": {"@type": "WebPage", "@id": page},
         "headline": title, "description": desc, "url": page,
-        "datePublished": published, "dateModified": LAST_REVISED,
+        "datePublished": published, "dateModified": modified,
         "inLanguage": lang, "articleSection": item.get("category", ""),
         "author": {"@type": "Person", "@id": ORIGIN + "/#person", "name": "Ahmed Elkholy", "url": ORIGIN + "/en/"},
         "publisher": {"@type": "Person", "name": "Ahmed Elkholy", "url": ORIGIN + "/en/"},
@@ -209,9 +239,6 @@ def process_article(item: dict, index: int, lang: str) -> str:
     # Strip editorial numbering if previously baked into any article template.
     source = re.sub(r'<span>\s*\d{1,3}\s*/\s*200\s*</span>', '', source)
     source = re.sub(r'<nav class="article-share".*?</nav>', '', source, flags=re.S)
-    display_date = "22 Oct 2026 (UTC)" if index < 50 else "23 Oct 2026 (UTC)"
-    if lang == "ar":
-        display_date = "٢٢ أكتوبر ٢٠٢٦ (UTC)" if index < 50 else "٢٣ أكتوبر ٢٠٢٦ (UTC)"
     byline = '<p class="byline">' + ("أحمد الخولي · نُشر " if lang == "ar" else "Ahmed Elkholy · Published ") + '<time datetime="' + published + '">' + display_date + '</time></p>'
     if re.search(r'<p class="byline">.*?</p>', source, flags=re.S):
         source = re.sub(r'<p class="byline">.*?</p>', lambda _m: byline + share_markup(lang, title, page), source, count=1, flags=re.S)
@@ -226,7 +253,7 @@ def process_article(item: dict, index: int, lang: str) -> str:
         source = head + "</nav>" + body
     source = source.replace('</body>', '<script src="/assets/js/blog.js" defer></script></body>')
     source = head_metadata(source, title + (" | أحمد الخولي" if lang == "ar" else " | Ahmed Elkholy"), desc,
-                           page, lang, sharing_image, "article", schema, published)
+                           page, lang, sharing_image, "article", schema, published, modified)
     source = re.sub(r'<html\s+lang="[^"]+"', '<html lang="' + lang + '"', source, count=1)
     if lang == "ar":
         source = source.replace('<html lang="ar">', '<html lang="ar" dir="rtl">', 1)
@@ -245,10 +272,22 @@ def process_index(lang: str) -> str:
     # Publication metadata in the listing uses original publication commits in UTC.
     for i, item in enumerate(CATALOG):
         slug = item['slug']
-        published = FIRST_RELEASE if i < 50 else LIBRARY_RELEASE
-        display = ('٢٢ أكتوبر ٢٠٢٦' if i < 50 else '٢٣ أكتوبر ٢٠٢٦') if lang == 'ar' else ('22 Oct 2026' if i < 50 else '23 Oct 2026')
+        published, _modified, display = publication_metadata(item, i, lang)
+        # The source template can contain stale editorial-status attributes.
+        # The catalog is authoritative, so only reviewed pieces are marked published.
+        open_card = re.compile(r'(<article class="blogcard[^"]*"[^>]*\bdata-review=")[^"]+("[^>]*><a href="/' +
+                               lang + r'/blog/' + re.escape(slug) + r'/")')
+        s = open_card.sub(lambda m: m[1] + ('published' if item.get('status') == 'published' else 'review') + m[2], s, count=1)
         card = re.compile(r'(<article class="blogcard[^"]*"[^>]*><a href="/' + lang + r'/blog/' + re.escape(slug) + r'/".*?<div class="cardfoot">)(.*?)(</div>)', re.S)
-        s = card.sub(lambda m: m[1] + '<time datetime="' + published + '">' + display + ' (UTC)</time><b>' + ('اقرأ المقال ↗' if lang == 'ar' else 'Read article ↗') + '</b>' + m[3], s, count=1)
+        s = card.sub(lambda m: m[1] + '<time datetime="' + published + '">' + display + '</time><b>' + ('اقرأ المقال ↗' if lang == 'ar' else 'Read article ↗') + '</b>' + m[3], s, count=1)
+    total_published = sum(item.get('status') == 'published' for item in CATALOG)
+    total_review = len(CATALOG) - total_published
+    summary = (f'{total_published} مقال منشور · {total_review} موضوع قيد المراجعة وغير مفهرس'
+               if lang == 'ar' else
+               f'{total_published} published articles · {total_review} editorial previews (not indexed)')
+    s = re.sub(r'(<section class="catalog blogwrap">.*?<h2>.*?</h2>)',
+               lambda m: m[1] + '<p class="publication-note">' + summary + '</p>',
+               s, count=1, flags=re.S)
     # Rewrite editor picks and search results without serial counting.
     s = re.sub(r'<p id="blogCount"[^>]*>.*?</p>', '<p id="blogCount" aria-live="polite"></p>', s, count=1, flags=re.S)
     title = 'مقالات هندسة البرمجيات وLaravel وأتمتة AI | أحمد الخولي' if lang == 'ar' else 'Laravel, AI Automation & Backend Engineering Articles | Ahmed Elkholy'
@@ -371,9 +410,18 @@ def legacy_redirect(page: str, target: str) -> str:
     page = re.sub(r'<p class="editorial">\s*Transparency:.*?</p>', '', page, flags=re.S | re.I)
     page = re.sub(r'<span>\s*\d{1,3}\s*/\s*200\s*</span>', '', page)
     page = re.sub(r'(<link rel="canonical" href=")[^"]+(")', lambda m: m[1] + ORIGIN + target + m[2], page, count=1)
+    # Old pages should advertise only the canonical language counterparts,
+    # not the legacy /blog/ language locations.
+    page = re.sub(r'<link\b[^>]*\brel="alternate"\s+hreflang="[^"]+"[^>]*>', '', page)
+    canonical_en = target.replace('/ar/', '/en/') if target.startswith('/ar/') else target
+    canonical_ar = target.replace('/en/', '/ar/') if target.startswith('/en/') else target
+    alternates = ''.join(
+        '<link rel="alternate" hreflang="' + language + '" href="' + ORIGIN + url + '">'
+        for language, url in [('en', canonical_en), ('ar', canonical_ar), ('x-default', canonical_en)]
+    )
     script = ('<script data-locale-redirect>(function(){var to=' + json.dumps(target) +
               ';if(location.pathname!==to){location.replace(to+location.search+location.hash)}})();</script>')
-    return page.replace('</head>', script + '</head>', 1)
+    return page.replace('</head>', alternates + script + '</head>', 1)
 
 
 def build_feeds() -> None:
@@ -398,7 +446,7 @@ def build_feeds() -> None:
                 'description': article.get('arSummary' if lang == 'ar' else 'summary'),
                 'link': article_url, 'guid': article_url,
                 'pubDate': format_datetime(datetime.fromisoformat(
-                    (FIRST_RELEASE if i < 50 else LIBRARY_RELEASE).replace('Z', '+00:00'))),
+                    publication_metadata(article, i, lang)[0].replace('Z', '+00:00'))),
             }
             for key, value in values.items():
                 node = ET.SubElement(item, key)
@@ -413,24 +461,25 @@ def build_feeds() -> None:
 def rewrite_sitemap() -> None:
     # Only quality-reviewed, indexable articles. Adding noindex drafts to sitemap
     # would waste crawl budget and send contradictory discovery signals.
-    pages = [('/en/', '/ar/'), ('/en/blog/', '/ar/blog/')]
-    for item in CATALOG:
+    pages = [('/en/', '/ar/', LAST_REVISED), ('/en/blog/', '/ar/blog/', LAST_REVISED)]
+    for i, item in enumerate(CATALOG):
         if item.get('status') == 'published':
             slug = item['slug']
-            pages.append((locale_path('en', slug), locale_path('ar', slug)))
+            _published, modified, _display = publication_metadata(item, i)
+            pages.append((locale_path('en', slug), locale_path('ar', slug), modified[:10]))
     root = ET.Element('{%s}urlset' % XMLNS)
-    for en, ar in pages:
+    for en, ar, last_modified in pages:
         for loc in (en, ar):
             el = ET.SubElement(root, '{%s}url' % XMLNS)
             ET.SubElement(el, '{%s}loc' % XMLNS).text = ORIGIN + loc
-            ET.SubElement(el, '{%s}lastmod' % XMLNS).text = LAST_REVISED
+            ET.SubElement(el, '{%s}lastmod' % XMLNS).text = last_modified
             for language, page in [('en', en), ('ar', ar)]:
                 ET.SubElement(el, '{%s}link' % XHTML, {'rel': 'alternate', 'hreflang': language, 'href': ORIGIN + page})
             ET.SubElement(el, '{%s}link' % XHTML, {'rel': 'alternate', 'hreflang': 'x-default', 'href': ORIGIN + en})
     # Keep the privacy policy discoverable without claiming a translated version.
     policy = ET.SubElement(root, '{%s}url' % XMLNS)
     ET.SubElement(policy, '{%s}loc' % XMLNS).text = ORIGIN + '/privacy.html'
-    ET.SubElement(policy, '{%s}lastmod' % XMLNS).text = '2026-10-22'
+    ET.SubElement(policy, '{%s}lastmod' % XMLNS).text = LAST_REVISED
     put(ROOT / 'sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(root, encoding='unicode') + '\n')
 
 

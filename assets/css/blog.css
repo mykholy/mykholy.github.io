@@ -34,3 +34,16 @@ html[dir="rtl"] .blogprose :is(pre,code){direction:ltr;text-align:left;unicode-b
 .bloggrid>*,.feature-grid>*,.bloglayout>*,.blogrow>*{min-width:0}
 :is(.bloghero,.articlehead,.blogprose,.blogcard,.feature-story,.blogaside) :is(h1,h2,h3,p,a){overflow-wrap:anywhere}
 @media(max-width:440px){.blogrow{align-items:flex-start;padding-block:12px}.blogrow nav{flex-wrap:wrap;justify-content:flex-end;row-gap:3px}.bloghero h1{font-size:clamp(30px,9vw,43px)}.articlehead h1{font-size:clamp(29px,8vw,37px)}.blogcard h2{font-size:20px}}
+
+
+/* Editorial status is explicit: previews are readable, but not search-indexed. */
+.publication-controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:19px 0 12px}
+.publication-controls button,.blog-load-more{border:1px solid #d4a97e70;border-radius:10px;background:#211c19;color:#e9d9c9;min-height:44px;padding:9px 15px;font:700 13px/1.4 system-ui,sans-serif;cursor:pointer}
+.publication-controls button[aria-pressed="true"]{background:#e5a76e;color:#17110c}
+.blog-load-more{display:block;margin:26px auto 10px;min-width:195px}
+.blog-load-more[hidden],.blogcard[hidden]{display:none!important}
+.blogcard[data-review="review"] .cardtop::after{content:"EDITORIAL PREVIEW";display:inline-flex;font:700 10px/1.3 system-ui,sans-serif;color:#e1bd96;border:1px solid #d4a97e66;border-radius:5px;padding:4px 6px}
+html[lang="ar"] .blogcard[data-review="review"] .cardtop::after{content:"قيد المراجعة";font-family:Cairo,system-ui,sans-serif}
+.blogcard[data-review="review"] .cardtop{flex-wrap:wrap}
+.publication-note{max-width:760px;color:#c4b6a8;line-height:1.8;font-size:13px;margin:8px 0 0}
+@media(max-width:440px){.publication-controls{align-items:stretch;flex-direction:column}.publication-controls button{width:100%}}

@@ -55,6 +55,10 @@ def check_articles() -> None:
         index = (ROOT/locale/'blog/index.html').read_text(encoding='utf-8')
         assert f'<link rel="canonical" href="{SITE}/{locale}/blog/">' in index
         assert index.count('class="blogcard') == 200
+        assert 'class="publication-note"' in index
+        published = sum(item.get('status') == 'published' for item in ARTICLES)
+        assert f'{published} ' in index
+        assert index.count('data-review="published"') == published
         listing_links = re.findall(r'<article class="blogcard[^"]*"[^>]*><a href="([^"]+)"', index)
         assert len(listing_links) == 200
         assert all(link.startswith(f'/{locale}/blog/') for link in listing_links), locale
@@ -71,6 +75,13 @@ def check_articles() -> None:
             if record['status'] != 'published':
                 assert 'content="noindex,follow"' in html, path
             check_assets(html, path)
+            legacy = ROOT/'blog'/('ar/' if locale=='ar' else '')/slug/'index.html'
+            old_html = legacy.read_text(encoding='utf-8')
+            assert 'data-locale-redirect' in old_html, legacy
+            assert f'<link rel="canonical" href="{SITE}/{locale}/blog/{slug}/">' in old_html, legacy
+            assert f'hreflang="{locale}" href="{SITE}/{locale}/blog/{slug}/"' in old_html, legacy
+            assert 'hreflang="en" href="' + SITE + '/blog/' not in old_html, legacy
+            assert 'hreflang="ar" href="' + SITE + '/blog/ar/' not in old_html, legacy
 
 
 def check_scripts_and_weights() -> None:
@@ -79,7 +90,7 @@ def check_scripts_and_weights() -> None:
     assert js.index('let revealObserver;') < js.index('translate(lang);')
     assert 'window.lucide?.createIcons' not in js
     assert "'/assets/js/chat.js'" in js
-    assert "'/assets/js/chat.js'" in (ROOT/'assets/js/blog.js').read_text(encoding='utf-8')
+    assert '/assets/js/chat.js' in (ROOT/'assets/js/blog.js').read_text(encoding='utf-8')
     chat=(ROOT/'assets/js/chat.js').read_text(encoding='utf-8')
     assert '6adba7539cb48b346f87ea7e/default' in chat
     assert 'window.Tawk_API.autoStart = true' in chat
@@ -90,6 +101,14 @@ def check_scripts_and_weights() -> None:
     assert "window.addEventListener('load', scheduleConnect" not in chat
     assert "'DOMContentLoaded', showWelcome" in chat
     assert 'Connecting to live chat' in chat
+    assert 'ae_tawk_visitor_optout_v1' in chat
+    assert "script.fetchPriority = 'low'" in chat
+    assert 'navigator.globalPrivacyControl === true' in chat
+    assert 'publication-controls' in (ROOT/'assets/js/blog.js').read_text(encoding='utf-8')
+    assert 'blog-load-more' in (ROOT/'assets/js/blog.js').read_text(encoding='utf-8')
+    privacy=(ROOT/'privacy.html').read_text(encoding='utf-8')
+    assert 'id="chatOptOut"' in privacy
+    assert 'Decline analytics' in privacy
     assert 'ae-chat-launcher' not in chat
     assert 'embed.tawk.to' not in js
     assert '<script src="/assets/js/chat.js" defer>' in (ROOT/'privacy.html').read_text(encoding='utf-8')
