@@ -678,7 +678,7 @@
       feedbackEyebrow:'08 / مبادئ العمل',
       contactEyebrow:'09 / تواصل معي'
     });
-    let lang='en',activeFilter='all',expanded=false;
+    let lang=location.pathname.startsWith('/ar/')?'ar':'en',activeFilter='all',expanded=false;
     const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
     const safe=(v)=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     // Self-contained Lucide-style inline-SVG fallback for offline use.
@@ -798,14 +798,16 @@
 
       document.title=isAR?'أحمد الخولي — مهندس Backend متخصص في Laravel':'Ahmed Elkholy — Senior Laravel Engineer | AI Automation & SaaS';
       $('.home-insight-card a').forEach(a=>{
-        const base=a.getAttribute('href').replace(/^\/blog\/(?:ar\/)?/,'/blog/');
-        a.setAttribute('href',isAR?base.replace('/blog/','/blog/ar/'):base);
+        const parts=a.getAttribute('href').split('/').filter(Boolean);
+        const slug=parts[parts.length-1];
+        if(slug)a.setAttribute('href','/'+lang+'/blog/'+slug+'/');
       });
       const insightsLink=$('#insights .insights-foot a');
-      if(insightsLink)insightsLink.href=isAR?'/blog/ar/':'/blog/';
+      if(insightsLink)insightsLink.href='/'+lang+'/blog/';
       renderProjects();icons();
     }
-    $('#langSwitch').addEventListener('click',()=>translate(lang==='en'?'ar':'en'));
+    $('#langSwitch').addEventListener('click',()=>{const next=lang==='en'?'ar':'en';location.assign('/'+next+'/'+location.search+location.hash);});
+    translate(lang);
     const navToggle=$('#menuToggle'),mobile=$('#mobilePanel');
     function closeMenu(){mobile.classList.remove('open');navToggle.setAttribute('aria-expanded','false');navToggle.setAttribute('aria-label','Open menu');}
     navToggle.addEventListener('click',()=>{const open=mobile.classList.toggle('open');navToggle.setAttribute('aria-expanded',String(open));navToggle.setAttribute('aria-label',open?'Close menu':'Open menu');});
