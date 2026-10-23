@@ -19,6 +19,10 @@ jobs:
           node --check assets/js/analytics-config.js
       - name: Build all article hero images, hooks and metadata
         run: python3 scripts/build_article_media.py
+      - name: Install social preview encoder
+        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+      - name: Generate JPEG preview cards
+        run: python3 scripts/build_social_images.py
       - name: Build canonical locale pages and schema
         run: python3 scripts/build_locale_seo.py
       - name: Check 200 bilingual topics, paths, critical links, SEO and accessibility
@@ -74,6 +78,8 @@ jobs:
           assert len(list(Path('assets/images/articles').glob('*-thumb.webp'))) == 27
           for path in ("assets/css/site.css","assets/css/blog.css","assets/js/blog.js","assets/js/site.js","assets/js/analytics.js","privacy.html","docs/ANALYTICS.md"):
             assert Path(path).stat().st_size > 0
+          assert Path('assets/portfolio-social.jpg').stat().st_size > 1024
+          assert len(list(Path('assets/images/articles').glob('*-share.jpg'))) == 27
           assert Path('en/index.html').is_file() and Path('ar/index.html').is_file()
           assert Path('en/blog/index.html').is_file() and Path('ar/blog/index.html').is_file()
           print("400 canonical article routes, social shares, localized profiles, hreflang, feeds, sitemap and fallback passed.")
