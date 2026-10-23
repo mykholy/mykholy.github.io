@@ -28,13 +28,14 @@ try {
         chatButton: Boolean(document.querySelector('#ae-chat-launcher')),
         tawkBeforeClick: Boolean(document.querySelector('script[src*="embed.tawk.to"]')),
         chatOnExpectedSide: (() => {const rect = document.querySelector('#ae-chat-launcher')?.getBoundingClientRect();return rect && (document.documentElement.lang === 'ar' ? rect.left > innerWidth/2 : rect.right < innerWidth/2);})(),
+        chatClickable: (() => {const button=document.querySelector('#ae-chat-launcher');const r=button?.getBoundingClientRect();return r && document.elementFromPoint(r.left+r.width/2,r.top+r.height/2)===button;})(),
       }));
       assert(info.lang === locale, 'Wrong page language: ' + JSON.stringify(info));
       assert(info.hrefs.length === 6 && info.hrefs.every(url => url.startsWith('/' + locale + '/blog/')),
         'Wrong homepage article language: ' + JSON.stringify(info.hrefs));
       assert(info.svgCount >= 35 && info.unrendered === 0, 'Icons not rendered: ' + JSON.stringify(info));
       assert(info.projects >= 6, 'Dynamic project cards did not initialize: ' + JSON.stringify(info));
-      assert(info.chatButton && !info.tawkBeforeClick && info.chatOnExpectedSide, 'Chat launcher should appear on the correct side without fetching third-party code: ' + JSON.stringify(info));
+      assert(info.chatButton && !info.tawkBeforeClick && info.chatOnExpectedSide && info.chatClickable, 'Chat launcher should appear on the correct side without fetching third-party code: ' + JSON.stringify(info));
       assert(!info.xOverflow, 'Horizontal overflow on ' + locale + ' ' + viewport.width + 'px');
       assert(!errors.length, 'JavaScript errors: ' + errors.join(' | '));
       // Icons injected when a project modal opens must render as real SVGs as well.
