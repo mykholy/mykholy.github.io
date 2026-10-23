@@ -53,11 +53,11 @@ function hide(){if(panel){panel.remove();panel=null}}
 function show(){
  hide();panel=document.createElement("aside");panel.className="ae-consent";panel.setAttribute("role","dialog");panel.setAttribute("aria-label","Analytics privacy preferences");
  const title=document.createElement("strong");title.textContent=lang("Analytics preferences","اختيارات الخصوصية");
- const text=document.createElement("p");text.appendChild(document.createTextNode(lang("Help improve the portfolio with optional aggregate analytics and session insights. Nothing loads before you agree. ","قياس اختياري للزيارات والتفاعل لتحسين الموقع. لا يتم تحميل أدوات القياس قبل موافقتك. ")));
+ const text=document.createElement("p");text.appendChild(document.createTextNode(lang("GA4 and Clarity run only with your consent. Live chat visitor monitoring is separate; you can disable it on the Privacy page. ","Google Analytics وClarity مش هيشتغلوا من غير موافقتك. متابعة زوار الشات منفصلة، وتقدر توقفها من صفحة الخصوصية. ")));
  const link=document.createElement("a");link.href="/privacy.html";link.textContent=lang("Privacy details","تفاصيل الخصوصية");text.appendChild(link);
  const actions=document.createElement("div");actions.className="ae-consent-buttons";
  const yes=document.createElement("button");yes.type="button";yes.dataset.agree="1";yes.textContent=lang("Allow analytics","موافق");
- const no=document.createElement("button");no.type="button";no.textContent=lang("Keep private","بدون تتبع");
+ const no=document.createElement("button");no.type="button";no.textContent=lang("Decline analytics","رفض التحليلات");
  yes.addEventListener("click",()=>{write("yes");hide();start()});
  no.addEventListener("click",()=>{
   write("no");hide();
