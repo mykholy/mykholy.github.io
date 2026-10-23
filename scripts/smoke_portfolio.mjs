@@ -3,7 +3,7 @@ import puppeteer from 'puppeteer-core';
 
 const base = process.env.SITE_TEST_ORIGIN || 'http://127.0.0.1:4173';
 const executablePath = process.env.CHROME_PATH || '/usr/bin/google-chrome';
-const browser = await puppeteer.launch({executablePath, headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage']});
+const browser = await puppeteer.launch({executablePath, headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage', '--no-proxy-server', '--proxy-bypass-list=<-loopback>']});
 let checked = 0;
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
 try {
@@ -15,7 +15,7 @@ try {
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
       const response = await page.goto(base + '/' + locale + '/', {waitUntil: 'networkidle2', timeout: 45000});
-      assert(response?.status() === 200, 'Profile HTTP error: /' + locale + '/');
+      assert(response?.status() === 200, 'Profile HTTP error: /' + locale + '/ status=' + response?.status() + ' url=' + response?.url());
       const info = await page.evaluate(() => ({
         lang: document.documentElement.lang,
         hrefs: [...document.querySelectorAll('.home-insight-card a')].map(a => a.getAttribute('href')),
