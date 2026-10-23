@@ -679,6 +679,7 @@
       contactEyebrow:'09 / تواصل معي'
     });
     let lang=location.pathname.startsWith('/ar/')?'ar':'en',activeFilter='all',expanded=false;
+    let revealObserver;
     const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
     const safe=(v)=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     // Self-contained Lucide-style inline-SVG fallback for offline use.
@@ -723,7 +724,6 @@
       'external-link':'<path d="M15 3h6v6M10 14 21 3M21 13v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7"/>'
     };
     const icons=()=>{
-      if(window.lucide?.createIcons){window.lucide.createIcons();return;}
       $$('i[data-lucide]').forEach(el=>{
         const name=el.dataset.lucide;
         el.outerHTML=`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-${name}" aria-hidden="true">${iconPaths[name]||'<circle cx="12" cy="12" r="8"/>'}</svg>`;
@@ -796,7 +796,6 @@
       $$('[data-i18n]').forEach(el=>{const t=i18n[lang][el.dataset.i18n];if(t!==undefined)el.textContent=t;});
       $$('[data-i18n-html]').forEach(el=>{const t=i18n[lang][el.dataset.i18nHtml];if(t!==undefined)el.innerHTML=t;});
 
-      document.title=isAR?'أحمد الخولي — مهندس Backend متخصص في Laravel':'Ahmed Elkholy — Senior Laravel Engineer | AI Automation & SaaS';
       $('.home-insight-card a').forEach(a=>{
         const parts=a.getAttribute('href').split('/').filter(Boolean);
         const slug=parts[parts.length-1];
@@ -807,7 +806,6 @@
       renderProjects();icons();
     }
     $('#langSwitch').addEventListener('click',()=>{const next=lang==='en'?'ar':'en';location.assign('/'+next+'/'+location.search+location.hash);});
-    translate(lang);
     const navToggle=$('#menuToggle'),mobile=$('#mobilePanel');
     function closeMenu(){mobile.classList.remove('open');navToggle.setAttribute('aria-expanded','false');navToggle.setAttribute('aria-label','Open menu');}
     navToggle.addEventListener('click',()=>{const open=mobile.classList.toggle('open');navToggle.setAttribute('aria-expanded',String(open));navToggle.setAttribute('aria-label',open?'Close menu':'Open menu');});
@@ -818,13 +816,12 @@
     document.addEventListener('click',e=>{if(!e.target.closest('.quick-contact'))hideQuick();if(!e.target.closest('.nav-wrap')&&!e.target.closest('#mobilePanel'))closeMenu();});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'){hideQuick();closeMenu();}});
     // CV links use native HTML download, without JavaScript or pop-up dependencies.
-    let revealObserver;
     function observeReveal(){if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){$$('.reveal').forEach(x=>x.classList.add('visible'));return;}if(!('IntersectionObserver'in window)){$$('.reveal').forEach(x=>x.classList.add('visible'));return;}if(!revealObserver)revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');revealObserver.unobserve(entry.target);}}),{threshold:.09,rootMargin:'0px 0px 60px 0px'});$$('.reveal:not(.visible)').forEach(el=>revealObserver.observe(el));}
     let ticking=false;
     window.addEventListener('scroll',()=>{if(ticking)return;ticking=true;requestAnimationFrame(()=>{$('#header').classList.toggle('scrolled',window.scrollY>28);const max=document.documentElement.scrollHeight-innerHeight;$('#readingProgress').style.transform=`scaleX(${max>0?window.scrollY/max:0})`;ticking=false;});},{passive:true});
     if(window.matchMedia('(pointer:fine)').matches)window.addEventListener('pointermove',e=>{document.body.style.setProperty('--mx',e.clientX+'px');document.body.style.setProperty('--my',e.clientY+'px');},{passive:true});
-    // Canonical and social metadata are defined once in the HTML head.
-    renderProjects();observeReveal();
+    // URL language and article links are initialized after all event handlers are ready.
+    translate(lang);observeReveal();
     if(location.hash.startsWith('#project/')){
       const id=decodeURIComponent(location.hash.slice(9));
       if(projects.some(p=>p.id===id))requestAnimationFrame(()=>openProject(id));
