@@ -62,16 +62,24 @@ try {
         assert((await page.title()).length > 15, 'Missing article title');
         assert(await page.$('#ae-chat-launcher'), 'Article chat launcher missing');
         assert(!(await page.$('script[src*="embed.tawk.to"]')), 'Tawk should not load before a visitor clicks');
-        // Mock the cross-origin embed; CI must validate our integration, not Tawk availability.
+        // Verify the exact outgoing request, regardless of browser CORS and remote availability.
+        let requestedTawk = false;
         await page.setRequestInterception(true);
         page.on('request', request => {
-          if (request.url().startsWith('https://embed.tawk.to/')) {
-            return request.respond({status: 200, contentType: 'application/javascript', body: '/* third-party widget mocked in CI */'});
+          if (request.url() === 'https://embed.tawk.to/6adba7539cb48b346f87ea7e/default') {
+            requestedTawk = true;
+            return request.respond({
+              status: 200,
+              headers: {'access-control-allow-origin': '*', 'content-type': 'application/javascript'},
+              body: '/* mocked third-party response */',
+            });
           }
           return request.continue();
         });
         await page.click('#ae-chat-launcher');
-        assert(await page.$('script[src="https://embed.tawk.to/6adba7539cb48b346f87ea7e/default"]'), 'Click did not initiate the requested Tawk property');
+        assert(await page.evaluate(() => window.Tawk_LoadStart instanceof Date), 'Chat click did not initialize the loader');
+        await new Promise(resolve => setTimeout(resolve, 80));
+        assert(requestedTawk, 'Click did not request the exact Tawk widget');
       }
       if (!viewport.isMobile && locale === 'ar') {
         await page.click('#langSwitch');
