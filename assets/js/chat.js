@@ -13,13 +13,13 @@
 
   const styles = document.createElement('style');
   styles.textContent = [
-    '#ae-chat-launcher{position:fixed;z-index:95;inset-inline-start:max(18px,env(safe-area-inset-left));bottom:max(22px,env(safe-area-inset-bottom));display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 18px;border:1px solid #d6a370;border-radius:15px;background:#e5a76e;color:#17110c;box-shadow:0 12px 32px #0008;font:700 13px/1.3 system-ui,-apple-system,Segoe UI,sans-serif;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;max-width:calc(100vw - 36px)}',
+    '#ae-chat-launcher{position:fixed;z-index:95;inset-inline-start:max(18px,env(safe-area-inset-left));bottom:calc(max(22px,env(safe-area-inset-bottom)) + var(--ae-chat-lift,0px));display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 18px;border:1px solid #d6a370;border-radius:15px;background:#e5a76e;color:#17110c;box-shadow:0 12px 32px #0008;font:700 13px/1.3 system-ui,-apple-system,Segoe UI,sans-serif;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;max-width:calc(100vw - 36px)}',
     'html[dir="rtl"] #ae-chat-launcher{inset-inline-start:auto;right:max(18px,env(safe-area-inset-right));font-family:Cairo,system-ui,sans-serif}',
     '#ae-chat-launcher:hover{transform:translateY(-2px);box-shadow:0 16px 36px #000a}',
     '#ae-chat-launcher:focus-visible{outline:3px solid #fff;outline-offset:4px}',
     '#ae-chat-launcher svg{width:22px;height:22px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}',
     '#ae-chat-launcher[aria-busy="true"]{cursor:progress;opacity:.85}',
-    '@media(max-width:580px){#ae-chat-launcher{width:52px;height:52px;min-height:52px;padding:0;border-radius:16px;inset-inline-start:max(14px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom))}html[dir="rtl"] #ae-chat-launcher{right:max(14px,env(safe-area-inset-right))}#ae-chat-launcher .ae-chat-text{display:none}}',
+    '@media(max-width:580px){#ae-chat-launcher{width:52px;height:52px;min-height:52px;padding:0;border-radius:16px;inset-inline-start:max(14px,env(safe-area-inset-left));bottom:calc(max(16px,env(safe-area-inset-bottom)) + var(--ae-chat-lift,0px))}html[dir="rtl"] #ae-chat-launcher{right:max(14px,env(safe-area-inset-right))}#ae-chat-launcher .ae-chat-text{display:none}}',
     '@media(prefers-reduced-motion:reduce){#ae-chat-launcher{transition:none}#ae-chat-launcher:hover{transform:none}}',
     '@media print{#ae-chat-launcher{display:none!important}}'
   ].join('');
@@ -35,6 +35,29 @@
   const label = button.querySelector('.ae-chat-text');
   label.textContent = copy.label;
   document.body.appendChild(button);
+
+  // The optional analytics consent card occupies the lower viewport on narrow
+  // screens. Keep both choices accessible without covering either control.
+  const repositionForConsent = () => {
+    const consent = document.querySelector('.ae-consent');
+    if (!consent) {
+      button.style.removeProperty('--ae-chat-lift');
+      return;
+    }
+    const chatBounds = button.getBoundingClientRect();
+    const consentBounds = consent.getBoundingClientRect();
+    const horizontallyOverlapping = chatBounds.left < consentBounds.right &&
+      chatBounds.right > consentBounds.left;
+    button.style.setProperty(
+      '--ae-chat-lift',
+      horizontallyOverlapping ? (Math.ceil(innerHeight - consentBounds.top + 12) + 'px') : '0px'
+    );
+  };
+  repositionForConsent();
+  if (typeof MutationObserver !== 'undefined') {
+    new MutationObserver(repositionForConsent).observe(document.body, { childList: true });
+  }
+  window.addEventListener('resize', repositionForConsent, { passive: true });
 
   let loading = false;
   let ready = false;
