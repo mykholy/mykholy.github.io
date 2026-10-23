@@ -225,6 +225,13 @@ def process_index(lang: str) -> str:
                lambda m: (m[1] + "ai-architecture" + m[3])
                if (ROOT / "assets/images/articles" / (m[2] + "-thumb.webp")).stat().st_size < 1024 else m[0], s)
     s = re.sub(r'<span>\s*\d{1,3}\s*/\s*200\s*</span>', '', s)
+    # Publication metadata in the listing uses original publication commits in UTC.
+    for i, item in enumerate(CATALOG):
+        slug = item['slug']
+        published = FIRST_RELEASE if i < 50 else LIBRARY_RELEASE
+        display = ('٢٢ أكتوبر ٢٠٢٦' if i < 50 else '٢٣ أكتوبر ٢٠٢٦') if lang == 'ar' else ('22 Oct 2026' if i < 50 else '23 Oct 2026')
+        card = re.compile(r'(<article class="blogcard[^"]*"[^>]*><a href="/' + lang + r'/blog/' + re.escape(slug) + r'/".*?<div class="cardfoot">)(.*?)(</div>)', re.S)
+        s = card.sub(lambda m: m[1] + '<time datetime="' + published + '">' + display + ' (UTC)</time><b>' + ('اقرأ المقال ↗' if lang == 'ar' else 'Read article ↗') + '</b>' + m[3], s, count=1)
     # Rewrite editor picks and search results without serial counting.
     s = re.sub(r'<p id="blogCount"[^>]*>.*?</p>', '<p id="blogCount" aria-live="polite"></p>', s, count=1, flags=re.S)
     title = 'مقالات هندسة البرمجيات وLaravel وأتمتة AI | أحمد الخولي' if lang == 'ar' else 'Laravel, AI Automation & Backend Engineering Articles | Ahmed Elkholy'
@@ -295,6 +302,8 @@ def process_home(lang: str, original: str) -> str:
 def legacy_redirect(page: str, target: str) -> str:
     # Keep actual original content for no-JS fallbacks and future deterministic builds.
     page = clean_legacy_marker(page)
+    page = re.sub(r'<p class="editorial">\s*Transparency:.*?</p>', '', page, flags=re.S | re.I)
+    page = re.sub(r'<span>\s*\d{1,3}\s*/\s*200\s*</span>', '', page)
     page = re.sub(r'(<link rel="canonical" href=")[^"]+(")', lambda m: m[1] + ORIGIN + target + m[2], page, count=1)
     script = ('<script data-locale-redirect>(function(){var to=' + json.dumps(target) +
               ';if(location.pathname!==to){location.replace(to+location.search+location.hash)}})();</script>')
