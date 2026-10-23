@@ -91,16 +91,27 @@
   window.Tawk_API.onChatMaximized = removeWelcome;
   window.Tawk_API.onChatMessageSystem = removeWelcome;
 
-  // The script is requested immediately when our deferred first-party code runs.
-  // Async loading avoids a render-blocking dependency, without delaying monitoring.
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = embed;
-  script.charset = 'UTF-8';
-  script.setAttribute('crossorigin', '*');
-  script.onerror = () => {
-    // Never report successful monitoring when the third-party resource is blocked.
-    widgetReady = false;
+  // Connect automatically after the critical page resources are loaded.
+  // This does not require a click; the idle window protects early rendering.
+  const connect = () => {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = embed;
+    script.charset = 'UTF-8';
+    script.setAttribute('crossorigin', '*');
+    script.onerror = () => {
+      // Never report successful monitoring when the provider is blocked.
+      widgetReady = false;
+    };
+    document.head.appendChild(script);
   };
-  document.head.appendChild(script);
+  const scheduleConnect = () => {
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(connect, { timeout: 800 });
+    } else {
+      window.setTimeout(connect, 150);
+    }
+  };
+  if (document.readyState === 'complete') scheduleConnect();
+  else window.addEventListener('load', scheduleConnect, { once: true });
 })();
