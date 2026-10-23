@@ -3,300 +3,2000 @@
     "title": "AI Automation Roadmap: From Spreadsheets to Reliable Workflows",
     "slug": "ai-automation-roadmap-from-spreadsheets-to-reliable-workflows",
     "category": "Automation",
-    "summary": "Spreadsheet handoffs lead to lost accountability and repeated data entry."
+    "summary": "Spreadsheet handoffs lead to lost accountability and repeated data entry.",
+    "arTitle": "خارطة أتمتة الأعمال بالذكاء الاصطناعي: من الجداول إلى نظام موثوق",
+    "arSummary": "شرح عربي عملي حول خارطة أتمتة الأعمال بالذكاء الاصطناعي: من الجداول إلى نظام موثوق، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "AI Agents vs Rules: What to Build?",
     "slug": "ai-agents-vs-rules-what-to-build",
     "category": "Automation",
-    "summary": "An agent is often used where a deterministic rule would be easier to audit."
+    "summary": "An agent is often used where a deterministic rule would be easier to audit.",
+    "arTitle": "AI Agents أم قواعد برمجية: أيهما مناسب لشركتك؟",
+    "arSummary": "شرح عربي عملي حول AI Agents أم قواعد برمجية: أيهما مناسب لشركتك؟، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "How to Scope a 30-Day AI Pilot",
     "slug": "how-to-scope-a-30-day-ai-pilot",
     "category": "Strategy",
-    "summary": "A striking demo is not useful unless a baseline and an outcome are agreed."
+    "summary": "A striking demo is not useful unless a baseline and an outcome are agreed.",
+    "arTitle": "كيف تخطط لتجربة AI عملية خلال 30 يومًا؟",
+    "arSummary": "شرح عربي عملي حول كيف تخطط لتجربة AI عملية خلال 30 يومًا؟، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Production-Ready Automation Checklist",
     "slug": "production-ready-automation-checklist",
     "category": "Engineering",
-    "summary": "Retries, duplicate webhooks and provider outages turn demos into incidents."
+    "summary": "Retries, duplicate webhooks and provider outages turn demos into incidents.",
+    "arTitle": "قائمة مراجعة أتمتة الأعمال قبل الإطلاق",
+    "arSummary": "شرح عربي عملي حول قائمة مراجعة أتمتة الأعمال قبل الإطلاق، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "n8n vs Laravel Automation",
     "slug": "n8n-vs-laravel-automation",
     "category": "Engineering",
-    "summary": "Visual workflows become harder to govern when authorization and billing grow complex."
+    "summary": "Visual workflows become harder to govern when authorization and billing grow complex.",
+    "arTitle": "n8n أم Laravel: مقارنة هندسية لأتمتة العمليات",
+    "arSummary": "شرح عربي عملي حول n8n أم Laravel: مقارنة هندسية لأتمتة العمليات، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Webhooks Without Duplicate Orders",
     "slug": "webhooks-without-duplicate-orders",
     "category": "Engineering",
-    "summary": "A webhook may arrive again after the first response is lost in transit."
+    "summary": "A webhook may arrive again after the first response is lost in transit.",
+    "arTitle": "كيف تمنع تكرار الطلبات في Webhooks؟",
+    "arSummary": "شرح عربي عملي حول كيف تمنع تكرار الطلبات في Webhooks؟، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": true
   },
   {
     "title": "Human-in-the-Loop AI Workflows",
     "slug": "human-in-the-loop-ai-workflows",
     "category": "Automation",
-    "summary": "Employees need review evidence and accountability for impactful changes."
+    "summary": "Employees need review evidence and accountability for impactful changes.",
+    "arTitle": "متى تحتاج الأتمتة إلى مراجعة بشرية؟",
+    "arSummary": "شرح عربي عملي حول متى تحتاج الأتمتة إلى مراجعة بشرية؟، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "AI Automation Cost: Beyond Tokens",
     "slug": "ai-automation-cost-beyond-tokens",
     "category": "Strategy",
-    "summary": "A small model bill ignores messaging, corrections, audits and ongoing support."
+    "summary": "A small model bill ignores messaging, corrections, audits and ongoing support.",
+    "arTitle": "تكلفة أتمتة AI الحقيقية تتجاوز استهلاك Tokens",
+    "arSummary": "شرح عربي عملي حول تكلفة أتمتة AI الحقيقية تتجاوز استهلاك Tokens، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": true
   },
   {
     "title": "Picking Your First AI Automation",
     "slug": "picking-your-first-ai-automation",
     "category": "Strategy",
-    "summary": "The most noticeable task might be infrequent, ambiguous or irreversible."
+    "summary": "The most noticeable task might be infrequent, ambiguous or irreversible.",
+    "arTitle": "دليل عملي: Picking Your First AI Automation",
+    "arSummary": "شرح عربي عملي حول Picking Your First AI Automation، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Automation Observability for Operators",
     "slug": "automation-observability-for-operators",
     "category": "Engineering",
-    "summary": "Server health does not show which customer request remains stuck."
+    "summary": "Server health does not show which customer request remains stuck.",
+    "arTitle": "دليل عملي: Automation Observability for Operators",
+    "arSummary": "شرح عربي عملي حول Automation Observability for Operators، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Voice AI for Booking Appointments",
     "slug": "voice-ai-for-booking-appointments",
     "category": "Voice AI",
-    "summary": "Natural speech does not prove a real booking slot was reserved."
+    "summary": "Natural speech does not prove a real booking slot was reserved.",
+    "arTitle": "تصميم Voice AI لحجز المواعيد بدون فقد العميل",
+    "arSummary": "شرح عربي عملي حول تصميم Voice AI لحجز المواعيد بدون فقد العميل، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "AI Phone Agents: Latency and Handoff",
     "slug": "ai-phone-agents-latency-and-handoff",
     "category": "Voice AI",
-    "summary": "An agent may sound natural yet frustrate callers through pauses and missed interruptions."
+    "summary": "An agent may sound natural yet frustrate callers through pauses and missed interruptions.",
+    "arTitle": "زمن استجابة المكالمات الذكية والتحويل لموظف",
+    "arSummary": "شرح عربي عملي حول زمن استجابة المكالمات الذكية والتحويل لموظف، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Arabic Voice AI and Dialect Testing",
     "slug": "arabic-voice-ai-and-dialect-testing",
     "category": "Voice AI",
-    "summary": "Egyptian and Gulf callers mix dialects with English terms and numbers."
+    "summary": "Egyptian and Gulf callers mix dialects with English terms and numbers.",
+    "arTitle": "اختبار Voice AI باللهجات العربية",
+    "arSummary": "شرح عربي عملي حول اختبار Voice AI باللهجات العربية، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Voice AI Support: When to Escalate",
     "slug": "voice-ai-support-when-to-escalate",
     "category": "Voice AI",
-    "summary": "Some support requests involve protected accounts or disputed transactions."
+    "summary": "Some support requests involve protected accounts or disputed transactions.",
+    "arTitle": "دليل عملي: Voice AI Support: When to Escalate",
+    "arSummary": "شرح عربي عملي حول Voice AI Support: When to Escalate، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Text-to-Speech Pipelines with Queues",
     "slug": "text-to-speech-pipelines-with-queues",
     "category": "Voice AI",
-    "summary": "Audio generation may be asynchronous and may cost money before a completion callback."
+    "summary": "Audio generation may be asynchronous and may cost money before a completion callback.",
+    "arTitle": "دليل عملي: Text-to-Speech Pipelines with Queues",
+    "arSummary": "شرح عربي عملي حول Text-to-Speech Pipelines with Queues، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Call Summaries and CRM Updates",
     "slug": "call-summaries-and-crm-updates",
     "category": "Voice AI",
-    "summary": "An AI summary can turn a tentative customer remark into a firm commitment."
+    "summary": "An AI summary can turn a tentative customer remark into a firm commitment.",
+    "arTitle": "دليل عملي: Call Summaries and CRM Updates",
+    "arSummary": "شرح عربي عملي حول Call Summaries and CRM Updates، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Voice AI Proof of Concept Without Lock-In",
     "slug": "voice-ai-proof-of-concept-without-lock-in",
     "category": "Voice AI",
-    "summary": "Fast voice demos often hard-code the entire system to one telephony or speech vendor."
+    "summary": "Fast voice demos often hard-code the entire system to one telephony or speech vendor.",
+    "arTitle": "دليل عملي: Voice AI Proof of Concept Without Lock-In",
+    "arSummary": "شرح عربي عملي حول Voice AI Proof of Concept Without Lock-In، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "WhatsApp AI from Question to Order",
     "slug": "whatsapp-ai-from-question-to-order",
     "category": "Commerce",
-    "summary": "Answering chat questions is not the same as checking stock and completing checkout."
+    "summary": "Answering chat questions is not the same as checking stock and completing checkout.",
+    "arTitle": "من رسالة واتساب إلى طلب مؤكد باستخدام AI",
+    "arSummary": "شرح عربي عملي حول من رسالة واتساب إلى طلب مؤكد باستخدام AI، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": true
   },
   {
     "title": "Cart Recovery Without Spam",
     "slug": "cart-recovery-without-spam",
     "category": "Commerce",
-    "summary": "Automated reminders can continue after the customer already bought."
+    "summary": "Automated reminders can continue after the customer already bought.",
+    "arTitle": "دليل عملي: Cart Recovery Without Spam",
+    "arSummary": "شرح عربي عملي حول Cart Recovery Without Spam، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Shopify Catalog QA Before AI Suggestions",
     "slug": "shopify-catalog-qa-before-ai-suggestions",
     "category": "Commerce",
-    "summary": "Missing GTINs, SKUs and invalid variants require exact data-quality checks."
+    "summary": "Missing GTINs, SKUs and invalid variants require exact data-quality checks.",
+    "arTitle": "جودة كتالوج Shopify قبل توصيات الذكاء الاصطناعي",
+    "arSummary": "شرح عربي عملي حول جودة كتالوج Shopify قبل توصيات الذكاء الاصطناعي، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Product Recommendations Grounded in Inventory",
     "slug": "product-recommendations-grounded-in-inventory",
     "category": "Commerce",
-    "summary": "A conversational shopping assistant may hallucinate availability or discounts."
+    "summary": "A conversational shopping assistant may hallucinate availability or discounts.",
+    "arTitle": "دليل عملي: Product Recommendations Grounded in Inventory",
+    "arSummary": "شرح عربي عملي حول Product Recommendations Grounded in Inventory، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "AI Support for Returns and Refunds",
     "slug": "ai-support-for-returns-and-refunds",
     "category": "Commerce",
-    "summary": "Refund decisions depend on policy, order state and provider settlement."
+    "summary": "Refund decisions depend on policy, order state and provider settlement.",
+    "arTitle": "دليل عملي: AI Support for Returns and Refunds",
+    "arSummary": "شرح عربي عملي حول AI Support for Returns and Refunds، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "B2B Lead Qualification and CRM Routing",
     "slug": "b2b-lead-qualification-and-crm-routing",
     "category": "Commerce",
-    "summary": "Incomplete leads reach the wrong sales owner or disappear between channels."
+    "summary": "Incomplete leads reach the wrong sales owner or disappear between channels.",
+    "arTitle": "دليل عملي: B2B Lead Qualification and CRM Routing",
+    "arSummary": "شرح عربي عملي حول B2B Lead Qualification and CRM Routing، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Automated Invoices and Reminders",
     "slug": "automated-invoices-and-reminders",
     "category": "Commerce",
-    "summary": "Payment reminders remain active when transfers are not reconciled."
+    "summary": "Payment reminders remain active when transfers are not reconciled.",
+    "arTitle": "دليل عملي: Automated Invoices and Reminders",
+    "arSummary": "شرح عربي عملي حول Automated Invoices and Reminders، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Omnichannel CRM with AI Context",
     "slug": "omnichannel-crm-with-ai-context",
     "category": "Commerce",
-    "summary": "One customer creates duplicate tickets across WhatsApp, email and web chat."
+    "summary": "One customer creates duplicate tickets across WhatsApp, email and web chat.",
+    "arTitle": "دليل عملي: Omnichannel CRM with AI Context",
+    "arSummary": "شرح عربي عملي حول Omnichannel CRM with AI Context، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Clinic Appointment Automation",
     "slug": "clinic-appointment-automation",
     "category": "Industry Playbooks",
-    "summary": "Reception teams struggle with missed inquiries and inconsistent calendars."
+    "summary": "Reception teams struggle with missed inquiries and inconsistent calendars.",
+    "arTitle": "أتمتة حجوزات العيادات ومتابعة المرضى",
+    "arSummary": "شرح عربي عملي حول أتمتة حجوزات العيادات ومتابعة المرضى، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Dental Clinic Lead Follow-Up",
     "slug": "dental-clinic-lead-follow-up",
     "category": "Industry Playbooks",
-    "summary": "Treatment inquiries arrive through social channels and disappear across shifts."
+    "summary": "Treatment inquiries arrive through social channels and disappear across shifts.",
+    "arTitle": "دليل عملي: Dental Clinic Lead Follow-Up",
+    "arSummary": "شرح عربي عملي حول Dental Clinic Lead Follow-Up، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "AI Real Estate Property Matching",
     "slug": "ai-real-estate-property-matching",
     "category": "Industry Playbooks",
-    "summary": "Prospects describe budgets and neighborhoods in informal language."
+    "summary": "Prospects describe budgets and neighborhoods in informal language.",
+    "arTitle": "دليل عملي: AI Real Estate Property Matching",
+    "arSummary": "شرح عربي عملي حول AI Real Estate Property Matching، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Property Maintenance Automation",
     "slug": "property-maintenance-automation",
     "category": "Industry Playbooks",
-    "summary": "Repair requests lack exact units, urgency and useful photos."
+    "summary": "Repair requests lack exact units, urgency and useful photos.",
+    "arTitle": "دليل عملي: Property Maintenance Automation",
+    "arSummary": "شرح عربي عملي حول Property Maintenance Automation، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "School Administration Workflows",
     "slug": "school-administration-workflows",
     "category": "Industry Playbooks",
-    "summary": "Attendance and parent messages are copied between disconnected systems."
+    "summary": "Attendance and parent messages are copied between disconnected systems.",
+    "arTitle": "دليل عملي: School Administration Workflows",
+    "arSummary": "شرح عربي عملي حول School Administration Workflows، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Learning Assistants with Course Citations",
     "slug": "learning-assistants-with-course-citations",
     "category": "Industry Playbooks",
-    "summary": "Generic answers can contradict the teacher's actual lesson."
+    "summary": "Generic answers can contradict the teacher's actual lesson.",
+    "arTitle": "دليل عملي: Learning Assistants with Course Citations",
+    "arSummary": "شرح عربي عملي حول Learning Assistants with Course Citations، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Restaurant Booking Automation",
     "slug": "restaurant-booking-automation",
     "category": "Industry Playbooks",
-    "summary": "Chat reservations become inconsistent with actual table availability."
+    "summary": "Chat reservations become inconsistent with actual table availability.",
+    "arTitle": "دليل عملي: Restaurant Booking Automation",
+    "arSummary": "شرح عربي عملي حول Restaurant Booking Automation، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "AI Dispatch for Field Service",
     "slug": "ai-dispatch-for-field-service",
     "category": "Industry Playbooks",
-    "summary": "Schedules ignore technician qualifications, spare parts and travel constraints."
+    "summary": "Schedules ignore technician qualifications, spare parts and travel constraints.",
+    "arTitle": "دليل عملي: AI Dispatch for Field Service",
+    "arSummary": "شرح عربي عملي حول AI Dispatch for Field Service، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Legal Inquiry Intake Automation",
     "slug": "legal-inquiry-intake-automation",
     "category": "Industry Playbooks",
-    "summary": "Firms receive inquiries without complete dates or supporting documents."
+    "summary": "Firms receive inquiries without complete dates or supporting documents.",
+    "arTitle": "دليل عملي: Legal Inquiry Intake Automation",
+    "arSummary": "شرح عربي عملي حول Legal Inquiry Intake Automation، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Recruitment Automation with Fair Review",
     "slug": "recruitment-automation-with-fair-review",
     "category": "Industry Playbooks",
-    "summary": "Recruiters spend hours on calendar coordination and document completeness."
+    "summary": "Recruiters spend hours on calendar coordination and document completeness.",
+    "arTitle": "دليل عملي: Recruitment Automation with Fair Review",
+    "arSummary": "شرح عربي عملي حول Recruitment Automation with Fair Review، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "HR and IT Onboarding Automation",
     "slug": "hr-and-it-onboarding-automation",
     "category": "Industry Playbooks",
-    "summary": "New hires wait for disconnected account access and equipment workflows."
+    "summary": "New hires wait for disconnected account access and equipment workflows.",
+    "arTitle": "دليل عملي: HR and IT Onboarding Automation",
+    "arSummary": "شرح عربي عملي حول HR and IT Onboarding Automation، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Access-Controlled Enterprise RAG",
     "slug": "access-controlled-enterprise-rag",
     "category": "Engineering",
-    "summary": "An AI answer may leak a restricted document even when the answer is accurate."
+    "summary": "An AI answer may leak a restricted document even when the answer is accurate.",
+    "arTitle": "دليل عملي: Access-Controlled Enterprise RAG",
+    "arSummary": "شرح عربي عملي حول Access-Controlled Enterprise RAG، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "RAG vs Fine-Tuning for Business Knowledge",
     "slug": "rag-vs-fine-tuning-for-business-knowledge",
     "category": "Engineering",
-    "summary": "Teams try to train models on policies that change every week."
+    "summary": "Teams try to train models on policies that change every week.",
+    "arTitle": "RAG أم Fine-tuning للمعرفة المؤسسية؟",
+    "arSummary": "شرح عربي عملي حول RAG أم Fine-tuning للمعرفة المؤسسية؟، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Hybrid Search and Citation-Ready RAG",
     "slug": "hybrid-search-and-citation-ready-rag",
     "category": "Engineering",
-    "summary": "Poor chunk boundaries hide the exact passage needed for a question."
+    "summary": "Poor chunk boundaries hide the exact passage needed for a question.",
+    "arTitle": "دليل عملي: Hybrid Search and Citation-Ready RAG",
+    "arSummary": "شرح عربي عملي حول Hybrid Search and Citation-Ready RAG، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "LLM Regression Testing for Customers",
     "slug": "llm-regression-testing-for-customers",
     "category": "Engineering",
-    "summary": "Five cherry-picked prompts cannot represent production traffic."
+    "summary": "Five cherry-picked prompts cannot represent production traffic.",
+    "arTitle": "دليل عملي: LLM Regression Testing for Customers",
+    "arSummary": "شرح عربي عملي حول LLM Regression Testing for Customers، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Prompt Injection Safety for AI Tools",
     "slug": "prompt-injection-safety-for-ai-tools",
     "category": "Engineering",
-    "summary": "Untrusted PDFs and webpages can contain malicious tool instructions."
+    "summary": "Untrusted PDFs and webpages can contain malicious tool instructions.",
+    "arTitle": "كيف نحمي AI Agents من حقن التعليمات؟",
+    "arSummary": "شرح عربي عملي حول كيف نحمي AI Agents من حقن التعليمات؟، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "LLM Routing, Caching and Cost Control",
     "slug": "llm-routing-caching-and-cost-control",
     "category": "Engineering",
-    "summary": "Always selecting the largest model increases latency and spend."
+    "summary": "Always selecting the largest model increases latency and spend.",
+    "arTitle": "دليل عملي: LLM Routing, Caching and Cost Control",
+    "arSummary": "شرح عربي عملي حول LLM Routing, Caching and Cost Control، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "AI Media Jobs, Webhooks and Credits",
     "slug": "ai-media-jobs-webhooks-and-credits",
     "category": "Engineering",
-    "summary": "A video render may succeed remotely after the local request timed out."
+    "summary": "A video render may succeed remotely after the local request timed out.",
+    "arTitle": "دليل عملي: AI Media Jobs, Webhooks and Credits",
+    "arSummary": "شرح عربي عملي حول AI Media Jobs, Webhooks and Credits، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Multi-Tenant AI SaaS Security",
     "slug": "multi-tenant-ai-saas-security",
     "category": "Engineering",
-    "summary": "Vector stores and background workers can lose tenant isolation."
+    "summary": "Vector stores and background workers can lose tenant isolation.",
+    "arTitle": "دليل عملي: Multi-Tenant AI SaaS Security",
+    "arSummary": "شرح عربي عملي حول Multi-Tenant AI SaaS Security، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "AI Content Moderation with Review",
     "slug": "ai-content-moderation-with-review",
     "category": "Engineering",
-    "summary": "Automated moderation can misinterpret context and reject valid use."
+    "summary": "Automated moderation can misinterpret context and reject valid use.",
+    "arTitle": "دليل عملي: AI Content Moderation with Review",
+    "arSummary": "شرح عربي عملي حول AI Content Moderation with Review، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Prioritizing AI Features in SaaS",
     "slug": "prioritizing-ai-features-in-saas",
     "category": "Strategy",
-    "summary": "A fashionable assistant can add cost without solving a customer pain."
+    "summary": "A fashionable assistant can add cost without solving a customer pain.",
+    "arTitle": "دليل عملي: Prioritizing AI Features in SaaS",
+    "arSummary": "شرح عربي عملي حول Prioritizing AI Features in SaaS، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "AI Automation Discovery Workshop",
     "slug": "ai-automation-discovery-workshop",
     "category": "Strategy",
-    "summary": "Teams compare models before mapping the process or who owns it."
+    "summary": "Teams compare models before mapping the process or who owns it.",
+    "arTitle": "دليل عملي: AI Automation Discovery Workshop",
+    "arSummary": "شرح عربي عملي حول AI Automation Discovery Workshop، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "AI Prototype to Production Checklist",
     "slug": "ai-prototype-to-production-checklist",
     "category": "Strategy",
-    "summary": "A demo does not prove safe and recoverable operation."
+    "summary": "A demo does not prove safe and recoverable operation.",
+    "arTitle": "دليل عملي: AI Prototype to Production Checklist",
+    "arSummary": "شرح عربي عملي حول AI Prototype to Production Checklist، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Custom AI System vs SaaS Subscription",
     "slug": "custom-ai-system-vs-saas-subscription",
     "category": "Strategy",
-    "summary": "Off-the-shelf software can fail unique approvals or data portability needs."
+    "summary": "Off-the-shelf software can fail unique approvals or data portability needs.",
+    "arTitle": "دليل عملي: Custom AI System vs SaaS Subscription",
+    "arSummary": "شرح عربي عملي حول Custom AI System vs SaaS Subscription، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
   },
   {
     "title": "Measuring Automation ROI Honestly",
     "slug": "measuring-automation-roi-honestly",
     "category": "Strategy",
-    "summary": "The number of agent messages does not establish business value."
+    "summary": "The number of agent messages does not establish business value.",
+    "arTitle": "كيف تقيس عائد الأتمتة دون تضليل؟",
+    "arSummary": "شرح عربي عملي حول كيف تقيس عائد الأتمتة دون تضليل؟، مع خطوات هندسية ومخاطر التشغيل ومؤشرات النجاح.",
+    "status": "published",
+    "featured": false
+  },
+  {
+    "slug": "clinics-ai-lead-qualification",
+    "title": "AI lead qualification for Clinics: a production-ready plan",
+    "arTitle": "تأهيل العملاء بالذكاء الاصطناعي في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to ai lead qualification for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول تأهيل العملاء بالذكاء الاصطناعي في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-voice-ai-receptionist",
+    "title": "Voice AI Reception for Clinics: Human Handoffs Beat Perfect Demos",
+    "arTitle": "Voice AI للعيادات: تحويل المريض لموظف أهم من Demo مثالي",
+    "category": "Healthcare",
+    "summary": "Human handoffs, Arabic dialects, low latency and safe scheduling for clinic voice systems.",
+    "arSummary": "تحويل الموظف واللهجات العربية وسرعة الرد والحجز الآمن داخل العيادات.",
+    "status": "published",
+    "featured": true
+  },
+  {
+    "slug": "clinics-whatsapp-follow-ups",
+    "title": "WhatsApp follow-ups for Clinics: a production-ready plan",
+    "arTitle": "متابعات واتساب منظمة في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to whatsapp follow-ups for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول متابعات واتساب منظمة في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-knowledge-grounded-assistants",
+    "title": "Knowledge-grounded assistants for Clinics: a production-ready plan",
+    "arTitle": "مساعدات تستند للمعلومات الصحيحة في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to knowledge-grounded assistants for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول مساعدات تستند للمعلومات الصحيحة في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-automated-document-intake",
+    "title": "Automated document intake for Clinics: a production-ready plan",
+    "arTitle": "استقبال المستندات آليًا في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to automated document intake for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول استقبال المستندات آليًا في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-workflow-approvals",
+    "title": "Workflow approvals for Clinics: a production-ready plan",
+    "arTitle": "مسارات الموافقة الآلية في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to workflow approvals for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول مسارات الموافقة الآلية في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-crm-conversation-routing",
+    "title": "CRM conversation routing for Clinics: a production-ready plan",
+    "arTitle": "توجيه محادثات CRM في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to crm conversation routing for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول توجيه محادثات CRM في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-appointment-and-booking-reminders",
+    "title": "Appointment and booking reminders for Clinics: a production-ready plan",
+    "arTitle": "تذكيرات المواعيد والحجوزات في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to appointment and booking reminders for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول تذكيرات المواعيد والحجوزات في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-exception-monitoring",
+    "title": "Exception monitoring for Clinics: a production-ready plan",
+    "arTitle": "رصد الاستثناءات التشغيلية في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to exception monitoring for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول رصد الاستثناءات التشغيلية في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-payments-and-reconciliation",
+    "title": "Payments and reconciliation for Clinics: a production-ready plan",
+    "arTitle": "المدفوعات والمطابقة المالية في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to payments and reconciliation for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول المدفوعات والمطابقة المالية في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-multilingual-service-automation",
+    "title": "Multilingual service automation for Clinics: a production-ready plan",
+    "arTitle": "أتمتة الخدمة متعددة اللغات في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to multilingual service automation for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول أتمتة الخدمة متعددة اللغات في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-ai-content-quality-assurance",
+    "title": "AI content quality assurance for Clinics: a production-ready plan",
+    "arTitle": "مراجعة جودة محتوى AI في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to ai content quality assurance for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول مراجعة جودة محتوى AI في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-data-migration-and-cleanup",
+    "title": "Data migration and cleanup for Clinics: a production-ready plan",
+    "arTitle": "ترحيل البيانات وتنظيفها في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to data migration and cleanup for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول ترحيل البيانات وتنظيفها في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-analytics-and-performance-reports",
+    "title": "Analytics and performance reports for Clinics: a production-ready plan",
+    "arTitle": "تحليلات الأداء والتقارير في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to analytics and performance reports for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول تحليلات الأداء والتقارير في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "clinics-human-escalation-policies",
+    "title": "Human escalation policies for Clinics: a production-ready plan",
+    "arTitle": "سياسات التحويل لموظف في العيادات: خطة تشغيل عملية",
+    "category": "Healthcare",
+    "summary": "A practical technical approach to human escalation policies for clinics, with attention to appointment requests and patient communications.",
+    "arSummary": "إرشادات عملية حول سياسات التحويل لموظف في العيادات، مع التركيز على الحجوزات وتواصل المرضى والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-ai-lead-qualification",
+    "title": "AI lead qualification for Online stores: a production-ready plan",
+    "arTitle": "تأهيل العملاء بالذكاء الاصطناعي في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to ai lead qualification for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول تأهيل العملاء بالذكاء الاصطناعي في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-voice-ai-receptionist",
+    "title": "Voice AI receptionist for Online stores: a production-ready plan",
+    "arTitle": "استقبال صوتي ذكي في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to voice ai receptionist for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول استقبال صوتي ذكي في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-whatsapp-follow-ups",
+    "title": "WhatsApp follow-ups for Online stores: a production-ready plan",
+    "arTitle": "متابعات واتساب منظمة في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to whatsapp follow-ups for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول متابعات واتساب منظمة في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-knowledge-grounded-assistants",
+    "title": "Knowledge-grounded assistants for Online stores: a production-ready plan",
+    "arTitle": "مساعدات تستند للمعلومات الصحيحة في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to knowledge-grounded assistants for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول مساعدات تستند للمعلومات الصحيحة في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-automated-document-intake",
+    "title": "Automated document intake for Online stores: a production-ready plan",
+    "arTitle": "استقبال المستندات آليًا في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to automated document intake for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول استقبال المستندات آليًا في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-workflow-approvals",
+    "title": "Workflow approvals for Online stores: a production-ready plan",
+    "arTitle": "مسارات الموافقة الآلية في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to workflow approvals for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول مسارات الموافقة الآلية في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-crm-conversation-routing",
+    "title": "CRM conversation routing for Online stores: a production-ready plan",
+    "arTitle": "توجيه محادثات CRM في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to crm conversation routing for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول توجيه محادثات CRM في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-appointment-and-booking-reminders",
+    "title": "Appointment and booking reminders for Online stores: a production-ready plan",
+    "arTitle": "تذكيرات المواعيد والحجوزات في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to appointment and booking reminders for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول تذكيرات المواعيد والحجوزات في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-exception-monitoring",
+    "title": "Exception monitoring for Online stores: a production-ready plan",
+    "arTitle": "رصد الاستثناءات التشغيلية في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to exception monitoring for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول رصد الاستثناءات التشغيلية في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-payments-and-reconciliation",
+    "title": "Payments and reconciliation for Online stores: a production-ready plan",
+    "arTitle": "المدفوعات والمطابقة المالية في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to payments and reconciliation for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول المدفوعات والمطابقة المالية في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-multilingual-service-automation",
+    "title": "Multilingual service automation for Online stores: a production-ready plan",
+    "arTitle": "أتمتة الخدمة متعددة اللغات في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to multilingual service automation for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول أتمتة الخدمة متعددة اللغات في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-ai-content-quality-assurance",
+    "title": "AI content quality assurance for Online stores: a production-ready plan",
+    "arTitle": "مراجعة جودة محتوى AI في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to ai content quality assurance for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول مراجعة جودة محتوى AI في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-data-migration-and-cleanup",
+    "title": "Data migration and cleanup for Online stores: a production-ready plan",
+    "arTitle": "ترحيل البيانات وتنظيفها في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to data migration and cleanup for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول ترحيل البيانات وتنظيفها في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-analytics-and-performance-reports",
+    "title": "Analytics and performance reports for Online stores: a production-ready plan",
+    "arTitle": "تحليلات الأداء والتقارير في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to analytics and performance reports for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول تحليلات الأداء والتقارير في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "online-stores-human-escalation-policies",
+    "title": "Human escalation policies for Online stores: a production-ready plan",
+    "arTitle": "سياسات التحويل لموظف في المتاجر الإلكترونية: خطة تشغيل عملية",
+    "category": "E-commerce",
+    "summary": "A practical technical approach to human escalation policies for online stores, with attention to orders and customer communication.",
+    "arSummary": "إرشادات عملية حول سياسات التحويل لموظف في المتاجر الإلكترونية، مع التركيز على الطلبات والتواصل مع العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-ai-lead-qualification",
+    "title": "AI lead qualification for Schools: a production-ready plan",
+    "arTitle": "تأهيل العملاء بالذكاء الاصطناعي في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to ai lead qualification for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول تأهيل العملاء بالذكاء الاصطناعي في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-voice-ai-receptionist",
+    "title": "Voice AI receptionist for Schools: a production-ready plan",
+    "arTitle": "استقبال صوتي ذكي في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to voice ai receptionist for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول استقبال صوتي ذكي في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-whatsapp-follow-ups",
+    "title": "WhatsApp follow-ups for Schools: a production-ready plan",
+    "arTitle": "متابعات واتساب منظمة في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to whatsapp follow-ups for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول متابعات واتساب منظمة في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-knowledge-grounded-assistants",
+    "title": "Knowledge-grounded assistants for Schools: a production-ready plan",
+    "arTitle": "مساعدات تستند للمعلومات الصحيحة في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to knowledge-grounded assistants for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول مساعدات تستند للمعلومات الصحيحة في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-automated-document-intake",
+    "title": "Automated document intake for Schools: a production-ready plan",
+    "arTitle": "استقبال المستندات آليًا في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to automated document intake for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول استقبال المستندات آليًا في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-workflow-approvals",
+    "title": "Workflow approvals for Schools: a production-ready plan",
+    "arTitle": "مسارات الموافقة الآلية في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to workflow approvals for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول مسارات الموافقة الآلية في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-crm-conversation-routing",
+    "title": "CRM conversation routing for Schools: a production-ready plan",
+    "arTitle": "توجيه محادثات CRM في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to crm conversation routing for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول توجيه محادثات CRM في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-appointment-and-booking-reminders",
+    "title": "Appointment and booking reminders for Schools: a production-ready plan",
+    "arTitle": "تذكيرات المواعيد والحجوزات في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to appointment and booking reminders for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول تذكيرات المواعيد والحجوزات في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-exception-monitoring",
+    "title": "Exception monitoring for Schools: a production-ready plan",
+    "arTitle": "رصد الاستثناءات التشغيلية في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to exception monitoring for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول رصد الاستثناءات التشغيلية في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-payments-and-reconciliation",
+    "title": "Payments and reconciliation for Schools: a production-ready plan",
+    "arTitle": "المدفوعات والمطابقة المالية في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to payments and reconciliation for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول المدفوعات والمطابقة المالية في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-multilingual-service-automation",
+    "title": "Multilingual service automation for Schools: a production-ready plan",
+    "arTitle": "أتمتة الخدمة متعددة اللغات في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to multilingual service automation for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول أتمتة الخدمة متعددة اللغات في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-ai-content-quality-assurance",
+    "title": "AI content quality assurance for Schools: a production-ready plan",
+    "arTitle": "مراجعة جودة محتوى AI في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to ai content quality assurance for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول مراجعة جودة محتوى AI في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-data-migration-and-cleanup",
+    "title": "Data migration and cleanup for Schools: a production-ready plan",
+    "arTitle": "ترحيل البيانات وتنظيفها في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to data migration and cleanup for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول ترحيل البيانات وتنظيفها في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-analytics-and-performance-reports",
+    "title": "Analytics and performance reports for Schools: a production-ready plan",
+    "arTitle": "تحليلات الأداء والتقارير في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to analytics and performance reports for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول تحليلات الأداء والتقارير في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "schools-human-escalation-policies",
+    "title": "Human escalation policies for Schools: a production-ready plan",
+    "arTitle": "سياسات التحويل لموظف في المدارس: خطة تشغيل عملية",
+    "category": "Education",
+    "summary": "A practical technical approach to human escalation policies for schools, with attention to enrollment and parent follow-up.",
+    "arSummary": "إرشادات عملية حول سياسات التحويل لموظف في المدارس، مع التركيز على القيد ومتابعة أولياء الأمور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-ai-lead-qualification",
+    "title": "AI lead qualification for Real estate teams: a production-ready plan",
+    "arTitle": "تأهيل العملاء بالذكاء الاصطناعي في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to ai lead qualification for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول تأهيل العملاء بالذكاء الاصطناعي في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-voice-ai-receptionist",
+    "title": "Voice AI receptionist for Real estate teams: a production-ready plan",
+    "arTitle": "استقبال صوتي ذكي في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to voice ai receptionist for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول استقبال صوتي ذكي في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-whatsapp-follow-ups",
+    "title": "WhatsApp follow-ups for Real estate teams: a production-ready plan",
+    "arTitle": "متابعات واتساب منظمة في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to whatsapp follow-ups for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول متابعات واتساب منظمة في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-knowledge-grounded-assistants",
+    "title": "Knowledge-grounded assistants for Real estate teams: a production-ready plan",
+    "arTitle": "مساعدات تستند للمعلومات الصحيحة في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to knowledge-grounded assistants for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول مساعدات تستند للمعلومات الصحيحة في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-automated-document-intake",
+    "title": "Automated document intake for Real estate teams: a production-ready plan",
+    "arTitle": "استقبال المستندات آليًا في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to automated document intake for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول استقبال المستندات آليًا في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-workflow-approvals",
+    "title": "Workflow approvals for Real estate teams: a production-ready plan",
+    "arTitle": "مسارات الموافقة الآلية في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to workflow approvals for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول مسارات الموافقة الآلية في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-crm-conversation-routing",
+    "title": "CRM conversation routing for Real estate teams: a production-ready plan",
+    "arTitle": "توجيه محادثات CRM في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to crm conversation routing for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول توجيه محادثات CRM في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-appointment-and-booking-reminders",
+    "title": "Appointment and booking reminders for Real estate teams: a production-ready plan",
+    "arTitle": "تذكيرات المواعيد والحجوزات في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to appointment and booking reminders for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول تذكيرات المواعيد والحجوزات في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-exception-monitoring",
+    "title": "Exception monitoring for Real estate teams: a production-ready plan",
+    "arTitle": "رصد الاستثناءات التشغيلية في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to exception monitoring for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول رصد الاستثناءات التشغيلية في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-payments-and-reconciliation",
+    "title": "Payments and reconciliation for Real estate teams: a production-ready plan",
+    "arTitle": "المدفوعات والمطابقة المالية في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to payments and reconciliation for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول المدفوعات والمطابقة المالية في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-multilingual-service-automation",
+    "title": "Multilingual service automation for Real estate teams: a production-ready plan",
+    "arTitle": "أتمتة الخدمة متعددة اللغات في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to multilingual service automation for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول أتمتة الخدمة متعددة اللغات في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-ai-content-quality-assurance",
+    "title": "AI content quality assurance for Real estate teams: a production-ready plan",
+    "arTitle": "مراجعة جودة محتوى AI في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to ai content quality assurance for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول مراجعة جودة محتوى AI في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-data-migration-and-cleanup",
+    "title": "Data migration and cleanup for Real estate teams: a production-ready plan",
+    "arTitle": "ترحيل البيانات وتنظيفها في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to data migration and cleanup for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول ترحيل البيانات وتنظيفها في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-analytics-and-performance-reports",
+    "title": "Analytics and performance reports for Real estate teams: a production-ready plan",
+    "arTitle": "تحليلات الأداء والتقارير في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to analytics and performance reports for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول تحليلات الأداء والتقارير في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "real-estate-teams-human-escalation-policies",
+    "title": "Human escalation policies for Real estate teams: a production-ready plan",
+    "arTitle": "سياسات التحويل لموظف في القطاع العقاري: خطة تشغيل عملية",
+    "category": "Real Estate",
+    "summary": "A practical technical approach to human escalation policies for real estate teams, with attention to viewings and lead management.",
+    "arSummary": "إرشادات عملية حول سياسات التحويل لموظف في القطاع العقاري، مع التركيز على المعاينات وإدارة العملاء والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-ai-lead-qualification",
+    "title": "AI lead qualification for Restaurants: a production-ready plan",
+    "arTitle": "تأهيل العملاء بالذكاء الاصطناعي في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to ai lead qualification for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول تأهيل العملاء بالذكاء الاصطناعي في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-voice-ai-receptionist",
+    "title": "Voice AI receptionist for Restaurants: a production-ready plan",
+    "arTitle": "استقبال صوتي ذكي في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to voice ai receptionist for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول استقبال صوتي ذكي في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-whatsapp-follow-ups",
+    "title": "WhatsApp follow-ups for Restaurants: a production-ready plan",
+    "arTitle": "متابعات واتساب منظمة في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to whatsapp follow-ups for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول متابعات واتساب منظمة في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-knowledge-grounded-assistants",
+    "title": "Knowledge-grounded assistants for Restaurants: a production-ready plan",
+    "arTitle": "مساعدات تستند للمعلومات الصحيحة في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to knowledge-grounded assistants for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول مساعدات تستند للمعلومات الصحيحة في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-automated-document-intake",
+    "title": "Automated document intake for Restaurants: a production-ready plan",
+    "arTitle": "استقبال المستندات آليًا في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to automated document intake for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول استقبال المستندات آليًا في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-workflow-approvals",
+    "title": "Workflow approvals for Restaurants: a production-ready plan",
+    "arTitle": "مسارات الموافقة الآلية في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to workflow approvals for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول مسارات الموافقة الآلية في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-crm-conversation-routing",
+    "title": "CRM conversation routing for Restaurants: a production-ready plan",
+    "arTitle": "توجيه محادثات CRM في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to crm conversation routing for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول توجيه محادثات CRM في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-appointment-and-booking-reminders",
+    "title": "Appointment and booking reminders for Restaurants: a production-ready plan",
+    "arTitle": "تذكيرات المواعيد والحجوزات في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to appointment and booking reminders for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول تذكيرات المواعيد والحجوزات في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-exception-monitoring",
+    "title": "Exception monitoring for Restaurants: a production-ready plan",
+    "arTitle": "رصد الاستثناءات التشغيلية في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to exception monitoring for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول رصد الاستثناءات التشغيلية في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-payments-and-reconciliation",
+    "title": "Payments and reconciliation for Restaurants: a production-ready plan",
+    "arTitle": "المدفوعات والمطابقة المالية في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to payments and reconciliation for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول المدفوعات والمطابقة المالية في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-multilingual-service-automation",
+    "title": "Multilingual service automation for Restaurants: a production-ready plan",
+    "arTitle": "أتمتة الخدمة متعددة اللغات في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to multilingual service automation for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول أتمتة الخدمة متعددة اللغات في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-ai-content-quality-assurance",
+    "title": "AI content quality assurance for Restaurants: a production-ready plan",
+    "arTitle": "مراجعة جودة محتوى AI في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to ai content quality assurance for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول مراجعة جودة محتوى AI في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-data-migration-and-cleanup",
+    "title": "Data migration and cleanup for Restaurants: a production-ready plan",
+    "arTitle": "ترحيل البيانات وتنظيفها في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to data migration and cleanup for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول ترحيل البيانات وتنظيفها في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-analytics-and-performance-reports",
+    "title": "Analytics and performance reports for Restaurants: a production-ready plan",
+    "arTitle": "تحليلات الأداء والتقارير في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to analytics and performance reports for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول تحليلات الأداء والتقارير في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "restaurants-human-escalation-policies",
+    "title": "Human escalation policies for Restaurants: a production-ready plan",
+    "arTitle": "سياسات التحويل لموظف في المطاعم: خطة تشغيل عملية",
+    "category": "Hospitality",
+    "summary": "A practical technical approach to human escalation policies for restaurants, with attention to reservations and daily operations.",
+    "arSummary": "إرشادات عملية حول سياسات التحويل لموظف في المطاعم، مع التركيز على الحجوزات والتشغيل اليومي والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-ai-lead-qualification",
+    "title": "AI lead qualification for Field-service companies: a production-ready plan",
+    "arTitle": "تأهيل العملاء بالذكاء الاصطناعي في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to ai lead qualification for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول تأهيل العملاء بالذكاء الاصطناعي في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-voice-ai-receptionist",
+    "title": "Voice AI receptionist for Field-service companies: a production-ready plan",
+    "arTitle": "استقبال صوتي ذكي في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to voice ai receptionist for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول استقبال صوتي ذكي في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-whatsapp-follow-ups",
+    "title": "WhatsApp follow-ups for Field-service companies: a production-ready plan",
+    "arTitle": "متابعات واتساب منظمة في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to whatsapp follow-ups for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول متابعات واتساب منظمة في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-knowledge-grounded-assistants",
+    "title": "Knowledge-grounded assistants for Field-service companies: a production-ready plan",
+    "arTitle": "مساعدات تستند للمعلومات الصحيحة في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to knowledge-grounded assistants for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول مساعدات تستند للمعلومات الصحيحة في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-automated-document-intake",
+    "title": "Automated document intake for Field-service companies: a production-ready plan",
+    "arTitle": "استقبال المستندات آليًا في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to automated document intake for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول استقبال المستندات آليًا في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-workflow-approvals",
+    "title": "Workflow approvals for Field-service companies: a production-ready plan",
+    "arTitle": "مسارات الموافقة الآلية في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to workflow approvals for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول مسارات الموافقة الآلية في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-crm-conversation-routing",
+    "title": "CRM conversation routing for Field-service companies: a production-ready plan",
+    "arTitle": "توجيه محادثات CRM في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to crm conversation routing for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول توجيه محادثات CRM في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-appointment-and-booking-reminders",
+    "title": "Appointment and booking reminders for Field-service companies: a production-ready plan",
+    "arTitle": "تذكيرات المواعيد والحجوزات في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to appointment and booking reminders for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول تذكيرات المواعيد والحجوزات في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-exception-monitoring",
+    "title": "Exception monitoring for Field-service companies: a production-ready plan",
+    "arTitle": "رصد الاستثناءات التشغيلية في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to exception monitoring for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول رصد الاستثناءات التشغيلية في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-payments-and-reconciliation",
+    "title": "Payments and reconciliation for Field-service companies: a production-ready plan",
+    "arTitle": "المدفوعات والمطابقة المالية في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to payments and reconciliation for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول المدفوعات والمطابقة المالية في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-multilingual-service-automation",
+    "title": "Multilingual service automation for Field-service companies: a production-ready plan",
+    "arTitle": "أتمتة الخدمة متعددة اللغات في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to multilingual service automation for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول أتمتة الخدمة متعددة اللغات في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-ai-content-quality-assurance",
+    "title": "AI content quality assurance for Field-service companies: a production-ready plan",
+    "arTitle": "مراجعة جودة محتوى AI في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to ai content quality assurance for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول مراجعة جودة محتوى AI في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-data-migration-and-cleanup",
+    "title": "Data migration and cleanup for Field-service companies: a production-ready plan",
+    "arTitle": "ترحيل البيانات وتنظيفها في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to data migration and cleanup for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول ترحيل البيانات وتنظيفها في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-analytics-and-performance-reports",
+    "title": "Analytics and performance reports for Field-service companies: a production-ready plan",
+    "arTitle": "تحليلات الأداء والتقارير في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to analytics and performance reports for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول تحليلات الأداء والتقارير في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "field-service-companies-human-escalation-policies",
+    "title": "Human escalation policies for Field-service companies: a production-ready plan",
+    "arTitle": "سياسات التحويل لموظف في شركات الصيانة والخدمات: خطة تشغيل عملية",
+    "category": "Operations",
+    "summary": "A practical technical approach to human escalation policies for field-service companies, with attention to technician schedules and service requests.",
+    "arSummary": "إرشادات عملية حول سياسات التحويل لموظف في شركات الصيانة والخدمات، مع التركيز على مواعيد الفنيين وطلبات الخدمة والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-ai-lead-qualification",
+    "title": "AI lead qualification for Recruitment teams: a production-ready plan",
+    "arTitle": "تأهيل العملاء بالذكاء الاصطناعي في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to ai lead qualification for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول تأهيل العملاء بالذكاء الاصطناعي في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-voice-ai-receptionist",
+    "title": "Voice AI receptionist for Recruitment teams: a production-ready plan",
+    "arTitle": "استقبال صوتي ذكي في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to voice ai receptionist for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول استقبال صوتي ذكي في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-whatsapp-follow-ups",
+    "title": "WhatsApp follow-ups for Recruitment teams: a production-ready plan",
+    "arTitle": "متابعات واتساب منظمة في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to whatsapp follow-ups for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول متابعات واتساب منظمة في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-knowledge-grounded-assistants",
+    "title": "Knowledge-grounded assistants for Recruitment teams: a production-ready plan",
+    "arTitle": "مساعدات تستند للمعلومات الصحيحة في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to knowledge-grounded assistants for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول مساعدات تستند للمعلومات الصحيحة في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-automated-document-intake",
+    "title": "Automated document intake for Recruitment teams: a production-ready plan",
+    "arTitle": "استقبال المستندات آليًا في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to automated document intake for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول استقبال المستندات آليًا في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-workflow-approvals",
+    "title": "Workflow approvals for Recruitment teams: a production-ready plan",
+    "arTitle": "مسارات الموافقة الآلية في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to workflow approvals for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول مسارات الموافقة الآلية في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-crm-conversation-routing",
+    "title": "CRM conversation routing for Recruitment teams: a production-ready plan",
+    "arTitle": "توجيه محادثات CRM في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to crm conversation routing for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول توجيه محادثات CRM في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-appointment-and-booking-reminders",
+    "title": "Appointment and booking reminders for Recruitment teams: a production-ready plan",
+    "arTitle": "تذكيرات المواعيد والحجوزات في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to appointment and booking reminders for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول تذكيرات المواعيد والحجوزات في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-exception-monitoring",
+    "title": "Exception monitoring for Recruitment teams: a production-ready plan",
+    "arTitle": "رصد الاستثناءات التشغيلية في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to exception monitoring for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول رصد الاستثناءات التشغيلية في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-payments-and-reconciliation",
+    "title": "Payments and reconciliation for Recruitment teams: a production-ready plan",
+    "arTitle": "المدفوعات والمطابقة المالية في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to payments and reconciliation for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول المدفوعات والمطابقة المالية في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-multilingual-service-automation",
+    "title": "Multilingual service automation for Recruitment teams: a production-ready plan",
+    "arTitle": "أتمتة الخدمة متعددة اللغات في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to multilingual service automation for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول أتمتة الخدمة متعددة اللغات في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-ai-content-quality-assurance",
+    "title": "AI content quality assurance for Recruitment teams: a production-ready plan",
+    "arTitle": "مراجعة جودة محتوى AI في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to ai content quality assurance for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول مراجعة جودة محتوى AI في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-data-migration-and-cleanup",
+    "title": "Data migration and cleanup for Recruitment teams: a production-ready plan",
+    "arTitle": "ترحيل البيانات وتنظيفها في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to data migration and cleanup for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول ترحيل البيانات وتنظيفها في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-analytics-and-performance-reports",
+    "title": "Analytics and performance reports for Recruitment teams: a production-ready plan",
+    "arTitle": "تحليلات الأداء والتقارير في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to analytics and performance reports for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول تحليلات الأداء والتقارير في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "recruitment-teams-human-escalation-policies",
+    "title": "Human escalation policies for Recruitment teams: a production-ready plan",
+    "arTitle": "سياسات التحويل لموظف في فرق التوظيف: خطة تشغيل عملية",
+    "category": "People Operations",
+    "summary": "A practical technical approach to human escalation policies for recruitment teams, with attention to interviews and candidate journeys.",
+    "arSummary": "إرشادات عملية حول سياسات التحويل لموظف في فرق التوظيف، مع التركيز على المقابلات ورحلة المرشح والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-ai-lead-qualification",
+    "title": "AI lead qualification for SaaS businesses: a production-ready plan",
+    "arTitle": "تأهيل العملاء بالذكاء الاصطناعي في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to ai lead qualification for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول تأهيل العملاء بالذكاء الاصطناعي في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-voice-ai-receptionist",
+    "title": "Voice AI receptionist for SaaS businesses: a production-ready plan",
+    "arTitle": "استقبال صوتي ذكي في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to voice ai receptionist for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول استقبال صوتي ذكي في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-whatsapp-follow-ups",
+    "title": "WhatsApp follow-ups for SaaS businesses: a production-ready plan",
+    "arTitle": "متابعات واتساب منظمة في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to whatsapp follow-ups for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول متابعات واتساب منظمة في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-knowledge-grounded-assistants",
+    "title": "Laravel AI SDK v1: Build a Useful Assistant Without Losing Control",
+    "arTitle": "Laravel AI SDK v1: إزاي تبني مساعد AI مفيد من غير ما تفقد السيطرة؟",
+    "category": "SaaS",
+    "summary": "Practical architecture for permissioned AI assistants with tool approvals, retrieval boundaries and recovery.",
+    "arSummary": "تصميم مساعد ذكي بصلاحيات واضحة واسترجاع معلومات وموافقات على الأدوات وإدارة الأخطاء.",
+    "status": "published",
+    "featured": true
+  },
+  {
+    "slug": "saas-businesses-automated-document-intake",
+    "title": "Automated document intake for SaaS businesses: a production-ready plan",
+    "arTitle": "استقبال المستندات آليًا في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to automated document intake for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول استقبال المستندات آليًا في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-workflow-approvals",
+    "title": "AI Agents Are Powerful. Who Authorizes Their Actions?",
+    "arTitle": "AI Agents قوية… لكن مين مسؤول عن الموافقة على قراراتها؟",
+    "category": "SaaS",
+    "summary": "Agent permissions, prompt injection risks, human approvals and auditable production controls.",
+    "arSummary": "صلاحيات الـAgents ومخاطر حقن التعليمات والموافقات البشرية وسجلات التدقيق.",
+    "status": "published",
+    "featured": true
+  },
+  {
+    "slug": "saas-businesses-crm-conversation-routing",
+    "title": "CRM conversation routing for SaaS businesses: a production-ready plan",
+    "arTitle": "توجيه محادثات CRM في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to crm conversation routing for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول توجيه محادثات CRM في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-appointment-and-booking-reminders",
+    "title": "Appointment and booking reminders for SaaS businesses: a production-ready plan",
+    "arTitle": "تذكيرات المواعيد والحجوزات في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to appointment and booking reminders for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول تذكيرات المواعيد والحجوزات في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-exception-monitoring",
+    "title": "Exception monitoring for SaaS businesses: a production-ready plan",
+    "arTitle": "رصد الاستثناءات التشغيلية في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to exception monitoring for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول رصد الاستثناءات التشغيلية في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-payments-and-reconciliation",
+    "title": "Payments and reconciliation for SaaS businesses: a production-ready plan",
+    "arTitle": "المدفوعات والمطابقة المالية في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to payments and reconciliation for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول المدفوعات والمطابقة المالية في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-multilingual-service-automation",
+    "title": "Multilingual service automation for SaaS businesses: a production-ready plan",
+    "arTitle": "أتمتة الخدمة متعددة اللغات في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to multilingual service automation for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول أتمتة الخدمة متعددة اللغات في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-ai-content-quality-assurance",
+    "title": "AI content quality assurance for SaaS businesses: a production-ready plan",
+    "arTitle": "مراجعة جودة محتوى AI في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to ai content quality assurance for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول مراجعة جودة محتوى AI في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-data-migration-and-cleanup",
+    "title": "Data migration and cleanup for SaaS businesses: a production-ready plan",
+    "arTitle": "ترحيل البيانات وتنظيفها في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to data migration and cleanup for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول ترحيل البيانات وتنظيفها في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-analytics-and-performance-reports",
+    "title": "Analytics and performance reports for SaaS businesses: a production-ready plan",
+    "arTitle": "تحليلات الأداء والتقارير في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to analytics and performance reports for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول تحليلات الأداء والتقارير في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "saas-businesses-human-escalation-policies",
+    "title": "Human escalation policies for SaaS businesses: a production-ready plan",
+    "arTitle": "سياسات التحويل لموظف في شركات SaaS: خطة تشغيل عملية",
+    "category": "SaaS",
+    "summary": "A practical technical approach to human escalation policies for saas businesses, with attention to subscription lifecycles and support.",
+    "arSummary": "إرشادات عملية حول سياسات التحويل لموظف في شركات SaaS، مع التركيز على الاشتراكات والدعم والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-ai-lead-qualification",
+    "title": "AI lead qualification for Event organizers: a production-ready plan",
+    "arTitle": "تأهيل العملاء بالذكاء الاصطناعي في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to ai lead qualification for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول تأهيل العملاء بالذكاء الاصطناعي في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-voice-ai-receptionist",
+    "title": "Voice AI receptionist for Event organizers: a production-ready plan",
+    "arTitle": "استقبال صوتي ذكي في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to voice ai receptionist for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول استقبال صوتي ذكي في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-whatsapp-follow-ups",
+    "title": "WhatsApp follow-ups for Event organizers: a production-ready plan",
+    "arTitle": "متابعات واتساب منظمة في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to whatsapp follow-ups for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول متابعات واتساب منظمة في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-knowledge-grounded-assistants",
+    "title": "Knowledge-grounded assistants for Event organizers: a production-ready plan",
+    "arTitle": "مساعدات تستند للمعلومات الصحيحة في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to knowledge-grounded assistants for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول مساعدات تستند للمعلومات الصحيحة في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-automated-document-intake",
+    "title": "Automated document intake for Event organizers: a production-ready plan",
+    "arTitle": "استقبال المستندات آليًا في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to automated document intake for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول استقبال المستندات آليًا في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-workflow-approvals",
+    "title": "Workflow approvals for Event organizers: a production-ready plan",
+    "arTitle": "مسارات الموافقة الآلية في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to workflow approvals for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول مسارات الموافقة الآلية في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-crm-conversation-routing",
+    "title": "CRM conversation routing for Event organizers: a production-ready plan",
+    "arTitle": "توجيه محادثات CRM في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to crm conversation routing for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول توجيه محادثات CRM في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-appointment-and-booking-reminders",
+    "title": "Appointment and booking reminders for Event organizers: a production-ready plan",
+    "arTitle": "تذكيرات المواعيد والحجوزات في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to appointment and booking reminders for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول تذكيرات المواعيد والحجوزات في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-exception-monitoring",
+    "title": "Exception monitoring for Event organizers: a production-ready plan",
+    "arTitle": "رصد الاستثناءات التشغيلية في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to exception monitoring for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول رصد الاستثناءات التشغيلية في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-payments-and-reconciliation",
+    "title": "Payments and reconciliation for Event organizers: a production-ready plan",
+    "arTitle": "المدفوعات والمطابقة المالية في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to payments and reconciliation for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول المدفوعات والمطابقة المالية في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-multilingual-service-automation",
+    "title": "Multilingual service automation for Event organizers: a production-ready plan",
+    "arTitle": "أتمتة الخدمة متعددة اللغات في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to multilingual service automation for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول أتمتة الخدمة متعددة اللغات في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-ai-content-quality-assurance",
+    "title": "AI content quality assurance for Event organizers: a production-ready plan",
+    "arTitle": "مراجعة جودة محتوى AI في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to ai content quality assurance for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول مراجعة جودة محتوى AI في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-data-migration-and-cleanup",
+    "title": "Data migration and cleanup for Event organizers: a production-ready plan",
+    "arTitle": "ترحيل البيانات وتنظيفها في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to data migration and cleanup for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول ترحيل البيانات وتنظيفها في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-analytics-and-performance-reports",
+    "title": "Analytics and performance reports for Event organizers: a production-ready plan",
+    "arTitle": "تحليلات الأداء والتقارير في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to analytics and performance reports for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول تحليلات الأداء والتقارير في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "event-organizers-human-escalation-policies",
+    "title": "Human escalation policies for Event organizers: a production-ready plan",
+    "arTitle": "سياسات التحويل لموظف في منظمي الفعاليات: خطة تشغيل عملية",
+    "category": "Events",
+    "summary": "A practical technical approach to human escalation policies for event organizers, with attention to registration and attendee operations.",
+    "arSummary": "إرشادات عملية حول سياسات التحويل لموظف في منظمي الفعاليات، مع التركيز على التسجيل وتنظيم الحضور والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-ai-lead-qualification",
+    "title": "AI lead qualification for Logistics operations: a production-ready plan",
+    "arTitle": "تأهيل العملاء بالذكاء الاصطناعي في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to ai lead qualification for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول تأهيل العملاء بالذكاء الاصطناعي في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-voice-ai-receptionist",
+    "title": "Voice AI receptionist for Logistics operations: a production-ready plan",
+    "arTitle": "استقبال صوتي ذكي في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to voice ai receptionist for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول استقبال صوتي ذكي في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-whatsapp-follow-ups",
+    "title": "WhatsApp follow-ups for Logistics operations: a production-ready plan",
+    "arTitle": "متابعات واتساب منظمة في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to whatsapp follow-ups for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول متابعات واتساب منظمة في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-knowledge-grounded-assistants",
+    "title": "Knowledge-grounded assistants for Logistics operations: a production-ready plan",
+    "arTitle": "مساعدات تستند للمعلومات الصحيحة في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to knowledge-grounded assistants for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول مساعدات تستند للمعلومات الصحيحة في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-automated-document-intake",
+    "title": "Automated document intake for Logistics operations: a production-ready plan",
+    "arTitle": "استقبال المستندات آليًا في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to automated document intake for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول استقبال المستندات آليًا في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-workflow-approvals",
+    "title": "Workflow approvals for Logistics operations: a production-ready plan",
+    "arTitle": "مسارات الموافقة الآلية في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to workflow approvals for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول مسارات الموافقة الآلية في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-crm-conversation-routing",
+    "title": "CRM conversation routing for Logistics operations: a production-ready plan",
+    "arTitle": "توجيه محادثات CRM في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to crm conversation routing for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول توجيه محادثات CRM في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-appointment-and-booking-reminders",
+    "title": "Appointment and booking reminders for Logistics operations: a production-ready plan",
+    "arTitle": "تذكيرات المواعيد والحجوزات في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to appointment and booking reminders for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول تذكيرات المواعيد والحجوزات في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-exception-monitoring",
+    "title": "Exception monitoring for Logistics operations: a production-ready plan",
+    "arTitle": "رصد الاستثناءات التشغيلية في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to exception monitoring for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول رصد الاستثناءات التشغيلية في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-payments-and-reconciliation",
+    "title": "Payments and reconciliation for Logistics operations: a production-ready plan",
+    "arTitle": "المدفوعات والمطابقة المالية في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to payments and reconciliation for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول المدفوعات والمطابقة المالية في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-multilingual-service-automation",
+    "title": "Multilingual service automation for Logistics operations: a production-ready plan",
+    "arTitle": "أتمتة الخدمة متعددة اللغات في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to multilingual service automation for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول أتمتة الخدمة متعددة اللغات في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-ai-content-quality-assurance",
+    "title": "AI content quality assurance for Logistics operations: a production-ready plan",
+    "arTitle": "مراجعة جودة محتوى AI في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to ai content quality assurance for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول مراجعة جودة محتوى AI في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-data-migration-and-cleanup",
+    "title": "Data migration and cleanup for Logistics operations: a production-ready plan",
+    "arTitle": "ترحيل البيانات وتنظيفها في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to data migration and cleanup for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول ترحيل البيانات وتنظيفها في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-analytics-and-performance-reports",
+    "title": "Analytics and performance reports for Logistics operations: a production-ready plan",
+    "arTitle": "تحليلات الأداء والتقارير في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to analytics and performance reports for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول تحليلات الأداء والتقارير في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
+  },
+  {
+    "slug": "logistics-operations-human-escalation-policies",
+    "title": "Human escalation policies for Logistics operations: a production-ready plan",
+    "arTitle": "سياسات التحويل لموظف في عمليات اللوجستيات: خطة تشغيل عملية",
+    "category": "Logistics",
+    "summary": "A practical technical approach to human escalation policies for logistics operations, with attention to deliveries and operational exceptions.",
+    "arSummary": "إرشادات عملية حول سياسات التحويل لموظف في عمليات اللوجستيات، مع التركيز على التوصيل والاستثناءات التشغيلية والأمان وقياس النتائج.",
+    "status": "review",
+    "featured": false
   }
 ]

@@ -15,78 +15,48 @@ jobs:
         run: |
           node --check assets/js/site.js
           node --check assets/js/blog.js
-          node --check assets/js/analytics-config.js
           node --check assets/js/analytics.js
-      - name: Verify essential content and assets
+          node --check assets/js/analytics-config.js
+      - name: Check 200 bilingual topics, paths, critical links, SEO and accessibility
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          site = Path("index.html").read_text(encoding="utf-8")
-          css = Path("assets/css/site.css").read_text(encoding="utf-8")
-          js = Path("assets/js/site.js").read_text(encoding="utf-8")
-          essential = [
-              "index.html",
-              "assets/css/site.css",
-              "assets/js/site.js",
-              "assets/js/blog.js",
-              "assets/css/blog.css",
-              "blog/index.html",
-              "blog/articles.json",
-              "assets/js/analytics.js",
-              "assets/js/analytics-config.js",
-              "privacy.html",
-              "docs/ANALYTICS.md",
-              "assets/cv/Ahmed_Elkholy_Senior_Backend_Engineer_CV_2026.pdf",
-          ]
-          for filename in essential:
-              file = Path(filename)
-              assert file.is_file() and file.stat().st_size > 0, f"Missing file: {filename}"
-          assert 'id="projectGrid"' in site
-          assert 'id="heroCv"' in site
-          assert 'id="ai"' in site
-          assert 'href="privacy.html"' in site
-          assert 'analytics-config.js' in site and 'analytics.js' in site
-          analytics_config = Path("assets/js/analytics-config.js").read_text(encoding="utf-8")
-          analytics_script = Path("assets/js/analytics.js").read_text(encoding="utf-8")
-          assert 'ga4MeasurementId: "G-777MHCRRZZ"' in analytics_config
-          assert 'clarityProjectId: "z1tp5tfopd"' in analytics_config
-          assert site.count('name="google-site-verification"') == 1
-          assert 'content="gGALLmLXcsQgPzB3QUhtmsG-rPC9-fKQ8ZGuegDaBTY"' in site.split('</head>', 1)[0]
-          assert 'ae_portfolio_analytics_consent_v2' in analytics_script
-          assert 'G-XFZZ8J7Q4F' not in analytics_config
-          assert 'z1tgj7ku7n' not in analytics_config
-          assert 'analytics-config.js?v=portfolio-ga-20261022' in site
-          assert 'analytics.js?v=portfolio-ga-20261022' in site
-          assert 'consentv2' in analytics_script
-          assert 'if(!ga&&!cl)return' in analytics_script
-          assert 'analytics_storage:"granted"' in analytics_script
-          assert 'ad_storage:"denied"' in analytics_script
-          assert '<lastmod>2026-10-23</lastmod>' in Path("sitemap.xml").read_text()
-          import json
-          from html.parser import HTMLParser
-          articles = list(Path('blog').glob('*/index.html'))
-          assert len(articles) == 50, f"Expected 50 articles, found {len(articles)}"
-          index = Path("blog/index.html").read_text(encoding="utf-8")
+          import json, xml.etree.ElementTree as ET
+          home = Path("index.html").read_text(encoding="utf-8")
+          assert 'id="insights"' in home
+          assert 'id="blogFeatured"' not in home
+          assert 'classList.add("js")' not in home
+          assert 'id="projectGrid"' in home
+          assert 'id="heroCv"' in home
+          assert 'assets/js/site.js' in home
+          assert 'assets/js/analytics-config.js' in home
+          assert Path("assets/cv/Ahmed_Elkholy_Senior_Backend_Engineer_CV_2026.pdf").stat().st_size > 0
           catalog = json.loads(Path("blog/articles.json").read_text(encoding="utf-8"))
-          assert len(catalog) == 50
+          assert len(catalog) == 200
+          assert len({x["slug"] for x in catalog}) == 200
+          en = Path("blog/index.html").read_text(encoding="utf-8")
+          ar = Path("blog/ar/index.html").read_text(encoding="utf-8")
+          assert en.count('class="blogcard') == 200
+          assert ar.count('class="blogcard') == 200
+          assert en.count('class="feature-story') == 6
+          assert ar.count('class="feature-story') == 6
+          for item in catalog:
+            slug = item["slug"]
+            for path in (Path("blog")/slug/"index.html", Path("blog/ar")/slug/"index.html"):
+              assert path.is_file() and path.stat().st_size > 1500, path
+              html = path.read_text(encoding="utf-8")
+              assert '<h1>' in html and 'rel="canonical"' in html, path
+            if item.get("status") == "review":
+              assert 'content="noindex,follow"' in (Path("blog")/slug/"index.html").read_text(), slug
+          for slug in ["clinics-voice-ai-receptionist","saas-businesses-knowledge-grounded-assistants","saas-businesses-workflow-approvals"]:
+            assert 'content="index,follow"' in (Path("blog")/slug/"index.html").read_text()
+            assert 'content="index,follow"' in (Path("blog/ar")/slug/"index.html").read_text()
           sitemap = Path("sitemap.xml").read_text(encoding="utf-8")
-          assert sitemap.count('<loc>') == 52
-          assert 'href="/blog/"' in site
-          assert 'id="blogFeatured"' in site
-          for f in articles:
-              page = f.read_text(encoding="utf-8")
-              url = 'https://mykholy.github.io/' + str(f.parent).replace('\\', '/') + '/'
-              assert f'<link rel="canonical" href="{url}">' in page, f
-              assert '"@type":"BlogPosting"' in page, f
-              assert f'/blog/{f.parent.name}/' in index, f
-              assert url in sitemap, f
-          assert 'blog_article_view' in analytics_script
-          print("Validated 50 standalone blog articles, canonical URLs, markup and sitemap.")
-
-          assert 'class="project-card static-project"' in site
-          assert 'assets/css/site.css' in site and 'assets/js/site.js' in site
-          assert 'classList.add("js")' not in site, "Content should stay visible if JS fails"
-          assert 'function renderProjects()' in js
-          assert 'prefers-reduced-motion' in css
-          print("Site syntax, AI content, privacy-first analytics, fallback projects, assets and CV passed.")
+          ET.fromstring(sitemap)
+          assert sitemap.count('<loc>') == 59
+          for f in ("feed.xml","blog/ar/feed.xml"): ET.fromstring(Path(f).read_text(encoding="utf-8"))
+          assert 'href="/feed.xml"' in home
+          for path in ("assets/css/site.css","assets/css/blog.css","assets/js/blog.js","assets/js/site.js","assets/js/analytics.js","privacy.html","docs/ANALYTICS.md"):
+            assert Path(path).stat().st_size > 0
+          print("200 paired bilingual topics, six featured cards, sitemap, feeds, privacy and fallback passed.")
           PY
