@@ -831,5 +831,5 @@
     window.addEventListener('load',icons,{once:true});
   })();
 
-// Load the first-party chat trigger; the external provider is fetched only on request.
+// Initialize native Tawk.to visitor monitoring on page view; greeting is non-blocking.
 (function(){var chat=document.createElement('script');chat.src='/assets/js/chat.js';chat.async=true;document.head.appendChild(chat);})();
