@@ -29,6 +29,8 @@ jobs:
         run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
       - name: Generate JPEG preview cards
         run: python3 scripts/build_social_images.py
+      - name: Generate responsive WebP thumbnails
+        run: python3 scripts/build_project_thumbs.py
       - name: Build canonical /en/ and /ar/ routes, share cards and sitemap
         run: python3 scripts/build_locale_seo.py
       - name: Keep generated article markup in repository source
@@ -37,7 +39,7 @@ jobs:
           if ! git diff --quiet -- blog index.html en ar sitemap.xml feed.xml assets; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add blog index.html en ar sitemap.xml feed.xml assets/portfolio-social.jpg assets/images/articles/*-share.jpg
+            git add blog index.html en ar sitemap.xml feed.xml assets/portfolio-social.jpg assets/images/articles/*-share.jpg assets/images/*-thumb.webp
             git commit -m "Refresh localized articles, share previews and SEO metadata [skip ci]"
             git push origin HEAD:main
           else
