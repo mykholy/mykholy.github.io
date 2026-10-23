@@ -34,10 +34,10 @@ jobs:
       - name: Keep generated article markup in repository source
         if: github.ref == 'refs/heads/main'
         run: |
-          if ! git diff --quiet -- blog index.html en ar sitemap.xml assets; then
+          if ! git diff --quiet -- blog index.html en ar sitemap.xml feed.xml assets; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add blog index.html en ar sitemap.xml assets/portfolio-social.jpg assets/images/articles/*-share.jpg
+            git add blog index.html en ar sitemap.xml feed.xml assets/portfolio-social.jpg assets/images/articles/*-share.jpg
             git commit -m "Refresh localized articles, share previews and SEO metadata [skip ci]"
             git push origin HEAD:main
           else
