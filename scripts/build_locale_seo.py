@@ -107,8 +107,8 @@ def head_metadata(source: str, title: str, description: str, page: str, lang: st
         '<meta property="og:description" content="' + escape(description) + '">',
         '<meta property="og:url" content="' + escape(page) + '">',
         '<meta property="og:image" content="' + escape(fullimage) + '">',
-        '<meta property="og:image:width" content="1400">',
-        '<meta property="og:image:height" content="788">',
+        '<meta property="og:image:width" content="1200">',
+        '<meta property="og:image:height" content="630">',
         '<meta property="og:image:alt" content="' + escape(title) + '">',
         '<meta name="twitter:card" content="summary_large_image">',
         '<meta name="twitter:title" content="' + escape(title) + '">',
@@ -165,6 +165,16 @@ def process_article(item: dict, index: int, lang: str) -> str:
     else:
         img = re.search(r'<meta\s+property="og:image"\s+content="([^"]+)"', source)
         image = html.unescape(img[1]) if img else "/assets/portfolio-social.webp"
+    if image.startswith("/assets/images/articles/") and image.endswith("-hero.webp"):
+        target = ROOT / image.lstrip("/")
+        if not target.exists() or target.stat().st_size < 1024:
+            source = source.replace(image, "/assets/images/articles/ai-architecture-hero.webp")
+            image = "/assets/images/articles/ai-architecture-hero.webp"
+    sharing_image = image.replace("-hero.webp", "-share.jpg") if image.endswith("-hero.webp") else "/assets/portfolio-social.jpg"
+    source = source.replace("AI-generated concept illustration, not a production-system screenshot.", "Illustration of the engineering concept.")
+    source = source.replace("تصميم توضيحي بالذكاء الاصطناعي، وليس لقطة شاشة من نظام حقيقي.", "رسم توضيحي للفكرة الهندسية.")
+    source = source.replace(" — AI-generated editorial illustration", " — engineering illustration")
+    source = source.replace(" — رسم توضيحي بالذكاء الاصطناعي", " — رسم هندسي توضيحي")
     published = FIRST_RELEASE if index < 50 else LIBRARY_RELEASE
     schema = {
         "@context": "https://schema.org", "@type": "BlogPosting", "@id": page + "#article",
@@ -174,7 +184,7 @@ def process_article(item: dict, index: int, lang: str) -> str:
         "inLanguage": lang, "articleSection": item.get("category", ""),
         "author": {"@type": "Person", "@id": ORIGIN + "/#person", "name": "Ahmed Elkholy", "url": ORIGIN + "/en/"},
         "publisher": {"@type": "Person", "name": "Ahmed Elkholy", "url": ORIGIN + "/en/"},
-        "image": [image if image.startswith("https://") else ORIGIN + image],
+        "image": [ORIGIN + sharing_image],
     }
     source = rewrite_links(source, lang)
     source = re.sub(r'<p class="editorial">\s*Transparency:.*?</p>', '', source, flags=re.S | re.I)
@@ -198,7 +208,7 @@ def process_article(item: dict, index: int, lang: str) -> str:
         source = head + "</nav>" + body
     source = source.replace('</body>', '<script src="/assets/js/blog.js" defer></script></body>')
     source = head_metadata(source, title + (" | أحمد الخولي" if lang == "ar" else " | Ahmed Elkholy"), desc,
-                           page, lang, image, "article", schema, published)
+                           page, lang, sharing_image, "article", schema, published)
     source = re.sub(r'<html\s+lang="[^"]+"', '<html lang="' + lang + '"', source, count=1)
     if lang == "ar":
         source = source.replace('<html lang="ar">', '<html lang="ar" dir="rtl">', 1)
@@ -209,6 +219,9 @@ def process_index(lang: str) -> str:
     path = ROOT / 'blog' / ('ar/' if lang == 'ar' else '') / 'index.html'
     s = clean_legacy_marker(path.read_text(encoding="utf8"))
     s = rewrite_links(s, lang)
+    s = re.sub(r'(src="/assets/images/articles/)([^"]+)(-thumb.webp")',
+               lambda m: (m[1] + "ai-architecture" + m[3])
+               if (ROOT / "assets/images/articles" / (m[2] + "-thumb.webp")).stat().st_size < 1024 else m[0], s)
     s = re.sub(r'<span>\s*\d{1,3}\s*/\s*200\s*</span>', '', s)
     # Rewrite editor picks and search results without serial counting.
     s = re.sub(r'<p id="blogCount"[^>]*>.*?</p>', '<p id="blogCount" aria-live="polite"></p>', s, count=1, flags=re.S)
@@ -218,7 +231,7 @@ def process_index(lang: str) -> str:
     schema = {"@context": "https://schema.org", "@type": "CollectionPage", "@id": page + "#articles",
               "url": page, "name": title, "description": desc, "inLanguage": lang,
               "author": {"@type": "Person", "@id": ORIGIN + "/#person", "name": "Ahmed Elkholy"}}
-    s = head_metadata(s, title, desc, page, lang, '/assets/portfolio-social.webp', 'website', schema)
+    s = head_metadata(s, title, desc, page, lang, '/assets/portfolio-social.jpg', 'website', schema)
     return s
 
 
@@ -273,7 +286,7 @@ def process_home(lang: str, original: str) -> str:
         {"@type": "WebSite", "@id": ORIGIN + "/#website", "name": "Ahmed Elkholy | Engineering Portfolio", "url": ORIGIN + "/",
          "inLanguage": ["en", "ar"]}
     ]}
-    source = head_metadata(source, title, desc, url, lang, '/assets/portfolio-social.webp', 'profile', schema)
+    source = head_metadata(source, title, desc, url, lang, '/assets/portfolio-social.jpg', 'profile', schema)
     return source
 
 
