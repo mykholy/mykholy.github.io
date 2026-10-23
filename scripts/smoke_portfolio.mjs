@@ -28,7 +28,7 @@ try {
         chatButton: Boolean(document.querySelector('#ae-chat-launcher')),
         tawkBeforeClick: Boolean(document.querySelector('script[src*="embed.tawk.to"]')),
         chatOnExpectedSide: (() => {const rect = document.querySelector('#ae-chat-launcher')?.getBoundingClientRect();return rect && (document.documentElement.lang === 'ar' ? rect.left > innerWidth/2 : rect.right < innerWidth/2);})(),
-        chatClickable: (() => {const button=document.querySelector('#ae-chat-launcher');const r=button?.getBoundingClientRect();return r && document.elementFromPoint(r.left+r.width/2,r.top+r.height/2)===button;})(),
+        chatClickable: (() => {const button=document.querySelector('#ae-chat-launcher');const r=button?.getBoundingClientRect();return r && button.contains(document.elementFromPoint(r.left+r.width/2,r.top+r.height/2));})(),
       }));
       assert(info.lang === locale, 'Wrong page language: ' + JSON.stringify(info));
       assert(info.hrefs.length === 6 && info.hrefs.every(url => url.startsWith('/' + locale + '/blog/')),
