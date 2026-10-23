@@ -307,6 +307,10 @@ def process_home(lang: str, original: str) -> str:
     # Static artwork and icons must work without JavaScript or third-party CDNs.
     source = re.sub(r'<script\b[^>]*src="https://unpkg.com/lucide[^"]+"[^>]*></script>', '', source)
     source = render_homepage_icons(source)
+    # Below-fold artwork should never compete with the first viewport for bandwidth.
+    source = source.replace('loading="lazy"', 'loading="lazy" fetchpriority="low"')
+    # Prefer rendering immediately with system fallback to late webfont swaps on slow mobile links.
+    source = source.replace('&display=swap', '&display=optional')
     # The original images remain for detail views; small local versions go into cards.
     source = re.sub(r'<img\b[^>]*>', lambda m: re.sub(
         r'(src="assets/images/)([^"/]+)(\.webp")',
