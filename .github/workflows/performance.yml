@@ -28,6 +28,7 @@ jobs:
           python3 -m pip install --disable-pip-version-check Pillow==11.3.0
           python3 scripts/build_article_media.py
           python3 scripts/build_social_images.py
+          python3 scripts/build_project_thumbs.py
           python3 scripts/build_locale_seo.py
           python3 scripts/test_portfolio_routes.py
       - name: Install headless browser audit tools
