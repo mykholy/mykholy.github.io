@@ -1,0 +1,304 @@
+#!/usr/bin/env python3
+"""Build stable, locale-specific portfolio and article pages for GitHub Pages.
+
+Existing /blog/ paths remain as legacy entry points. Canonical pages live under
+/en/ and /ar/, and each share card is rendered in HTML for social crawlers.
+Publication timestamps are taken from the original publication commits, not
+manufactured staggered dates. Unreviewed articles remain noindex.
+"""
+from __future__ import annotations
+
+import html
+import json
+import re
+import urllib.parse
+from pathlib import Path
+from xml.etree import ElementTree as ET
+
+ROOT = Path(__file__).resolve().parents[1]
+ORIGIN = "https://mykholy.github.io"
+CATALOG = json.loads((ROOT / "blog/articles.json").read_text(encoding="utf8"))
+FIRST_RELEASE = "2026-10-22T23:54:00Z"
+LIBRARY_RELEASE = "2026-10-23T00:30:41Z"
+LAST_REVISED = "2026-10-23"
+XMLNS = "http://www.sitemaps.org/schemas/sitemap/0.9"
+XHTML = "http://www.w3.org/1999/xhtml"
+ET.register_namespace("", XMLNS)
+ET.register_namespace("xhtml", XHTML)
+
+
+def put(path: Path, content: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not path.exists() or path.read_text(encoding="utf8") != content:
+        path.write_text(content, encoding="utf8")
+
+
+def clean_legacy_marker(source: str) -> str:
+    return re.sub(r'<script data-locale-redirect>.*?</script>', '', source, flags=re.S)
+
+
+def escape(value: object) -> str:
+    return html.escape(str(value), quote=True)
+
+
+def url_for(lang: str, slug: str | None = None) -> str:
+    return ORIGIN + "/" + lang + ("/blog/" + slug + "/" if slug else "/blog/")
+
+
+def locale_path(lang: str, slug: str | None = None) -> str:
+    return "/" + lang + ("/blog/" + slug + "/" if slug else "/blog/")
+
+
+def translate_url(url: str, lang: str) -> str:
+    """Translate existing article/internal portfolio URLs to canonical locale paths."""
+    if url.startswith(ORIGIN + "/blog/ar/"):
+        return ORIGIN + "/ar/blog/" + url[len(ORIGIN + "/blog/ar/"):]
+    if url.startswith(ORIGIN + "/blog/"):
+        return ORIGIN + "/en/blog/" + url[len(ORIGIN + "/blog/"):]
+    if url.startswith("/blog/ar/"):
+        return "/ar/blog/" + url[len("/blog/ar/"):]
+    if url.startswith("/blog/"):
+        return "/en/blog/" + url[len("/blog/"):]
+    if url.startswith("/#"):
+        return "/" + lang + "/" + url[1:]
+    if url == "/":
+        return "/" + lang + "/"
+    return url
+
+
+def rewrite_links(source: str, lang: str) -> str:
+    return re.sub(r'(href=")([^"]+)(")', lambda m: m[1] + escape(translate_url(html.unescape(m[2]), lang)) + m[3], source)
+
+
+def head_metadata(source: str, title: str, description: str, page: str, lang: str,
+                  image: str, kind: str, schema: dict, published: str | None = None) -> str:
+    """Replace, never stack, crawling and social metadata in static HTML."""
+    pattern = r'(<head\b[^>]*>)(.*?)(</head>)'
+    found = re.search(pattern, source, flags=re.I | re.S)
+    if not found:
+        raise ValueError("Missing head for " + page)
+    head = found[2]
+    # Strip metadata owned by this build step so reruns remain idempotent.
+    head = re.sub(r'<title\b[^>]*>.*?</title>', '', head, flags=re.I | re.S)
+    head = re.sub(r'<meta\b(?=[^>]*\b(?:name|property)="(?:description|author|twitter:[^"]+|og:[^"]+|article:[^"]+)")[^>]*>', '', head, flags=re.I)
+    head = re.sub(r'<link\b(?=[^>]*\brel="(?:canonical|alternate)")[^>]*>', '', head, flags=re.I)
+    head = re.sub(r'<script\b[^>]*type="application/ld\+json"[^>]*>.*?</script>', '', head, flags=re.I | re.S)
+    head = clean_legacy_marker(head)
+    alternate_en = page.replace('/ar/', '/en/') if '/ar/' in page else page
+    alternate_ar = page.replace('/en/', '/ar/') if '/en/' in page else page
+    fullimage = image if image.startswith("https://") else ORIGIN + image
+    robots = 'index,follow,max-image-preview:large'
+    if re.search(r'<meta\s+name="robots"\s+content="noindex', head):
+        robots = 'noindex,follow'
+    head = re.sub(r'<meta\s+name="robots"[^>]*>', '', head, flags=re.I)
+    x = [
+        "<title>" + escape(title) + "</title>",
+        '<meta name="description" content="' + escape(description) + '">',
+        '<meta name="author" content="Ahmed Elkholy">',
+        '<meta name="robots" content="' + robots + '">',
+        '<link rel="canonical" href="' + escape(page) + '">',
+        '<link rel="alternate" hreflang="en" href="' + escape(alternate_en) + '">',
+        '<link rel="alternate" hreflang="ar" href="' + escape(alternate_ar) + '">',
+        '<link rel="alternate" hreflang="x-default" href="' + escape(alternate_en) + '">',
+        '<meta property="og:type" content="' + kind + '">',
+        '<meta property="og:site_name" content="Ahmed Elkholy | Engineering Portfolio">',
+        '<meta property="og:locale" content="' + ("ar_AR" if lang == "ar" else "en_US") + '">',
+        '<meta property="og:title" content="' + escape(title) + '">',
+        '<meta property="og:description" content="' + escape(description) + '">',
+        '<meta property="og:url" content="' + escape(page) + '">',
+        '<meta property="og:image" content="' + escape(fullimage) + '">',
+        '<meta property="og:image:width" content="1400">',
+        '<meta property="og:image:height" content="788">',
+        '<meta property="og:image:alt" content="' + escape(title) + '">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        '<meta name="twitter:title" content="' + escape(title) + '">',
+        '<meta name="twitter:description" content="' + escape(description) + '">',
+        '<meta name="twitter:image" content="' + escape(fullimage) + '">',
+        '<meta name="twitter:image:alt" content="' + escape(title) + '">',
+    ]
+    if published:
+        x.extend([
+            '<meta property="article:published_time" content="' + published + '">',
+            '<meta property="article:modified_time" content="' + LAST_REVISED + '">',
+            '<meta property="article:author" content="' + ORIGIN + '/en/">',
+        ])
+    x.append('<script type="application/ld+json">' + json.dumps(schema, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c') + '</script>')
+    newhead = head + "\n" + "\n".join(x) + "\n"
+    return source[:found.start()] + found[1] + newhead + found[3] + source[found.end():]
+
+
+def share_markup(lang: str, title: str, absolute_url: str) -> str:
+    q = urllib.parse.quote
+    u = q(absolute_url, safe='')
+    t = q(title, safe='')
+    links = [
+        ("WhatsApp", "https://api.whatsapp.com/send?text=" + q(title + " " + absolute_url, safe='')),
+        ("Telegram", "https://t.me/share/url?url=" + u + "&text=" + t),
+        ("X", "https://twitter.com/intent/tweet?url=" + u + "&text=" + t),
+        ("Facebook", "https://www.facebook.com/sharer/sharer.php?u=" + u),
+        ("LinkedIn", "https://www.linkedin.com/sharing/share-offsite/?url=" + u),
+    ]
+    label = "شارك المقال" if lang == "ar" else "Share this article"
+    copy = "نسخ الرابط" if lang == "ar" else "Copy link"
+    rendered = ''.join('<a href="' + escape(url) + '" target="_blank" rel="noopener noreferrer" aria-label="' + escape(label + " on " + platform) + '">' + platform + '</a>' for platform, url in links)
+    return '<nav class="article-share" aria-label="' + escape(label) + '"><strong>' + escape(label) + '</strong><div>' + rendered + '<button type="button" data-copy-article="' + escape(absolute_url) + '">' + copy + '</button></div><span class="share-status" role="status" aria-live="polite"></span></nav>'
+
+
+def process_article(item: dict, index: int, lang: str) -> str:
+    slug = item["slug"]
+    path = ROOT / "blog" / ("ar/" if lang == "ar" else "") / slug / "index.html"
+    source = clean_legacy_marker(path.read_text(encoding="utf8"))
+    title = item["arTitle"] if lang == "ar" else item["title"]
+    # Prefer the source's actual editorial title over the catalog label.
+    h1 = re.search(r'<h1\b[^>]*>(.*?)</h1>', source, re.S | re.I)
+    if h1:
+        title = html.unescape(re.sub(r'<[^>]+>', '', h1[1])).strip() or title
+    desc = item.get("arSummary" if lang == "ar" else "summary", "")
+    orig_desc = re.search(r'<meta\s+name="description"\s+content="([^"]*)"', source)
+    if orig_desc and len(html.unescape(orig_desc[1])) > 45:
+        desc = html.unescape(orig_desc[1])
+    desc = re.sub(r'\s+', ' ', desc).strip()[:225]
+    page = url_for(lang, slug)
+    pic = re.search(r'<figure\b[^>]*class="article-hero-visual"[^>]*>.*?<img\b[^>]*src="([^"]+)"', source, re.S)
+    if pic:
+        image = html.unescape(pic[1])
+    else:
+        img = re.search(r'<meta\s+property="og:image"\s+content="([^"]+)"', source)
+        image = html.unescape(img[1]) if img else "/assets/portfolio-social.webp"
+    published = FIRST_RELEASE if index < 50 else LIBRARY_RELEASE
+    schema = {
+        "@context": "https://schema.org", "@type": "BlogPosting", "@id": page + "#article",
+        "mainEntityOfPage": {"@type": "WebPage", "@id": page},
+        "headline": title, "description": desc, "url": page,
+        "datePublished": published, "dateModified": LAST_REVISED,
+        "inLanguage": lang, "articleSection": item.get("category", ""),
+        "author": {"@type": "Person", "@id": ORIGIN + "/#person", "name": "Ahmed Elkholy", "url": ORIGIN + "/en/"},
+        "publisher": {"@type": "Person", "name": "Ahmed Elkholy", "url": ORIGIN + "/en/"},
+        "image": [image if image.startswith("https://") else ORIGIN + image],
+    }
+    source = rewrite_links(source, lang)
+    source = re.sub(r'<p class="editorial">\s*Transparency:.*?</p>', '', source, flags=re.S | re.I)
+    # Strip editorial numbering if previously baked into any article template.
+    source = re.sub(r'<span>\s*\d{1,3}\s*/\s*200\s*</span>', '', source)
+    source = re.sub(r'<nav class="article-share".*?</nav>', '', source, flags=re.S)
+    display_date = "22 Oct 2026 (UTC)" if index < 50 else "23 Oct 2026 (UTC)"
+    if lang == "ar":
+        display_date = "٢٢ أكتوبر ٢٠٢٦ (UTC)" if index < 50 else "٢٣ أكتوبر ٢٠٢٦ (UTC)"
+    byline = '<p class="byline">' + ("أحمد الخولي · نُشر " if lang == "ar" else "Ahmed Elkholy · Published ") + '<time datetime="' + published + '">' + display_date + '</time></p>'
+    if re.search(r'<p class="byline">.*?</p>', source, flags=re.S):
+        source = re.sub(r'<p class="byline">.*?</p>', lambda _m: byline + share_markup(lang, title, page), source, count=1, flags=re.S)
+    else:
+        source = source.replace('</header>', byline + share_markup(lang, title, page) + '</header>', 1)
+    if "</nav>" in source:
+        head, body = source.split("</nav>", 1)
+        other = 'ar' if lang == 'en' else 'en'
+        label = 'العربية' if lang == 'en' else 'English'
+        head += '<a class="locale-switch" lang="' + other + '" href="' + locale_path(other, slug) + '" hreflang="' + other + '">' + label + '</a>'
+        source = head + "</nav>" + body
+    source = source.replace('</body>', '<script src="/assets/js/blog.js" defer></script></body>')
+    source = head_metadata(source, title + (" | أحمد الخولي" if lang == "ar" else " | Ahmed Elkholy"), desc,
+                           page, lang, image, "article", schema, published)
+    source = re.sub(r'<html\s+lang="[^"]+"', '<html lang="' + lang + '"', source, count=1)
+    if lang == "ar":
+        source = source.replace('<html lang="ar">', '<html lang="ar" dir="rtl">', 1)
+    return source
+
+
+def process_index(lang: str) -> str:
+    path = ROOT / 'blog' / ('ar/' if lang == 'ar' else '') / 'index.html'
+    s = clean_legacy_marker(path.read_text(encoding="utf8"))
+    s = rewrite_links(s, lang)
+    s = re.sub(r'<span>\s*\d{1,3}\s*/\s*200\s*</span>', '', s)
+    # Rewrite editor picks and search results without serial counting.
+    s = re.sub(r'<p id="blogCount"[^>]*>.*?</p>', '<p id="blogCount" aria-live="polite"></p>', s, count=1, flags=re.S)
+    title = 'مقالات هندسة البرمجيات وLaravel وأتمتة AI | أحمد الخولي' if lang == 'ar' else 'Laravel, AI Automation & Backend Engineering Articles | Ahmed Elkholy'
+    desc = 'مقالات عملية عن Laravel وهندسة الأنظمة والأتمتة والذكاء الاصطناعي والأمان والتكاملات، باللغة العربية.' if lang == 'ar' else 'Practical articles on Laravel, API architecture, AI automation, payment reliability, SaaS and secure integrations.'
+    page = url_for(lang)
+    schema = {"@context": "https://schema.org", "@type": "CollectionPage", "@id": page + "#articles",
+              "url": page, "name": title, "description": desc, "inLanguage": lang,
+              "author": {"@type": "Person", "@id": ORIGIN + "/#person", "name": "Ahmed Elkholy"}}
+    s = head_metadata(s, title, desc, page, lang, '/assets/portfolio-social.webp', 'website', schema)
+    return s
+
+
+def process_home(lang: str, original: str) -> str:
+    source = clean_legacy_marker(original)
+    source = rewrite_links(source, lang)
+    # Keep all relative asset paths resolving correctly below /en/ or /ar/.
+    source = source.replace('<head>', '<head><base href="/">', 1)
+    source = re.sub(r'(href=")(#[^"]+)(")', lambda m: m[1] + '/' + lang + '/' + m[2] + m[3], source)
+    source = re.sub(r'<html\s+lang="[^"]+"\s+dir="[^"]+"', '<html lang="' + lang + '" dir="' + ('rtl' if lang == 'ar' else 'ltr') + '"', source, count=1)
+    title = 'أحمد الخولي | مهندس Backend وLaravel وأتمتة الأعمال بالذكاء الاصطناعي' if lang == 'ar' else 'Ahmed Elkholy | Senior Laravel & Backend Engineer'
+    desc = ('أحمد الخولي، مهندس برمجيات Backend متخصص في Laravel وPHP وهندسة SaaS والتكاملات والأنظمة الموثوقة وأتمتة الأعمال بالذكاء الاصطناعي.'
+            if lang == 'ar' else 'Ahmed Elkholy is a senior Laravel backend engineer building production SaaS, secure APIs, payment integrations and reliable AI automation.')
+    url = ORIGIN + '/' + lang + '/'
+    schema = {"@context": "https://schema.org", "@graph": [
+        {"@type": "Person", "@id": ORIGIN + "/#person", "name": "Ahmed Elkholy",
+         "alternateName": ["Ahmed El-Kholy", "أحمد الخولي"], "jobTitle": "Senior Backend Engineer",
+         "url": ORIGIN + "/en/", "sameAs": ["https://github.com/mykholy", "https://www.linkedin.com/in/mykholy/"],
+         "knowsAbout": ["Laravel", "PHP", "API Architecture", "SaaS", "Shopify", "Payment Systems", "AI Automation"]},
+        {"@type": "ProfilePage", "@id": url + "#profile", "url": url, "inLanguage": lang,
+         "mainEntity": {"@id": ORIGIN + "/#person"}, "dateModified": LAST_REVISED},
+        {"@type": "WebSite", "@id": ORIGIN + "/#website", "name": "Ahmed Elkholy | Engineering Portfolio", "url": ORIGIN + "/",
+         "inLanguage": ["en", "ar"]}
+    ]}
+    source = head_metadata(source, title, desc, url, lang, '/assets/portfolio-social.webp', 'profile', schema)
+    return source
+
+
+def legacy_redirect(page: str, target: str) -> str:
+    # Keep actual original content for no-JS fallbacks and future deterministic builds.
+    page = clean_legacy_marker(page)
+    page = re.sub(r'(<link rel="canonical" href=")[^"]+(")', lambda m: m[1] + ORIGIN + target + m[2], page, count=1)
+    script = ('<script data-locale-redirect>(function(){var to=' + json.dumps(target) +
+              ';if(location.pathname!==to){location.replace(to+location.search+location.hash)}})();</script>')
+    return page.replace('</head>', script + '</head>', 1)
+
+
+def rewrite_sitemap() -> None:
+    # Only quality-reviewed, indexable articles. Adding noindex drafts to sitemap
+    # would waste crawl budget and send contradictory discovery signals.
+    pages = [('/en/', '/ar/'), ('/en/blog/', '/ar/blog/')]
+    for item in CATALOG:
+        if item.get('status') == 'published':
+            slug = item['slug']
+            pages.append((locale_path('en', slug), locale_path('ar', slug)))
+    root = ET.Element('{%s}urlset' % XMLNS)
+    for en, ar in pages:
+        for loc in (en, ar):
+            el = ET.SubElement(root, '{%s}url' % XMLNS)
+            ET.SubElement(el, '{%s}loc' % XMLNS).text = ORIGIN + loc
+            ET.SubElement(el, '{%s}lastmod' % XMLNS).text = LAST_REVISED
+            for language, page in [('en', en), ('ar', ar)]:
+                ET.SubElement(el, '{%s}link' % XHTML, {'rel': 'alternate', 'hreflang': language, 'href': ORIGIN + page})
+            ET.SubElement(el, '{%s}link' % XHTML, {'rel': 'alternate', 'hreflang': 'x-default', 'href': ORIGIN + en})
+    # Keep the privacy policy discoverable without claiming a translated version.
+    policy = ET.SubElement(root, '{%s}url' % XMLNS)
+    ET.SubElement(policy, '{%s}loc' % XMLNS).text = ORIGIN + '/privacy.html'
+    ET.SubElement(policy, '{%s}lastmod' % XMLNS).text = '2026-10-22'
+    put(ROOT / 'sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(root, encoding='unicode') + '\n')
+
+
+def main() -> None:
+    assert len(CATALOG) == 200 and len({x['slug'] for x in CATALOG}) == 200
+    for i, item in enumerate(CATALOG):
+        for lang in ('en', 'ar'):
+            old = ROOT / 'blog' / ('ar/' if lang == 'ar' else '') / item['slug'] / 'index.html'
+            optimized = process_article(item, i, lang)
+            put(ROOT / lang / 'blog' / item['slug'] / 'index.html', optimized)
+            put(old, legacy_redirect(old.read_text(encoding='utf8'), locale_path(lang, item['slug'])))
+    for lang in ('en', 'ar'):
+        old = ROOT / 'blog' / ('ar/' if lang == 'ar' else '') / 'index.html'
+        put(ROOT / lang / 'blog' / 'index.html', process_index(lang))
+        put(old, legacy_redirect(old.read_text(encoding='utf8'), locale_path(lang)))
+    home = ROOT / 'index.html'
+    oldhome = home.read_text(encoding='utf8')
+    for lang in ('en', 'ar'):
+        put(ROOT / lang / 'index.html', process_home(lang, oldhome))
+    put(home, legacy_redirect(oldhome, '/en/'))
+    rewrite_sitemap()
+    print('Generated 400 canonical localized articles, 2 indexes, 2 profiles, redirects and sitemap.')
+
+
+if __name__ == '__main__':
+    main()
