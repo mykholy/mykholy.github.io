@@ -799,7 +799,7 @@
       document.title=isAR?'أحمد الخولي — مهندس Backend متخصص في Laravel':'Ahmed Elkholy — Senior Laravel Engineer | AI Automation & SaaS';
       $('.home-insight-card a').forEach(a=>{
         const base=a.getAttribute('href').replace(/^\/blog\/(?:ar\/)?/,'/blog/');
-        a.href=isAR?base.replace('/blog/','/blog/ar/'):base;
+        a.setAttribute('href',isAR?base.replace('/blog/','/blog/ar/'):base);
       });
       const insightsLink=$('#insights .insights-foot a');
       if(insightsLink)insightsLink.href=isAR?'/blog/ar/':'/blog/';
