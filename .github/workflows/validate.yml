@@ -78,6 +78,9 @@ jobs:
           assert len(list(Path('assets/images/articles').glob('*-thumb.webp'))) == 27
           for path in ("assets/css/site.css","assets/css/blog.css","assets/js/blog.js","assets/js/site.js","assets/js/analytics.js","privacy.html","docs/ANALYTICS.md"):
             assert Path(path).stat().st_size > 0
+          assert Path('en/feed.xml').is_file() and Path('ar/feed.xml').is_file()
+          assert ET.fromstring(Path('en/feed.xml').read_text()).tag == 'rss'
+          assert ET.fromstring(Path('ar/feed.xml').read_text()).tag == 'rss'
           assert Path('assets/portfolio-social.jpg').stat().st_size > 1024
           assert len(list(Path('assets/images/articles').glob('*-share.jpg'))) == 27
           assert Path('en/index.html').is_file() and Path('ar/index.html').is_file()
