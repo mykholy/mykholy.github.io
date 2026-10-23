@@ -199,3 +199,12 @@ html[dir=rtl] .insights-header h2,html[dir=rtl] .home-insight-card h3{font-famil
 .home-insight-card:hover .home-insight-image{filter:saturate(1.05);transform:scale(1.02)}
 @media(max-width:650px){.home-insight-card .home-insight-image{height:181px;width:calc(100% + 42px);margin:-21px -21px 19px}.home-insight-card.home-lead .home-insight-image{height:192px}}
 @media(prefers-reduced-motion:reduce){.home-insight-card:hover .home-insight-image{transform:none}}
+
+/* Bilingual layout guardrails: logical alignment and long content on small screens. */
+html[dir="rtl"] :is(.hero-content,.section-heading,.insights-header,.ai-heading,.contact-panel,.dialog-body,.footer-inner){text-align:start}
+html[dir="rtl"] :is(.brand-name,.brand-role,.ai-cap-number,.project-count){direction:ltr;unicode-bidi:isolate}
+html[dir="rtl"] .quick-contact{right:auto;left:max(14px,env(safe-area-inset-left))}
+html[dir="rtl"] .quick-menu{right:auto;left:0}
+.project-body,.bento,.impact-card,.ai-cap-card,.insights-header>*,.hero-content{min-width:0}
+:is(.ai-cap-card,.insights-section,.contact-panel) p{overflow-wrap:anywhere}
+@media(max-width:480px){.nav-wrap{min-width:0}.brand{min-width:0;max-width:calc(100% - 110px)}.brand>span:last-child{min-width:0}.brand-name,.brand-role{overflow-wrap:anywhere}.hero h1{overflow-wrap:break-word}.ai-cap-card h3{overflow-wrap:anywhere}}

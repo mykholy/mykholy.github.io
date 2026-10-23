@@ -78,6 +78,14 @@ def check_scripts_and_weights() -> None:
     assert "$$('.home-insight-card a').forEach" in js
     assert js.index('let revealObserver;') < js.index('translate(lang);')
     assert 'window.lucide?.createIcons' not in js
+    assert "'/assets/js/chat.js'" in js
+    assert "'/assets/js/chat.js'" in (ROOT/'assets/js/blog.js').read_text(encoding='utf-8')
+    chat=(ROOT/'assets/js/chat.js').read_text(encoding='utf-8')
+    assert '6adba7539cb48b346f87ea7e/default' in chat
+    assert "button.addEventListener('click'" in chat
+    assert 'document.head.appendChild(script)' in chat
+    assert 'embed.tawk.to' not in js
+    assert '<script src="/assets/js/chat.js" defer>' in (ROOT/'privacy.html').read_text(encoding='utf-8')
     assert (ROOT/'assets/js/site.js').stat().st_size < 100_000
     assert (ROOT/'assets/css/site.css').stat().st_size < 65_000
     for photo in ['assets/portfolio-social.jpg', 'assets/images/articles/ai-cost-share.jpg']:

@@ -15,6 +15,7 @@ jobs:
         run: |
           node --check assets/js/site.js
           node --check assets/js/blog.js
+          node --check assets/js/chat.js
           node --check assets/js/analytics.js
           node --check assets/js/analytics-config.js
       - name: Build all article hero images, hooks and metadata
