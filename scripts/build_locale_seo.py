@@ -193,7 +193,8 @@ def process_article(item: dict, index: int, lang: str) -> str:
         head, body = source.split("</nav>", 1)
         other = 'ar' if lang == 'en' else 'en'
         label = 'العربية' if lang == 'en' else 'English'
-        head += '<a class="locale-switch" lang="' + other + '" href="' + locale_path(other, slug) + '" hreflang="' + other + '">' + label + '</a>'
+        if locale_path(other, slug) not in head:
+            head += '<a class="locale-switch" lang="' + other + '" href="' + locale_path(other, slug) + '" hreflang="' + other + '">' + label + '</a>'
         source = head + "</nav>" + body
     source = source.replace('</body>', '<script src="/assets/js/blog.js" defer></script></body>')
     source = head_metadata(source, title + (" | أحمد الخولي" if lang == "ar" else " | Ahmed Elkholy"), desc,
@@ -221,9 +222,39 @@ def process_index(lang: str) -> str:
     return s
 
 
+def localized_home_copy(page: str, lang: str) -> str:
+    """Pre-render translated content instead of relying only on client JavaScript."""
+    if lang != 'ar':
+        return page
+    import subprocess
+    javascript = r"""
+const fs = require('fs'), vm = require('vm');
+const code = fs.readFileSync('assets/js/site.js', 'utf8');
+const start = code.indexOf('const i18n={') + 'const i18n='.length;
+const end = code.indexOf(';\n    // The language dictionaries', start);
+if (end < 0) throw new Error('Cannot find translation dictionary');
+const dict = vm.runInNewContext('(' + code.slice(start,end) + ')');
+const patchStart = code.indexOf('Object.assign(i18n.en', end);
+const patchEnd = code.indexOf("let lang=", patchStart);
+vm.runInNewContext(code.slice(patchStart,patchEnd), {i18n:dict});
+process.stdout.write(JSON.stringify(dict.ar));
+"""
+    translations = json.loads(subprocess.check_output(['node', '-e', javascript], cwd=ROOT, text=True))
+    pattern = re.compile(r'(<(?P<tag>span|a|h1|h2|h3|p|small|div|button|label|li)\b[^>]*\bdata-i18n(?:-html)?="(?P<key>[^"]+)"[^>]*>)(?P<content>.*?)(</(?P=tag)>)', re.S | re.I)
+    def apply(match: re.Match) -> str:
+        replacement = translations.get(match['key'])
+        if replacement is None or re.search(r'<\s*' + match['tag'] + r'\b', match['content'], re.I):
+            return match[0]
+        # Values are trusted translations from our own committed JavaScript.
+        rendered = str(replacement) if 'data-i18n-html=' in match[1] else escape(replacement)
+        return match[1] + rendered + match[5]
+    return pattern.sub(apply, page)
+
+
 def process_home(lang: str, original: str) -> str:
     source = clean_legacy_marker(original)
     source = rewrite_links(source, lang)
+    source = localized_home_copy(source, lang)
     # Keep all relative asset paths resolving correctly below /en/ or /ar/.
     source = source.replace('<head>', '<head><base href="/">', 1)
     source = re.sub(r'(href=")(#[^"]+)(")', lambda m: m[1] + '/' + lang + '/' + m[2] + m[3], source)
