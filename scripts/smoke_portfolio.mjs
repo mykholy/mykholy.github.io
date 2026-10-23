@@ -107,8 +107,15 @@ try {
           previews:document.querySelectorAll('#blogList .blogcard[data-review="review"]:not([hidden])').length,
           all:document.querySelectorAll('#blogList .blogcard').length,
         }));
-        assert(withPreviews.shown === 24 && withPreviews.previews > 0 && withPreviews.all === 200,
-          'All-topics view should explicitly include editorial previews: ' + JSON.stringify(withPreviews));
+        assert(withPreviews.shown === 24 && withPreviews.all === 200,
+          'All-topics mode must retain the entire reviewed and preview library: ' + JSON.stringify(withPreviews));
+        // The real catalog orders reviewed articles first. Exercise pagination
+        // until preview cards become visible rather than assuming draft order.
+        await page.click('.blog-load-more');
+        await page.click('.blog-load-more');
+        await page.click('.blog-load-more');
+        assert(await page.evaluate(() => document.querySelectorAll('#blogList .blogcard[data-review="review"]:not([hidden])').length) > 0,
+          'Editorial previews must become accessible via Load more');
         await page.click('.publication-controls button:first-child');
         assert(await page.evaluate(() => document.querySelectorAll('#blogList .blogcard[data-review="review"]:not([hidden])').length) === 0,
           'Published-only selection should hide drafts');
