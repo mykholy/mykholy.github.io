@@ -730,10 +730,11 @@
       });
     };
     const imageFor=(p)=>assets[p.image]||'';
+    const previewFor=(p)=>imageFor(p).replace(/\.webp$/, '-thumb.webp');
     const cardMarkup=(p,i)=>{
       const name=safe(p.title),sub=safe(lang==='ar'?p.arBlurb:p.blurb);
       const visual=p.image==='grid'?'visual-grid':p.image==='blue'?'visual-blue':p.image==='code'?'visual-code':'';
-      const image=assets[p.image]?`<img src="${assets[p.image]}" loading="lazy" alt="Conceptual project artwork for ${name}; not an actual UI screenshot" />`:'';
+      const image=assets[p.image]?`<img src="${previewFor(p)}" loading="lazy" decoding="async" alt="Conceptual project artwork for ${name}; not an actual UI screenshot" />`:'';
       return `<article class="project-card reveal ${p.featured?'wide':''}" role="button" tabindex="0" data-id="${p.id}" aria-label="${safe(i18n[lang].projectDetails)}: ${name}"><div class="project-cover ${visual}">${image}<span class="project-number">${String(i+1).padStart(2,'0')} / PROJECT</span><span class="cover-icon"><i data-lucide="arrow-up-right"></i></span><span class="cover-word">${name.toUpperCase()}</span></div><div class="project-body"><div class="project-meta"><span>${safe(p.label)}</span><span class="year">${safe(p.year)}</span></div><h3>${name}</h3><p>${sub}</p><div class="tag-row">${p.tags.slice(0,3).map(t=>`<span class="tag">${safe(t)}</span>`).join('')}<span class="card-view">${i18n[lang].view} <i data-lucide="arrow-up-right"></i></span></div></div></article>`;
     };
     function renderProjects(){
