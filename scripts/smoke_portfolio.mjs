@@ -31,6 +31,23 @@ try {
       assert(info.projects >= 6, 'Dynamic project cards did not initialize: ' + JSON.stringify(info));
       assert(!info.xOverflow, 'Horizontal overflow on ' + locale + ' ' + viewport.width + 'px');
       assert(!errors.length, 'JavaScript errors: ' + errors.join(' | '));
+      // Icons injected when a project modal opens must render as real SVGs as well.
+      await page.click('#projectGrid .project-card');
+      const modal = await page.evaluate(() => ({
+        open: document.querySelector('#projectDialog')?.open,
+        icons: document.querySelectorAll('#projectDialog svg.lucide').length,
+        placeholders: document.querySelectorAll('#projectDialog i[data-lucide]').length,
+      }));
+      assert(modal.open && modal.icons >= 2 && modal.placeholders === 0,
+        'Project modal icons are broken: ' + JSON.stringify(modal));
+      await page.click('#closeDialog');
+      if (viewport.isMobile) {
+        await page.click('#menuToggle');
+        assert(await page.evaluate(() => document.querySelector('#menuToggle').getAttribute('aria-expanded')) === 'true',
+          'Mobile menu failed to open');
+        await page.click('#menuToggle');
+      }
+      assert(!errors.length, 'JavaScript errors after interactions: ' + errors.join(' | '));
       if (viewport.isMobile) {
         const firstLink = info.hrefs[0];
         const article = await page.goto(base + firstLink, {waitUntil: 'networkidle2', timeout: 45000});
