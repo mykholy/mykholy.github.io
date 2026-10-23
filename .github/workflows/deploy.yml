@@ -25,15 +25,19 @@ jobs:
         uses: actions/checkout@v4
       - name: Build bilingual article artwork and share previews
         run: python3 scripts/build_article_media.py
+      - name: Install social preview encoder
+        run: python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+      - name: Generate JPEG preview cards
+        run: python3 scripts/build_social_images.py
       - name: Build canonical /en/ and /ar/ routes, share cards and sitemap
         run: python3 scripts/build_locale_seo.py
       - name: Keep generated article markup in repository source
         if: github.ref == 'refs/heads/main'
         run: |
-          if ! git diff --quiet -- blog index.html en ar sitemap.xml; then
+          if ! git diff --quiet -- blog index.html en ar sitemap.xml assets; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add blog index.html en ar sitemap.xml
+            git add blog index.html en ar sitemap.xml assets/portfolio-social.jpg assets/images/articles/*-share.jpg
             git commit -m "Refresh localized articles, share previews and SEO metadata [skip ci]"
             git push origin HEAD:main
           else
