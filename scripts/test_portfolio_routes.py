@@ -82,8 +82,11 @@ def check_scripts_and_weights() -> None:
     assert "'/assets/js/chat.js'" in (ROOT/'assets/js/blog.js').read_text(encoding='utf-8')
     chat=(ROOT/'assets/js/chat.js').read_text(encoding='utf-8')
     assert '6adba7539cb48b346f87ea7e/default' in chat
-    assert "button.addEventListener('click'" in chat
+    assert 'window.Tawk_API.autoStart = true' in chat
     assert 'document.head.appendChild(script)' in chat
+    assert 'showWelcome' in chat and 'Hi there!' in chat
+    assert "script.src = embed" in chat
+    assert 'ae-chat-launcher' not in chat
     assert 'embed.tawk.to' not in js
     assert '<script src="/assets/js/chat.js" defer>' in (ROOT/'privacy.html').read_text(encoding='utf-8')
     assert (ROOT/'assets/js/site.js').stat().st_size < 100_000
