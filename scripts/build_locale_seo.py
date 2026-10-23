@@ -307,6 +307,19 @@ def process_home(lang: str, original: str) -> str:
     # Static artwork and icons must work without JavaScript or third-party CDNs.
     source = re.sub(r'<script\b[^>]*src="https://unpkg.com/lucide[^"]+"[^>]*></script>', '', source)
     source = render_homepage_icons(source)
+    # The original images remain for detail views; small local versions go into cards.
+    source = re.sub(r'<img\b[^>]*>', lambda m: re.sub(
+        r'(src="assets/images/)([^"/]+)(\.webp")',
+        lambda item: item[1] + item[2] + '-thumb' + item[3], m[0]
+    ) if 'loading="lazy"' in m[0] else m[0], source)
+    # Load nonessential web fonts after first paint while preserving no-JS fallback.
+    def font_stylesheet(match: re.Match) -> str:
+        href = match.group(1)
+        return ('<link rel="stylesheet" href="' + href +
+                '" media="print" onload="this.media=\'all\'">' +
+                '<noscript><link rel="stylesheet" href="' + href + '"></noscript>')
+    source = re.sub(r'<link href="(https://fonts\.googleapis\.com/css2\?[^"]+)" rel="stylesheet"\s*/?>',
+                    font_stylesheet, source)
     # Keep all relative asset paths resolving correctly below /en/ or /ar/.
     source = source.replace('<head>', '<head><base href="/">', 1)
     source = re.sub(r'(href=")(#[^"]+)(")', lambda m: m[1] + '/' + lang + '/' + m[2] + m[3], source)
@@ -332,6 +345,7 @@ def process_home(lang: str, original: str) -> str:
 def legacy_redirect(page: str, target: str) -> str:
     # Keep actual original content for no-JS fallbacks and future deterministic builds.
     page = clean_legacy_marker(page)
+    page = re.sub(r'<script\b[^>]*src="https://unpkg.com/lucide[^"]+"[^>]*></script>', '', page)
     page = re.sub(r'<p class="editorial">\s*Transparency:.*?</p>', '', page, flags=re.S | re.I)
     page = re.sub(r'<span>\s*\d{1,3}\s*/\s*200\s*</span>', '', page)
     page = re.sub(r'(<link rel="canonical" href=")[^"]+(")', lambda m: m[1] + ORIGIN + target + m[2], page, count=1)
