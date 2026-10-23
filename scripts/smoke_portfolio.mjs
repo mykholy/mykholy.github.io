@@ -23,12 +23,16 @@ try {
         unrendered: document.querySelectorAll('i[data-lucide]').length,
         xOverflow: document.documentElement.scrollWidth > innerWidth + 4,
         projects: document.querySelectorAll('#projectGrid .project-card').length,
+        chatButton: Boolean(document.querySelector('#ae-chat-launcher')),
+        tawkBeforeClick: Boolean(document.querySelector('script[src*="embed.tawk.to"]')),
+        chatOnExpectedSide: (() => {const rect = document.querySelector('#ae-chat-launcher')?.getBoundingClientRect();return rect && (document.documentElement.lang === 'ar' ? rect.left > innerWidth/2 : rect.right < innerWidth/2);})(),
       }));
       assert(info.lang === locale, 'Wrong page language: ' + JSON.stringify(info));
       assert(info.hrefs.length === 6 && info.hrefs.every(url => url.startsWith('/' + locale + '/blog/')),
         'Wrong homepage article language: ' + JSON.stringify(info.hrefs));
       assert(info.svgCount >= 35 && info.unrendered === 0, 'Icons not rendered: ' + JSON.stringify(info));
       assert(info.projects >= 6, 'Dynamic project cards did not initialize: ' + JSON.stringify(info));
+      assert(info.chatButton && !info.tawkBeforeClick && info.chatOnExpectedSide, 'Chat launcher should appear on the correct side without fetching third-party code: ' + JSON.stringify(info));
       assert(!info.xOverflow, 'Horizontal overflow on ' + locale + ' ' + viewport.width + 'px');
       assert(!errors.length, 'JavaScript errors: ' + errors.join(' | '));
       // Icons injected when a project modal opens must render as real SVGs as well.
@@ -54,6 +58,10 @@ try {
         assert([200, 304].includes(article?.status()), 'Article link returned ' + article?.status());
         assert(await page.evaluate(() => document.documentElement.lang) === locale, 'Article changed locale');
         assert((await page.title()).length > 15, 'Missing article title');
+        assert(await page.$('#ae-chat-launcher'), 'Article chat launcher missing');
+        assert(!(await page.$('script[src*="embed.tawk.to"]')), 'Tawk should not load before a visitor clicks');
+        await page.click('#ae-chat-launcher');
+        assert(await page.$('script[src="https://embed.tawk.to/6adba7539cb48b346f87ea7e/default"]'), 'Click did not initiate the requested Tawk property');
       }
       if (!viewport.isMobile && locale === 'ar') {
         await page.click('#langSwitch');
