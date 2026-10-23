@@ -54,11 +54,11 @@ def translate_url(url: str, lang: str) -> str:
     if url.startswith(ORIGIN + "/blog/ar/"):
         return ORIGIN + "/ar/blog/" + url[len(ORIGIN + "/blog/ar/"):]
     if url.startswith(ORIGIN + "/blog/"):
-        return ORIGIN + "/en/blog/" + url[len(ORIGIN + "/blog/"):]
+        return ORIGIN + "/" + lang + "/blog/" + url[len(ORIGIN + "/blog/"):]
     if url.startswith("/blog/ar/"):
         return "/ar/blog/" + url[len("/blog/ar/"):]
     if url.startswith("/blog/"):
-        return "/en/blog/" + url[len("/blog/"):]
+        return "/" + lang + "/blog/" + url[len("/blog/"):]
     if url.startswith("/#"):
         return "/" + lang + "/" + url[1:]
     if url == "/":
@@ -273,10 +273,40 @@ process.stdout.write(JSON.stringify(dict.ar));
     return pattern.sub(apply, page)
 
 
+def render_homepage_icons(source: str) -> str:
+    """Render icon SVGs in source HTML: works before JS and without the CDN."""
+    import subprocess
+    js = r"""
+const fs = require('fs'), vm = require('vm');
+const source = fs.readFileSync('assets/js/site.js', 'utf8');
+const start = source.indexOf('const iconPaths=') + 'const iconPaths='.length;
+const end = source.indexOf(';\n    const icons=', start);
+if (end < 0) throw new Error('Icon set not found');
+process.stdout.write(JSON.stringify(vm.runInNewContext('(' + source.slice(start, end) + ')')));
+"""
+    shapes = json.loads(subprocess.check_output(["node", "-e", js], cwd=ROOT, text=True))
+    def substitute(match: re.Match) -> str:
+        raw = match.group(0)
+        icon = re.search(r'data-lucide="([^"]+)"', raw)
+        assert icon, raw
+        name = icon.group(1)
+        if name not in shapes:
+            raise ValueError('No SVG drawing found for icon: ' + name)
+        return ('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" '
+                'viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+                'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" '
+                'class="lucide lucide-' + escape(name) + '" aria-hidden="true">'
+                + shapes[name] + '</svg>')
+    return re.sub(r'<i\b[^>]*\bdata-lucide="[^"]+"[^>]*>\s*</i>', substitute, source)
+
+
 def process_home(lang: str, original: str) -> str:
     source = clean_legacy_marker(original)
     source = rewrite_links(source, lang)
     source = localized_home_copy(source, lang)
+    # Static artwork and icons must work without JavaScript or third-party CDNs.
+    source = re.sub(r'<script\b[^>]*src="https://unpkg.com/lucide[^"]+"[^>]*></script>', '', source)
+    source = render_homepage_icons(source)
     # Keep all relative asset paths resolving correctly below /en/ or /ar/.
     source = source.replace('<head>', '<head><base href="/">', 1)
     source = re.sub(r'(href=")(#[^"]+)(")', lambda m: m[1] + '/' + lang + '/' + m[2] + m[3], source)
