@@ -97,6 +97,37 @@ try {
       await page.close();
     }
   }
+  // The greeting must be immediately visible even when Tawk's external script
+  // is still downloading. Clicking it should queue the chat until Tawk is ready.
+  const early = await browser.newPage();
+  await early.setViewport({width:390, height:844, isMobile:true});
+  await early.setRequestInterception(true);
+  let heldTawk = null;
+  early.on('request', request => {
+    if (request.url() === 'https://embed.tawk.to/6adba7539cb48b346f87ea7e/default') {
+      heldTawk = request;
+      return;
+    }
+    return request.continue();
+  });
+  await early.goto(base + '/en/', {waitUntil:'domcontentloaded', timeout:45000});
+  await early.waitForSelector('#ae-chat-greeting', {timeout:3000});
+  await early.waitForFunction(() => !!document.querySelector('script[src*="embed.tawk.to"]'), {timeout:3000});
+  assert(heldTawk !== null, 'Tawk network request was not started while the page loaded');
+  assert(await early.evaluate(() => document.querySelector('#ae-chat-greeting')?.textContent.includes('Welcome to my portfolio')),
+    'Greeting should not wait for Tawk onLoad');
+  await early.click('.ae-chat-start');
+  assert(await early.evaluate(() => document.querySelector('.ae-chat-start')?.disabled === true),
+    'Chat click before widget ready should show a pending state');
+  await heldTawk.respond({
+    status:200,
+    headers:{'access-control-allow-origin':'*','content-type':'application/javascript'},
+    body:'window.Tawk_API.maximize = function(){window.__tawkMockMaximized = true}; window.Tawk_API.showWidget = function(){}; window.Tawk_API.onLoad?.();',
+  });
+  await early.waitForFunction(() => window.__tawkMockMaximized === true, {timeout:3000});
+  assert(!(await early.$('#ae-chat-greeting')), 'Queued chat opening should hide greeting');
+  await early.close();
+
   const privacy = await browser.newPage();
   let privacyChatRequests = 0;
   await privacy.setRequestInterception(true);
