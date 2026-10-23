@@ -2,6 +2,7 @@ name: Browser and Lighthouse quality audit
 
 on:
   workflow_dispatch:
+  pull_request:
   push:
     branches: [main]
     paths:

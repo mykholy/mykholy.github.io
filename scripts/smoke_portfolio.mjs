@@ -8,7 +8,9 @@ let checked = 0;
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
 try {
   for (const locale of ['en', 'ar']) {
-    for (const viewport of [{width: 390, height: 844, isMobile: true, deviceScaleFactor: 1},
+    for (const viewport of [{width: 320, height: 700, isMobile: true, deviceScaleFactor: 1},
+                            {width: 390, height: 844, isMobile: true, deviceScaleFactor: 1},
+                            {width: 768, height: 1024, isMobile: true, deviceScaleFactor: 1},
                             {width: 1440, height: 900, isMobile: false, deviceScaleFactor: 1}]) {
       const page = await browser.newPage();
       await page.setViewport(viewport);
@@ -72,6 +74,11 @@ try {
       await page.close();
     }
   }
+  const privacy = await browser.newPage();
+  await privacy.goto(base + '/privacy.html', {waitUntil: 'networkidle2', timeout: 45000});
+  assert(await privacy.$('#ae-chat-launcher'), 'Privacy page chat trigger missing');
+  assert(!(await privacy.$('script[src*="embed.tawk.to"]')), 'Privacy page loaded the third-party widget before interaction');
+  await privacy.close();
   console.log('PASS: ' + checked + ' real-browser bilingual desktop/mobile smoke checks, icons, article navigation, switches and no JS exceptions');
 } finally {
   await browser.close();
