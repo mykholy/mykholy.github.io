@@ -122,6 +122,8 @@ def head_metadata(source: str, title: str, description: str, page: str, lang: st
             '<meta property="article:modified_time" content="' + LAST_REVISED + '">',
             '<meta property="article:author" content="' + ORIGIN + '/en/">',
         ])
+    if kind != 'article':
+        x.append('<link rel="alternate" type="application/rss+xml" title="' + ('مقالات أحمد الخولي' if lang == 'ar' else 'Ahmed Elkholy Engineering Insights') + '" href="/' + lang + '/feed.xml">')
     x.append('<script type="application/ld+json">' + json.dumps(schema, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c') + '</script>')
     newhead = head + "\n" + "\n".join(x) + "\n"
     return source[:found.start()] + found[1] + newhead + found[3] + source[found.end():]
@@ -299,6 +301,40 @@ def legacy_redirect(page: str, target: str) -> str:
     return page.replace('</head>', script + '</head>', 1)
 
 
+def build_feeds() -> None:
+    from datetime import datetime
+    from email.utils import format_datetime
+    for lang in ('en', 'ar'):
+        rss = ET.Element('rss', {'version': '2.0'})
+        channel = ET.SubElement(rss, 'channel')
+        name = 'مقالات أحمد الخولي — Laravel وAI' if lang == 'ar' else 'Ahmed Elkholy | Engineering Insights'
+        summary = ('مقالات في Laravel والأتمتة وهندسة الأنظمة.' if lang == 'ar'
+                   else 'Engineering articles on Laravel, SaaS reliability and responsible AI automation.')
+        for key, val in [('title', name), ('link', url_for(lang)), ('description', summary),
+                         ('language', lang)]:
+            ET.SubElement(channel, key).text = val
+        for i, article in enumerate(CATALOG):
+            if article.get('status') != 'published':
+                continue
+            item = ET.SubElement(channel, 'item')
+            article_url = url_for(lang, article['slug'])
+            values = {
+                'title': article.get('arTitle' if lang == 'ar' else 'title'),
+                'description': article.get('arSummary' if lang == 'ar' else 'summary'),
+                'link': article_url, 'guid': article_url,
+                'pubDate': format_datetime(datetime.fromisoformat(
+                    (FIRST_RELEASE if i < 50 else LIBRARY_RELEASE).replace('Z', '+00:00'))),
+            }
+            for key, value in values.items():
+                node = ET.SubElement(item, key)
+                if key == 'guid':
+                    node.set('isPermaLink', 'true')
+                node.text = str(value)
+        xml = '<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(rss, encoding='unicode')
+        put(ROOT / lang / 'feed.xml', xml)
+        put(ROOT / ('feed.xml' if lang == 'en' else 'blog/ar/feed.xml'), xml)
+
+
 def rewrite_sitemap() -> None:
     # Only quality-reviewed, indexable articles. Adding noindex drafts to sitemap
     # would waste crawl budget and send contradictory discovery signals.
@@ -341,6 +377,7 @@ def main() -> None:
         put(ROOT / lang / 'index.html', process_home(lang, oldhome))
     put(home, legacy_redirect(oldhome, '/en/'))
     rewrite_sitemap()
+    build_feeds()
     print('Generated 400 canonical localized articles, 2 indexes, 2 profiles, redirects and sitemap.')
 
 
