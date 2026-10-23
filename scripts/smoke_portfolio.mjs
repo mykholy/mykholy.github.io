@@ -88,6 +88,31 @@ try {
         assert(externalChatRequests >= 2, 'Navigating to article did not trigger Tawk automatically');
         assert(!(await page.$('#ae-chat-launcher')), 'Old on-click launcher should be removed');
       }
+      if (viewport.isMobile && viewport.width === 390) {
+        await page.goto(base + '/' + locale + '/blog/', {waitUntil: 'networkidle2', timeout:45000});
+        await page.waitForSelector('.publication-controls button', {timeout:10000});
+        const initial = await page.evaluate(() => ({
+          shown:document.querySelectorAll('#blogList .blogcard:not([hidden])').length,
+          published:[...document.querySelectorAll('#blogList .blogcard')].filter(c=>c.dataset.review==='published').length,
+          note:document.querySelector('.publication-note')?.textContent || '',
+        }));
+        assert(initial.shown === 24 && initial.published > 24 && initial.note.includes(String(initial.published)),
+          'Blog catalog must start with 24 reviewed articles and accurate editorial disclosure: ' + JSON.stringify(initial));
+        await page.click('.blog-load-more');
+        assert(await page.evaluate(() => document.querySelectorAll('#blogList .blogcard:not([hidden])').length) === 48,
+          'Load-more should expose the next 24 published articles');
+        await page.click('.publication-controls button:nth-child(2)');
+        const withPreviews = await page.evaluate(() => ({
+          shown:document.querySelectorAll('#blogList .blogcard:not([hidden])').length,
+          previews:document.querySelectorAll('#blogList .blogcard[data-review="review"]:not([hidden])').length,
+          all:document.querySelectorAll('#blogList .blogcard').length,
+        }));
+        assert(withPreviews.shown === 24 && withPreviews.previews > 0 && withPreviews.all === 200,
+          'All-topics view should explicitly include editorial previews: ' + JSON.stringify(withPreviews));
+        await page.click('.publication-controls button:first-child');
+        assert(await page.evaluate(() => document.querySelectorAll('#blogList .blogcard[data-review="review"]:not([hidden])').length) === 0,
+          'Published-only selection should hide drafts');
+      }
       if (!viewport.isMobile && locale === 'ar') {
         await page.click('#langSwitch');
         await page.waitForFunction(() => location.pathname === '/en/', {timeout: 15000});
@@ -140,6 +165,10 @@ try {
   });
   await privacy.goto(base + '/privacy.html', {waitUntil: 'networkidle2', timeout: 45000});
   assert(privacyChatRequests === 1, 'Privacy page must also initialize live visitor monitoring');
+  await privacy.evaluate(() => localStorage.setItem('ae_tawk_visitor_optout_v1', 'yes'));
+  await privacy.reload({waitUntil:'networkidle2', timeout:45000});
+  assert(privacyChatRequests === 1, 'Explicit chat opt-out should suppress third-party requests on reload');
+  assert(!(await privacy.$('#ae-chat-greeting')), 'Explicit chat opt-out should suppress greeting');
   await privacy.close();
   console.log('PASS: ' + checked + ' real-browser bilingual desktop/mobile smoke checks, icons, article navigation, switches and no JS exceptions');
 } finally {
