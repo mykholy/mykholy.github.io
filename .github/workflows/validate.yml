@@ -19,6 +19,8 @@ jobs:
           node --check assets/js/analytics-config.js
       - name: Build all article hero images, hooks and metadata
         run: python3 scripts/build_article_media.py
+      - name: Build canonical locale pages and schema
+        run: python3 scripts/build_locale_seo.py
       - name: Check 200 bilingual topics, paths, critical links, SEO and accessibility
         run: |
           python3 - <<'PY'
@@ -45,6 +47,11 @@ jobs:
           assert ar.count('class="editorial-thumb"') >= 200
           assert ar.count('class="feature-story') == 6
           for item in catalog:
+            for locale in ('en', 'ar'):
+              seo = (Path(locale)/'blog'/item['slug']/'index.html').read_text(encoding='utf-8')
+              assert f'href="https://mykholy.github.io/{locale}/blog/{item["slug"]}/"' in seo
+              assert '<nav class="article-share"' in seo and 'property="og:image"' in seo
+              assert 'Transparency: this AI-assisted article' not in seo
             slug = item["slug"]
             for path in (Path("blog")/slug/"index.html", Path("blog/ar")/slug/"index.html"):
               assert path.is_file() and path.stat().st_size > 1500, path
@@ -59,7 +66,7 @@ jobs:
             assert 'content="index,follow"' in (Path("blog/ar")/slug/"index.html").read_text()
           sitemap = Path("sitemap.xml").read_text(encoding="utf-8")
           ET.fromstring(sitemap)
-          assert sitemap.count('<loc>') == 59
+          assert sitemap.count('<loc>') == 111
           for f in ("feed.xml","blog/ar/feed.xml"): ET.fromstring(Path(f).read_text(encoding="utf-8"))
           assert 'href="/feed.xml"' in home
           assert home.count('class="home-insight-image"') == 6
@@ -67,5 +74,7 @@ jobs:
           assert len(list(Path('assets/images/articles').glob('*-thumb.webp'))) == 27
           for path in ("assets/css/site.css","assets/css/blog.css","assets/js/blog.js","assets/js/site.js","assets/js/analytics.js","privacy.html","docs/ANALYTICS.md"):
             assert Path(path).stat().st_size > 0
-          print("200 paired bilingual topics, six featured cards, sitemap, feeds, privacy and fallback passed.")
+          assert Path('en/index.html').is_file() and Path('ar/index.html').is_file()
+          assert Path('en/blog/index.html').is_file() and Path('ar/blog/index.html').is_file()
+          print("400 canonical article routes, social shares, localized profiles, hreflang, feeds, sitemap and fallback passed.")
           PY
