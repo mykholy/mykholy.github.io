@@ -26,7 +26,16 @@ This site presents selected Laravel, Shopify, Filament, payments, SaaS, commerce
 
 ## Development
 
-No build tools are required. To preview locally, serve the repository with a static HTTP server such as:
+The production site is static HTML/CSS/JavaScript. Generate the localized pages and social cards before previewing changes locally:
+
+```bash
+python3 -m pip install Pillow==11.3.0
+python3 scripts/build_article_media.py
+python3 scripts/build_social_images.py
+python3 scripts/build_locale_seo.py
+```
+
+Then serve the repository with a static HTTP server:
 
 ```bash
 python3 -m http.server 8000
@@ -56,13 +65,20 @@ The portfolio includes a dedicated AI section covering AI product integrations, 
 
 Google Analytics 4 and Microsoft Clarity use portfolio-specific project IDs and **load only after visitor opt-in**. Search Console owner verification meta is included in the homepage; ownership still needs the Verify action in Google's UI. See [owner setup, events, KPIs and privacy guidance](docs/ANALYTICS.md). The public [privacy page](privacy.html) explains what is and is not collected.
 
-## Engineering insights blog
+## Engineering insights blog and international SEO
 
-The site publishes **50 standalone practical articles** under [Insights](https://mykholy.github.io/blog/) about AI automation, Voice AI, commerce, RAG, Laravel architecture, and sector-specific workflows. Articles have canonical URLs, `BlogPosting` structured data, related reading and consultation links. The index supports client-side search and categories while remaining readable without JavaScript.
+Canonical routes have explicit language prefixes: [English portfolio](https://mykholy.github.io/en/), [Arabic portfolio](https://mykholy.github.io/ar/), [English insights](https://mykholy.github.io/en/blog/), and [Arabic insights](https://mykholy.github.io/ar/blog/). Each article has one route per language: `/en/blog/{slug}/` and `/ar/blog/{slug}/`. Legacy `/blog/...` URLs redirect to the canonical equivalents; the shared locale-switch control preserves the article topic.
 
-- `blog/index.html` — article discovery
-- `blog/*/index.html` — 50 crawlable articles
-- `blog/articles.json` — metadata manifest
-- `assets/css/blog.css` and `assets/js/blog.js` — accessible responsive UI
+The library contains **200 bilingual topics (400 localized articles)**. Currently **53 topics are approved for search indexing** and **147 require content/editorial review**; those unreviewed articles intentionally retain `noindex,follow`. Do not remove their `noindex` directives without confirming substantive topic coverage, original value, accuracy, and proper internal linking.
 
-The blog text includes AI-assisted editorial drafting and illustrative workflows. It does not claim that every sector example has been deployed for a client. Review and update technical examples as provider capabilities change.
+- `blog/articles.json` — source metadata, topics and editorial status
+- `scripts/build_article_media.py` — verified artwork integration
+- `scripts/build_social_images.py` — fixed-size 1200×630 JPEG Open Graph cards
+- `scripts/build_locale_seo.py` — pre-rendered locale pages, unique titles/descriptions, social previews, canonical, hreflang, `BlogPosting` structured data, share buttons, RSS and sitemap
+- `en/` and `ar/` — generated localized pages
+- `sitemap.xml` — only canonical, indexable URLs, with reciprocal locale alternatives
+- `en/feed.xml` and `ar/feed.xml` — locale-specific RSS feeds
+
+The displayed publication dates reflect the real original Git publication commits (October 22 and 23, 2026 UTC), **not retroactively invented historical dates**. Search indexing is determined by search engines, not by adding metadata. Use Google Search Console to submit `https://mykholy.github.io/sitemap.xml`, inspect priority URLs, and monitor Coverage, duplicate canonical selection, and Page indexing. The build validates HTML routes and metadata; it does not certify all technical claims or promise immediate search ranking.
+
+Keep examples accurate and explicitly framed as recommendations or architectural illustrations when they are not documented production implementations.
