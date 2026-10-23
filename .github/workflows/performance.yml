@@ -52,12 +52,21 @@ jobs:
       - name: Lighthouse desktop article
         run: |
           ./node_modules/.bin/lighthouse http://127.0.0.1:4173/en/blog/saas-businesses-knowledge-grounded-assistants/ --quiet --preset=desktop --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=/tmp/lighthouse-desktop.json
+      - name: Lighthouse production mobile homepage (public GitHub Pages URL)
+        continue-on-error: true
+        run: |
+          ./node_modules/.bin/lighthouse https://mykholy.github.io/ar/ --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=/tmp/lighthouse-production-mobile.json
       - name: Print actionable web vitals and Lighthouse category scores
         run: |
           python3 - <<'PY'
           import json
-          for variant in ('mobile','desktop'):
-            doc=json.load(open('/tmp/lighthouse-'+variant+'.json'))
+          from pathlib import Path
+          for variant in ('mobile','desktop','production-mobile'):
+            path=Path('/tmp/lighthouse-'+variant+'.json')
+            if not path.exists():
+              print('No Lighthouse result for', variant)
+              continue
+            doc=json.load(open(path))
             print('\n=== '+variant.upper()+' ===')
             print('URL:',doc.get('finalDisplayedUrl'))
             for key,cat in doc['categories'].items():
