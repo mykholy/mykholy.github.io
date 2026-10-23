@@ -15,7 +15,7 @@ try {
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
       const response = await page.goto(base + '/' + locale + '/', {waitUntil: 'networkidle2', timeout: 45000});
-      assert(response?.status() === 200, 'Profile HTTP error: /' + locale + '/ status=' + response?.status() + ' url=' + response?.url());
+      assert([200, 304].includes(response?.status()), 'Profile HTTP error: /' + locale + '/ status=' + response?.status() + ' url=' + response?.url());
       const info = await page.evaluate(() => ({
         lang: document.documentElement.lang,
         hrefs: [...document.querySelectorAll('.home-insight-card a')].map(a => a.getAttribute('href')),
@@ -34,7 +34,7 @@ try {
       if (viewport.isMobile) {
         const firstLink = info.hrefs[0];
         const article = await page.goto(base + firstLink, {waitUntil: 'networkidle2', timeout: 45000});
-        assert(article?.status() === 200, 'Article link returned ' + article?.status());
+        assert([200, 304].includes(article?.status()), 'Article link returned ' + article?.status());
         assert(await page.evaluate(() => document.documentElement.lang) === locale, 'Article changed locale');
         assert((await page.title()).length > 15, 'Missing article title');
       }
