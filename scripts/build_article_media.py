@@ -159,6 +159,15 @@ def enrich_article(text: str, item: dict, ar: bool) -> str:
     image = IMAGE_BASE + theme + '-hero.webp'
     absolute = BASE_URL + image
     image_alt = (item['arTitle'] if ar else item['title']) + (" — رسم توضيحي بالذكاء الاصطناعي" if ar else " — AI-generated editorial illustration")
+    # Older Arabic translations lack social tags; supply their share metadata
+    # before the existing metadata update, so every bilingual page passes CI.
+    if '<meta property="og:type"' not in text:
+        text = replace_once(text, '<link rel="canonical"', '<meta property="og:type" content="article"><link rel="canonical"')
+    if '<meta property="og:image"' not in text:
+        text = replace_once(text, '<link rel="canonical"', '<meta property="og:image" content="'+absolute+'"><link rel="canonical"')
+    if '"@type":"BlogPosting"' in text and '"image":' not in text:
+        text = text.replace('"@type":"BlogPosting"', '"@type":"BlogPosting","image":"'+absolute+'"', 1)
+    image_height = "1050" if theme in ("events", "crm", "media") else "788"
     # Update Open Graph and Twitter share cards in real HTML, not client-side JS.
     text = re.sub(r'(<meta property="og:image" content=")[^"]+("\s*/?>)', lambda m: m.group(1)+absolute+m.group(2), text, count=1)
     text = replace_once(text, '<meta property="og:type" content="article">',
@@ -167,7 +176,7 @@ def enrich_article(text: str, item: dict, ar: bool) -> str:
     text = re.sub(r'("image"\s*:\s*")[^"]+("\s*[,}])',
                   lambda m: m.group(1)+absolute+m.group(2), text, count=1)
     figure = ('<figure class="article-hero-visual" data-article-media="v1">'
-              '<img src="'+image+'" width="1400" height="788" fetchpriority="high" decoding="async" alt="'+e(image_alt)+'">'
+              '<img src="'+image+'" width="1400" height="'+image_height+'" fetchpriority="high" decoding="async" alt="'+e(image_alt)+'">'
               '<figcaption>'+('تصميم توضيحي بالذكاء الاصطناعي، وليس لقطة شاشة من نظام حقيقي.' if ar else 'AI-generated concept illustration, not a production-system screenshot.')+'</figcaption></figure>')
     if '<div class="bloglayout">' in text:
         text = replace_once(text, '<div class="bloglayout">', figure+'<div class="bloglayout">')
