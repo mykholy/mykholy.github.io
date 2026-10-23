@@ -405,9 +405,18 @@ def legacy_redirect(page: str, target: str) -> str:
     page = re.sub(r'<p class="editorial">\s*Transparency:.*?</p>', '', page, flags=re.S | re.I)
     page = re.sub(r'<span>\s*\d{1,3}\s*/\s*200\s*</span>', '', page)
     page = re.sub(r'(<link rel="canonical" href=")[^"]+(")', lambda m: m[1] + ORIGIN + target + m[2], page, count=1)
+    # Old pages should advertise only the canonical language counterparts,
+    # not the legacy /blog/ language locations.
+    page = re.sub(r'<link\b[^>]*\brel="alternate"\s+hreflang="[^"]+"[^>]*>', '', page)
+    canonical_en = target.replace('/ar/', '/en/') if target.startswith('/ar/') else target
+    canonical_ar = target.replace('/en/', '/ar/') if target.startswith('/en/') else target
+    alternates = ''.join(
+        '<link rel="alternate" hreflang="' + language + '" href="' + ORIGIN + url + '">'
+        for language, url in [('en', canonical_en), ('ar', canonical_ar), ('x-default', canonical_en)]
+    )
     script = ('<script data-locale-redirect>(function(){var to=' + json.dumps(target) +
               ';if(location.pathname!==to){location.replace(to+location.search+location.hash)}})();</script>')
-    return page.replace('</head>', script + '</head>', 1)
+    return page.replace('</head>', alternates + script + '</head>', 1)
 
 
 def build_feeds() -> None:
@@ -432,7 +441,7 @@ def build_feeds() -> None:
                 'description': article.get('arSummary' if lang == 'ar' else 'summary'),
                 'link': article_url, 'guid': article_url,
                 'pubDate': format_datetime(datetime.fromisoformat(
-                    (FIRST_RELEASE if i < 50 else LIBRARY_RELEASE).replace('Z', '+00:00'))),
+                    publication_metadata(article, i, lang)[0].replace('Z', '+00:00'))),
             }
             for key, value in values.items():
                 node = ET.SubElement(item, key)
@@ -447,24 +456,25 @@ def build_feeds() -> None:
 def rewrite_sitemap() -> None:
     # Only quality-reviewed, indexable articles. Adding noindex drafts to sitemap
     # would waste crawl budget and send contradictory discovery signals.
-    pages = [('/en/', '/ar/'), ('/en/blog/', '/ar/blog/')]
-    for item in CATALOG:
+    pages = [('/en/', '/ar/', LAST_REVISED), ('/en/blog/', '/ar/blog/', LAST_REVISED)]
+    for i, item in enumerate(CATALOG):
         if item.get('status') == 'published':
             slug = item['slug']
-            pages.append((locale_path('en', slug), locale_path('ar', slug)))
+            _published, modified, _display = publication_metadata(item, i)
+            pages.append((locale_path('en', slug), locale_path('ar', slug), modified[:10]))
     root = ET.Element('{%s}urlset' % XMLNS)
-    for en, ar in pages:
+    for en, ar, last_modified in pages:
         for loc in (en, ar):
             el = ET.SubElement(root, '{%s}url' % XMLNS)
             ET.SubElement(el, '{%s}loc' % XMLNS).text = ORIGIN + loc
-            ET.SubElement(el, '{%s}lastmod' % XMLNS).text = LAST_REVISED
+            ET.SubElement(el, '{%s}lastmod' % XMLNS).text = last_modified
             for language, page in [('en', en), ('ar', ar)]:
                 ET.SubElement(el, '{%s}link' % XHTML, {'rel': 'alternate', 'hreflang': language, 'href': ORIGIN + page})
             ET.SubElement(el, '{%s}link' % XHTML, {'rel': 'alternate', 'hreflang': 'x-default', 'href': ORIGIN + en})
     # Keep the privacy policy discoverable without claiming a translated version.
     policy = ET.SubElement(root, '{%s}url' % XMLNS)
     ET.SubElement(policy, '{%s}loc' % XMLNS).text = ORIGIN + '/privacy.html'
-    ET.SubElement(policy, '{%s}lastmod' % XMLNS).text = '2026-10-22'
+    ET.SubElement(policy, '{%s}lastmod' % XMLNS).text = LAST_REVISED
     put(ROOT / 'sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(root, encoding='unicode') + '\n')
 
 
