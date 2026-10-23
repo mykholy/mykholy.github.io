@@ -1,0 +1,80 @@
+name: Browser and Lighthouse quality audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/**'
+      - 'blog/**'
+      - 'scripts/**'
+      - 'index.html'
+      - '.github/workflows/performance.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  browser-quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build static localized pages
+        run: |
+          python3 -m pip install --disable-pip-version-check Pillow==11.3.0
+          python3 scripts/build_article_media.py
+          python3 scripts/build_social_images.py
+          python3 scripts/build_locale_seo.py
+          python3 scripts/test_portfolio_routes.py
+      - name: Install headless browser audit tools
+        run: npm install --no-save --no-package-lock --silent puppeteer-core@24 lighthouse@12
+      - name: Find browser and start local HTTP server
+        run: |
+          CHROME=$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser)
+          test -n "$CHROME"
+          echo "CHROME_PATH=$CHROME" >> "$GITHUB_ENV"
+          nohup python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/portfolio-http.log 2>&1 &
+          for i in $(seq 1 20); do
+            curl -fsS http://127.0.0.1:4173/ar/ -o /dev/null && break
+            sleep 1
+          done
+          curl -fSI http://127.0.0.1:4173/en/blog/saas-businesses-knowledge-grounded-assistants/
+      - name: Check live browser navigation, icons and mobile layout
+        run: node scripts/smoke_portfolio.mjs
+      - name: Lighthouse mobile homepage
+        run: |
+          ./node_modules/.bin/lighthouse http://127.0.0.1:4173/ar/ --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=/tmp/lighthouse-mobile.json
+      - name: Lighthouse desktop article
+        run: |
+          ./node_modules/.bin/lighthouse http://127.0.0.1:4173/en/blog/saas-businesses-knowledge-grounded-assistants/ --quiet --preset=desktop --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --only-categories=performance,accessibility,best-practices,seo --output=json --output-path=/tmp/lighthouse-desktop.json
+      - name: Print actionable web vitals and Lighthouse category scores
+        run: |
+          python3 - <<'PY'
+          import json
+          for variant in ('mobile','desktop'):
+            doc=json.load(open('/tmp/lighthouse-'+variant+'.json'))
+            print('\n=== '+variant.upper()+' ===')
+            print('URL:',doc.get('finalDisplayedUrl'))
+            for key,cat in doc['categories'].items():
+              print(key,round(cat['score']*100) if cat.get('score') is not None else 'N/A')
+            for key in ('first-contentful-paint','largest-contentful-paint','speed-index','total-blocking-time','cumulative-layout-shift'):
+              record=doc['audits'].get(key,{})
+              print(key,record.get('displayValue','N/A'))
+            issues=[(a.get('score',1),a.get('title'),a.get('displayValue',''))
+                    for a in doc['audits'].values() if a.get('score') is not None and a['score'] < .7
+                    and a.get('details',{}).get('type') == 'opportunity']
+            for _,title,value in sorted(issues)[:8]:
+              print('Opportunity:',title,value)
+          PY
+      - name: Save detailed Lighthouse results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-lighthouse
+          path: /tmp/lighthouse-*.json
+          if-no-files-found: ignore
+          retention-days: 7
