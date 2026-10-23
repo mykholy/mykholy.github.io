@@ -273,6 +273,11 @@ def process_index(lang: str) -> str:
     for i, item in enumerate(CATALOG):
         slug = item['slug']
         published, _modified, display = publication_metadata(item, i, lang)
+        # The source template can contain stale editorial-status attributes.
+        # The catalog is authoritative, so only reviewed pieces are marked published.
+        open_card = re.compile(r'(<article class="blogcard[^"]*"[^>]*\bdata-review=")[^"]+("[^>]*><a href="/' +
+                               lang + r'/blog/' + re.escape(slug) + r'/")')
+        s = open_card.sub(lambda m: m[1] + ('published' if item.get('status') == 'published' else 'review') + m[2], s, count=1)
         card = re.compile(r'(<article class="blogcard[^"]*"[^>]*><a href="/' + lang + r'/blog/' + re.escape(slug) + r'/".*?<div class="cardfoot">)(.*?)(</div>)', re.S)
         s = card.sub(lambda m: m[1] + '<time datetime="' + published + '">' + display + '</time><b>' + ('اقرأ المقال ↗' if lang == 'ar' else 'Read article ↗') + '</b>' + m[3], s, count=1)
     total_published = sum(item.get('status') == 'published' for item in CATALOG)
