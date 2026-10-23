@@ -7,9 +7,11 @@
   window.__aeChatInitialized = true;
 
   const embed = 'https://embed.tawk.to/6adba7539cb48b346f87ea7e/default';
-  const welcomeKey = 'ae_tawk_welcome_seen_v2';
+  const welcomeKey = 'ae_tawk_welcome_dismissed_v3';
   let welcome = null;
   let widgetReady = false;
+  let openWhenReady = false;
+  let chatFailed = false;
 
   const markWelcomeSeen = () => {
     try { sessionStorage.setItem(welcomeKey, '1'); } catch (_) { /* Storage can be disabled. */ }
@@ -50,8 +52,15 @@
     welcome.style.setProperty('--chat-welcome-lift', Math.ceil(lift) + 'px');
   };
 
+  const openChat = () => {
+    const api = window.Tawk_API || {};
+    if (typeof api.showWidget === 'function') api.showWidget();
+    if (typeof api.maximize === 'function') api.maximize();
+  };
+
   function showWelcome() {
-    if (welcome || welcomeWasShown() || !widgetReady) return;
+    // Render the first-party greeting without waiting for external network calls.
+    if (welcome || welcomeWasShown() || !document.body) return;
     welcome = document.createElement('aside');
     welcome.id = 'ae-chat-greeting';
     welcome.lang = 'en';
@@ -60,13 +69,21 @@
     welcome.setAttribute('aria-label', 'Welcome to Ahmed Elkholy portfolio');
     welcome.innerHTML = '<button class="ae-chat-dismiss" type="button" aria-label="Dismiss welcome message">&times;</button><strong>Hi there! 👋</strong><p>Welcome to my portfolio. Have a question about Laravel, SaaS, or AI automation? I\'d be happy to help!</p><button class="ae-chat-start" type="button">Start a conversation</button>';
     document.body.appendChild(welcome);
-    markWelcomeSeen();
     welcome.querySelector('.ae-chat-dismiss').addEventListener('click', removeWelcome);
-    welcome.querySelector('.ae-chat-start').addEventListener('click', () => {
+    const startButton = welcome.querySelector('.ae-chat-start');
+    startButton.addEventListener('click', () => {
+      if (chatFailed) {
+        window.location.href = 'mailto:mykholys30@gmail.com';
+        return;
+      }
+      if (!widgetReady) {
+        openWhenReady = true;
+        startButton.textContent = 'Connecting to live chat…';
+        startButton.disabled = true;
+        return;
+      }
       removeWelcome();
-      const api = window.Tawk_API || {};
-      if (typeof api.showWidget === 'function') api.showWidget();
-      if (typeof api.maximize === 'function') api.maximize();
+      openChat();
     });
     positionAbovePrivacyPrompt();
     if (typeof MutationObserver === 'function') {
@@ -85,33 +102,36 @@
   window.Tawk_LoadStart = new Date();
   window.Tawk_API.onLoad = () => {
     widgetReady = true;
-    // The native Tawk launcher stays visible, without requiring any action.
-    window.setTimeout(showWelcome, 700);
+    if (openWhenReady) {
+      openWhenReady = false;
+      removeWelcome();
+      openChat();
+    }
   };
   window.Tawk_API.onChatMaximized = removeWelcome;
   window.Tawk_API.onChatMessageSystem = removeWelcome;
 
-  // Connect automatically after the critical page resources are loaded.
-  // This does not require a click; the idle window protects early rendering.
-  const connect = () => {
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = embed;
-    script.charset = 'UTF-8';
-    script.setAttribute('crossorigin', '*');
-    script.onerror = () => {
-      // Never report successful monitoring when the provider is blocked.
-      widgetReady = false;
-    };
-    document.head.appendChild(script);
-  };
-  const scheduleConnect = () => {
-    if (typeof window.requestIdleCallback === 'function') {
-      window.requestIdleCallback(connect, { timeout: 800 });
-    } else {
-      window.setTimeout(connect, 150);
+  // Start anonymous live-visitor monitoring immediately, without waiting for
+  // window.load, idle callbacks, large images, or a visitor click.
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = embed;
+  script.charset = 'UTF-8';
+  script.setAttribute('crossorigin', '*');
+  script.onerror = () => {
+    widgetReady = false;
+    chatFailed = true;
+    openWhenReady = false;
+    const button = welcome?.querySelector('.ae-chat-start');
+    if (button) {
+      button.disabled = false;
+      button.textContent = 'Email me instead';
     }
   };
-  if (document.readyState === 'complete') scheduleConnect();
-  else window.addEventListener('load', scheduleConnect, { once: true });
+  document.head.appendChild(script);
+
+  // The English greeting is first-party markup: show it as soon as body exists.
+  // Only an intentional dismiss or chat opening suppresses it during this tab.
+  if (document.body) showWelcome();
+  else document.addEventListener('DOMContentLoaded', showWelcome, { once: true });
 })();
