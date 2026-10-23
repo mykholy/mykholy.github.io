@@ -25,6 +25,8 @@ jobs:
         run: python3 scripts/build_social_images.py
       - name: Build canonical locale pages and schema
         run: python3 scripts/build_locale_seo.py
+      - name: Test localized homepage links, static SVG icons, image assets and SEO
+        run: python3 scripts/test_portfolio_routes.py
       - name: Check 200 bilingual topics, paths, critical links, SEO and accessibility
         run: |
           python3 - <<'PY'
