@@ -796,7 +796,7 @@
       $$('[data-i18n]').forEach(el=>{const t=i18n[lang][el.dataset.i18n];if(t!==undefined)el.textContent=t;});
       $$('[data-i18n-html]').forEach(el=>{const t=i18n[lang][el.dataset.i18nHtml];if(t!==undefined)el.innerHTML=t;});
 
-      $('.home-insight-card a').forEach(a=>{
+      $$('.home-insight-card a').forEach(a=>{
         const parts=a.getAttribute('href').split('/').filter(Boolean);
         const slug=parts[parts.length-1];
         if(slug)a.setAttribute('href','/'+lang+'/blog/'+slug+'/');
