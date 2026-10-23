@@ -53,9 +53,11 @@ def check_home(locale: str) -> None:
 def check_articles() -> None:
     for locale in ('en', 'ar'):
         index = (ROOT/locale/'blog/index.html').read_text(encoding='utf-8')
-        assert f'content="{SITE}/{locale}/blog/' not in index  # metadata URLs use href, not content for canonical
+        assert f'<link rel="canonical" href="{SITE}/{locale}/blog/">' in index
         assert index.count('class="blogcard') == 200
-        assert '/en/blog/' not in index if locale == 'ar' else '/ar/blog/' not in index
+        listing_links = re.findall(r'<article class="blogcard[^"]*"[^>]*><a href="([^"]+)"', index)
+        assert len(listing_links) == 200
+        assert all(link.startswith(f'/{locale}/blog/') for link in listing_links), locale
         for record in ARTICLES:
             slug = record['slug']
             path = ROOT/locale/'blog'/slug/'index.html'
