@@ -86,6 +86,10 @@ def check_scripts_and_weights() -> None:
     assert 'document.head.appendChild(script)' in chat
     assert 'showWelcome' in chat and 'Hi there!' in chat
     assert "script.src = embed" in chat
+    assert 'requestIdleCallback' not in chat
+    assert "window.addEventListener('load', scheduleConnect" not in chat
+    assert "'DOMContentLoaded', showWelcome" in chat
+    assert 'Connecting to live chat' in chat
     assert 'ae-chat-launcher' not in chat
     assert 'embed.tawk.to' not in js
     assert '<script src="/assets/js/chat.js" defer>' in (ROOT/'privacy.html').read_text(encoding='utf-8')
