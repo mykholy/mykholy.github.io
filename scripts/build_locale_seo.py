@@ -310,7 +310,7 @@ def process_home(lang: str, original: str) -> str:
     # Below-fold artwork should never compete with the first viewport for bandwidth.
     source = source.replace('loading="lazy"', 'loading="lazy" fetchpriority="low"')
     # Prefer rendering immediately with system fallback to late webfont swaps on slow mobile links.
-    source = source.replace('&display=swap', '&display=optional')
+    source = source.replace('&display=swap', '&display=optional').replace('&amp;display=swap', '&amp;display=optional')
     # The original images remain for detail views; small local versions go into cards.
     source = re.sub(r'<img\b[^>]*>', lambda m: re.sub(
         r'(src="assets/images/)([^"/]+)(\.webp")',
