@@ -17,6 +17,8 @@ jobs:
           node --check assets/js/blog.js
           node --check assets/js/analytics.js
           node --check assets/js/analytics-config.js
+      - name: Build all article hero images, hooks and metadata
+        run: python3 scripts/build_article_media.py
       - name: Check 200 bilingual topics, paths, critical links, SEO and accessibility
         run: |
           python3 - <<'PY'
@@ -39,6 +41,8 @@ jobs:
           assert en.count('class="blogcard') == 200
           assert ar.count('class="blogcard') == 200
           assert en.count('class="feature-story') == 6
+          assert en.count('class="editorial-thumb"') >= 200
+          assert ar.count('class="editorial-thumb"') >= 200
           assert ar.count('class="feature-story') == 6
           for item in catalog:
             slug = item["slug"]
@@ -46,6 +50,8 @@ jobs:
               assert path.is_file() and path.stat().st_size > 1500, path
               html = path.read_text(encoding="utf-8")
               assert '<h1>' in html and 'rel="canonical"' in html, path
+              assert 'class="article-hero-visual"' in html and 'class="article-hook"' in html, path
+              assert 'property="og:image"' in html and '/assets/images/articles/' in html, path
             if item.get("status") == "review":
               assert 'content="noindex,follow"' in (Path("blog")/slug/"index.html").read_text(), slug
           for slug in ["clinics-voice-ai-receptionist","saas-businesses-knowledge-grounded-assistants","saas-businesses-workflow-approvals"]:
@@ -56,6 +62,9 @@ jobs:
           assert sitemap.count('<loc>') == 59
           for f in ("feed.xml","blog/ar/feed.xml"): ET.fromstring(Path(f).read_text(encoding="utf-8"))
           assert 'href="/feed.xml"' in home
+          assert home.count('class="home-insight-image"') == 6
+          assert len(list(Path('assets/images/articles').glob('*-hero.webp'))) == 27
+          assert len(list(Path('assets/images/articles').glob('*-thumb.webp'))) == 27
           for path in ("assets/css/site.css","assets/css/blog.css","assets/js/blog.js","assets/js/site.js","assets/js/analytics.js","privacy.html","docs/ANALYTICS.md"):
             assert Path(path).stat().st_size > 0
           print("200 paired bilingual topics, six featured cards, sitemap, feeds, privacy and fallback passed.")
