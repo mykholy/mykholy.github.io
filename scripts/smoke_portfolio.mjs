@@ -176,7 +176,7 @@ try {
   assert(stallRequests===1,'A timeout must not start duplicate vendor SDKs');
   assert(stalledRequest,'Expected the initial visitor connection to start automatically');
   // A late SDK readiness event recovers the UI but must not reopen an expired user request.
-  await stalledRequest.respond({status:200,contentType:'application/javascript',body:'window.Tawk_API.maximize=function(){window.__lateTawkOpened=true};window.Tawk_API.showWidget=function(){};window.Tawk_API.onLoad();'});
+  await stalledRequest.respond({status:200,headers:{'access-control-allow-origin':'*'},contentType:'application/javascript',body:'window.Tawk_API.maximize=function(){window.__lateTawkOpened=true};window.Tawk_API.showWidget=function(){};window.Tawk_API.onLoad();'});
   await stalled.waitForFunction(()=>document.querySelector('.ae-chat-start')?.textContent==='Start a conversation');
   assert(await stalled.evaluate(()=>document.querySelector('.ae-chat-retry').hidden&&!window.__lateTawkOpened),'Late readiness must clear fallback without unexpected chat opening');
   await stalled.click('.ae-chat-start');
@@ -193,7 +193,7 @@ try {
     if(request.url()==='https://embed.tawk.to/6adba7539cb48b346f87ea7e/default'){
       retryRequests++;
       if(retryRequests===1)return request.abort('failed');
-      return request.respond({status:200,contentType:'application/javascript',body:'window.Tawk_API.maximize=function(){window.__retriedTawkOpened=true};window.Tawk_API.showWidget=function(){};window.Tawk_API.onLoad();'});
+      return request.respond({status:200,headers:{'access-control-allow-origin':'*'},contentType:'application/javascript',body:'window.Tawk_API.maximize=function(){window.__retriedTawkOpened=true};window.Tawk_API.showWidget=function(){};window.Tawk_API.onLoad();'});
     }
     return request.continue();
   });
@@ -212,8 +212,10 @@ try {
   await unready.evaluateOnNewDocument(()=>localStorage.setItem('ae_portfolio_analytics_consent_v2','no'));
   await unready.setRequestInterception(true);
   unready.on('request',request=>request.url().includes('embed.tawk.to/')?
-    request.respond({status:200,contentType:'application/javascript',body:'/* SDK never becomes ready */'}):request.continue());
+    request.respond({status:200,headers:{'access-control-allow-origin':'*'},contentType:'application/javascript',body:'window.__tawkEmbedDownloaded=true'}):request.continue());
   await unready.goto(base+'/en/',{waitUntil:'domcontentloaded'});
+  await unready.waitForFunction(()=>window.__tawkEmbedDownloaded===true);
+  assert(await unready.evaluate(()=>document.querySelector('.ae-chat-retry')?.hidden),'A downloaded script must not fail before its SDK readiness deadline');
   await unready.waitForSelector('.ae-chat-retry:not([hidden])',{timeout:18000});
   assert(await unready.evaluate(()=>document.querySelector('.ae-chat-start').textContent==='Email me instead'),'A successful script download is not SDK readiness');
   await unreadyContext.close();
