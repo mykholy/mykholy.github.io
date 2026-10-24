@@ -54,14 +54,20 @@ def check_articles() -> None:
     for locale in ('en', 'ar'):
         index = (ROOT/locale/'blog/index.html').read_text(encoding='utf-8')
         assert f'<link rel="canonical" href="{SITE}/{locale}/blog/">' in index
-        assert index.count('class="blogcard') == 200
-        assert 'class="publication-note"' in index
-        published = sum(item.get('status') == 'published' for item in ARTICLES)
-        assert f'{published} ' in index
-        assert index.count('data-review="published"') == published
-        listing_links = re.findall(r'<article class="blogcard[^"]*"[^>]*><a href="([^"]+)"', index)
-        assert len(listing_links) == 200
-        assert all(link.startswith(f'/{locale}/blog/') for link in listing_links), locale
+        listing_pages = [ROOT/locale/'blog/index.html'] + sorted((ROOT/locale/'blog/page').glob('*/index.html'))
+        preview_pages = [ROOT/locale/'blog/previews/index.html'] + sorted((ROOT/locale/'blog/previews/page').glob('*/index.html'))
+        for previews, paths in [(False, listing_pages), (True, preview_pages)]:
+            links = []
+            for listing_page in paths:
+                listing_html = listing_page.read_text()
+                assert listing_page.stat().st_size < 45_000, listing_page
+                page_links = re.findall(r'<article class="blogcard[^"]*"[^>]*><a href="([^"]+)"', listing_html)
+                assert 0 < len(page_links) <= 12, listing_page
+                assert ('content="noindex,follow"' in listing_html) == previews, listing_page
+                links.extend(page_links)
+            expected = [f'/{locale}/blog/{x["slug"]}/' for x in ARTICLES if (x['status'] != 'published') == previews]
+            assert sorted(links) == sorted(expected), (locale, previews)
+            assert len(set(links)) == len(links)
         for record in ARTICLES:
             slug = record['slug']
             path = ROOT/locale/'blog'/slug/'index.html'
@@ -72,8 +78,7 @@ def check_articles() -> None:
             assert 'property="og:image"' in html and 'name="twitter:image"' in html, path
             assert 'Transparency: this AI-assisted article' not in html, path
             assert 'name="description"' in html and '<title>' in html, path
-            if record['status'] != 'published':
-                assert 'content="noindex,follow"' in html, path
+            assert ('content="noindex,follow"' in html) == (record['status'] != 'published'), path
             check_assets(html, path)
             legacy = ROOT/'blog'/('ar/' if locale=='ar' else '')/slug/'index.html'
             old_html = legacy.read_text(encoding='utf-8')
@@ -104,8 +109,8 @@ def check_scripts_and_weights() -> None:
     assert 'ae_tawk_visitor_optout_v1' in chat
     assert "script.fetchPriority = 'low'" in chat
     assert 'navigator.globalPrivacyControl === true' in chat
-    assert 'publication-controls' in (ROOT/'assets/js/blog.js').read_text(encoding='utf-8')
-    assert 'blog-load-more' in (ROOT/'assets/js/blog.js').read_text(encoding='utf-8')
+    assert 'ae:privacy-closed' in chat
+    assert 'document.querySelector(".ae-consent")' in chat
     privacy=(ROOT/'privacy.html').read_text(encoding='utf-8')
     assert 'id="chatOptOut"' in privacy
     assert 'Decline analytics' in privacy
@@ -118,11 +123,56 @@ def check_scripts_and_weights() -> None:
         assert (ROOT/photo).is_file() and (ROOT/photo).stat().st_size > 10_000
 
 
+def check_discovery() -> None:
+    import xml.etree.ElementTree as ET
+    urls = [node.text for node in ET.parse(ROOT/'sitemap.xml').findall('.//{*}loc')]
+    assert len(urls) == len(set(urls))
+    for url in urls:
+        path = ROOT/urlparse(url).path.lstrip('/')
+        if path.is_dir(): path = path/'index.html'
+        page = path.read_text()
+        assert 'content="noindex' not in page, url
+        assert f'<link rel="canonical" href="{url}">' in page, url
+        assert len(re.findall(r'<h1\b',page)) == 1, url
+    from build_profile_pages import SERVICES, projects
+    for locale in ('en','ar'):
+        for kind, slugs in [('services',[x['slug'] for x in SERVICES]), ('projects',[x['id'] for x in projects()['projects']])]:
+            for slug in [''] + slugs:
+                url=f'{SITE}/{locale}/{kind}/'+(slug+'/' if slug else '')
+                assert url in urls, url
+                page=(ROOT/locale/kind/slug/'index.html').read_text()
+                assert 'application/ld+json' in page
+                assert 'mailto:mykholys30@gmail.com' in page
+                check_assets(page,ROOT/locale/kind/slug/'index.html')
+    guides=json.loads((ROOT/'blog/arabic-guides.json').read_text())
+    assert len(guides)==50
+    assert len({g['test'] for g in guides.values()})==50
+    for slug,guide in guides.items():
+        page=(ROOT/'ar/blog'/slug/'index.html').read_text()
+        assert guide['test'] in page and guide['implementation'] in page, slug
+        assert 'نسخة عربية مختصرة' not in page
+    from urllib.parse import urljoin, unquote
+    from html import unescape
+    broken=[]
+    for path in list((ROOT/'en').rglob('*.html'))+list((ROOT/'ar').rglob('*.html')):
+        source=path.read_text()
+        base=SITE+'/' if '<base href="/">' in source else SITE+'/'+str(path.parent.relative_to(ROOT))+'/'
+        for href in re.findall(r'<a[^>]+href="([^"]+)"',source):
+            resolved=urlparse(urljoin(base,unescape(href)))
+            if resolved.netloc!='mykholy.github.io':continue
+            target=ROOT/unquote(resolved.path).lstrip('/')
+            if target.is_dir():target=target/'index.html'
+            if not target.is_file():broken.append((str(path.relative_to(ROOT)),href))
+    assert not broken, broken[:20]
+    print(f'PASS: {len(urls)} indexable sitemap URLs, 50 Arabic guides, service/project pages and crawlable pagination')
+
+
 def main() -> None:
     for lang in ('en', 'ar'):
         check_home(lang)
     check_articles()
     check_scripts_and_weights()
+    check_discovery()
     print(f'PASS: 2 localized profiles, 12 featured links, 400 article pages, SVG icons and {asset_refs} image references')
 
 

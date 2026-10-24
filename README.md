@@ -82,3 +82,15 @@ The library contains **200 bilingual topics (400 localized articles)**. Currentl
 The displayed publication dates reflect the real original Git publication commits (October 22 and 23, 2026 UTC), **not retroactively invented historical dates**. Search indexing is determined by search engines, not by adding metadata. Use Google Search Console to submit `https://mykholy.github.io/sitemap.xml`, inspect priority URLs, and monitor Coverage, duplicate canonical selection, and Page indexing. The build validates HTML routes and metadata; it does not certify all technical claims or promise immediate search ranking.
 
 Keep examples accurate and explicitly framed as recommendations or architectural illustrations when they are not documented production implementations.
+
+## Service pages, case studies and smaller collections
+
+- Six service offers are available at `/en/services/` and `/ar/services/`.
+- Seventeen project case studies are rendered from the existing project facts at `/en/projects/` and `/ar/projects/`.
+- Canonical blog listings contain 12 articles per page, with regular HTML pagination. Search and category filters apply to the current page. The complete unreviewed library remains available under `/en/blog/previews/` and `/ar/blog/previews/`; these pages stay `noindex`.
+- `blog/arabic-guides.json` contains 50 topic-specific Arabic implementation notes, failure checks and metrics, replacing the old repeated summaries. These published Arabic routes are indexable; the 147 unreviewed topics in each language remain excluded.
+- `publishedAt` records the original release. Locale-specific `modifiedAt` records real editorial revisions, without inventing earlier publication dates.
+- The sitemap contains only canonical indexable pages (including collection pagination). A regression check rejects `noindex` URLs and broken internal links.
+- Live visitor monitoring still starts on page view. The first-party greeting waits while an analytics choice is open, then appears automatically when that choice closes. Analytics remain opt-in.
+
+Run `python3 scripts/build_locale_seo.py` and `python3 scripts/test_portfolio_routes.py` after editing sources. Run `node scripts/smoke_portfolio.mjs` with `puppeteer-core` and `CHROME_PATH` for browser verification. CI also records Lighthouse lab measurements; these do not replace field Core Web Vitals or Search Console indexing reports.

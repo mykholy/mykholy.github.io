@@ -77,7 +77,7 @@ jobs:
             assert 'content="index,follow"' in (Path("blog/ar")/slug/"index.html").read_text()
           sitemap = Path("sitemap.xml").read_text(encoding="utf-8")
           ET.fromstring(sitemap)
-          assert sitemap.count('<loc>') == 111
+          assert sitemap.count('<loc>') == 168
           for f in ("feed.xml","blog/ar/feed.xml"): ET.fromstring(Path(f).read_text(encoding="utf-8"))
           assert 'href="/feed.xml"' in home
           assert home.count('class="home-insight-image"') == 6

@@ -79,3 +79,6 @@ In GA4 use acquisition reports for source/medium and UTMs, geography for approxi
 - Verify privacy obligations for countries you target before enabling any tracking.
 
 **Official documentation:** [GA4 setup](https://support.google.com/analytics/answer/14183469), [GA4 custom events](https://support.google.com/analytics/answer/14144294), [Microsoft Clarity](https://clarity.microsoft.com/).
+### Service discovery
+
+`service_interest` records clicks on a homepage service link, with its public `service_slug`. New service and case-study pages reuse the same consent-gated analytics installation. Route-prefixed AI/work navigation is recognized without adding duplicate page views. Confirm receipt in GA4 Realtime after deployment; code checks alone do not prove events reached the property.

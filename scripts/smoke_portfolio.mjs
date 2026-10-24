@@ -13,6 +13,7 @@ try {
                             {width: 768, height: 1024, isMobile: true, deviceScaleFactor: 1},
                             {width: 1440, height: 900, isMobile: false, deviceScaleFactor: 1}]) {
       const page = await browser.newPage();
+      await page.evaluateOnNewDocument(() => {localStorage.removeItem('ae_portfolio_analytics_consent_v2');sessionStorage.removeItem('ae_tawk_welcome_dismissed_v3')});
       await page.setViewport(viewport);
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
@@ -49,6 +50,8 @@ try {
       assert(info.projects >= 6, 'Dynamic project cards did not initialize: ' + JSON.stringify(info));
       assert(info.tawkAutoStart && info.tawkScript && info.noLegacyLauncher && externalChatRequests > 0,
         'Tawk must connect on page view without visitor click: ' + JSON.stringify({info, externalChatRequests}));
+      assert(!(await page.$('#ae-chat-greeting')), 'Welcome should wait while the privacy choice is visible');
+      await page.click('.ae-consent-buttons button:last-child');
       await page.waitForSelector('#ae-chat-greeting', {timeout: 5000});
       const greeting = await page.evaluate(() => ({
         english: document.querySelector('#ae-chat-greeting')?.getAttribute('lang') === 'en',
@@ -90,35 +93,20 @@ try {
       }
       if (viewport.isMobile && viewport.width === 390) {
         await page.goto(base + '/' + locale + '/blog/', {waitUntil: 'networkidle2', timeout:45000});
-        await page.waitForSelector('.publication-controls button', {timeout:10000});
+        await page.waitForSelector('.blog-pagination a');
         const initial = await page.evaluate(() => ({
           shown:document.querySelectorAll('#blogList .blogcard:not([hidden])').length,
-          published:[...document.querySelectorAll('#blogList .blogcard')].filter(c=>c.dataset.review==='published').length,
-          note:document.querySelector('.publication-note')?.textContent || '',
+          pages:[...document.querySelectorAll('.blog-pagination a')].map(a=>a.pathname),
+          preview:document.querySelectorAll('#blogList .blogcard[data-review="review"]').length,
         }));
-        assert(initial.shown === 24 && initial.published > 24 && initial.note.includes(String(initial.published)),
-          'Blog catalog must start with 24 reviewed articles and accurate editorial disclosure: ' + JSON.stringify(initial));
-        await page.click('.blog-load-more');
-        assert(await page.evaluate(() => document.querySelectorAll('#blogList .blogcard:not([hidden])').length) === 48,
-          'Load-more should expose the next 24 published articles');
-        await page.click('.publication-controls button:nth-child(2)');
-        const withPreviews = await page.evaluate(() => ({
-          shown:document.querySelectorAll('#blogList .blogcard:not([hidden])').length,
-          previews:document.querySelectorAll('#blogList .blogcard[data-review="review"]:not([hidden])').length,
-          all:document.querySelectorAll('#blogList .blogcard').length,
-        }));
-        assert(withPreviews.shown === 24 && withPreviews.all === 200,
-          'All-topics mode must retain the entire reviewed and preview library: ' + JSON.stringify(withPreviews));
-        // The real catalog orders reviewed articles first. Exercise pagination
-        // until preview cards become visible rather than assuming draft order.
-        await page.click('.blog-load-more');
-        await page.click('.blog-load-more');
-        await page.click('.blog-load-more');
-        assert(await page.evaluate(() => document.querySelectorAll('#blogList .blogcard[data-review="review"]:not([hidden])').length) > 0,
-          'Editorial previews must become accessible via Load more');
-        await page.click('.publication-controls button:first-child');
-        assert(await page.evaluate(() => document.querySelectorAll('#blogList .blogcard[data-review="review"]:not([hidden])').length) === 0,
-          'Published-only selection should hide drafts');
+        assert(initial.shown===12 && initial.pages.length===5 && initial.preview===0,'Published collection must be paginated: '+JSON.stringify(initial));
+        await page.goto(base+initial.pages[1],{waitUntil:'networkidle2',timeout:45000});
+        assert((await page.title()).includes('2'),'Page two needs its own title');
+        assert(await page.evaluate(()=>document.querySelector('.blog-pagination a[aria-current="page"]')?.textContent)==='2','Pagination current page');
+        await page.goto(base+'/'+locale+'/blog/previews/',{waitUntil:'networkidle2',timeout:45000});
+        assert(await page.evaluate(()=>document.querySelector('meta[name="robots"]').content.includes('noindex')),'Previews must stay noindex');
+        assert(await page.evaluate(()=>document.querySelectorAll('#blogList .blogcard[data-review="review"]').length)===12,'Previews must remain accessible');
+
       }
       if (!viewport.isMobile && locale === 'ar') {
         await page.click('#langSwitch');
@@ -132,6 +120,7 @@ try {
   // The greeting must be immediately visible even when Tawk's external script
   // is still downloading. Clicking it should queue the chat until Tawk is ready.
   const early = await browser.newPage();
+  await early.evaluateOnNewDocument(() => {localStorage.removeItem('ae_portfolio_analytics_consent_v2');sessionStorage.removeItem('ae_tawk_welcome_dismissed_v3')});
   await early.setViewport({width:390, height:844, isMobile:true});
   await early.setRequestInterception(true);
   let heldTawk = null;
@@ -143,6 +132,9 @@ try {
     return request.continue();
   });
   await early.goto(base + '/en/', {waitUntil:'domcontentloaded', timeout:45000});
+  await early.waitForSelector('.ae-consent-buttons');
+  assert(!(await early.$('#ae-chat-greeting')), 'Privacy and greeting should not compete for first viewport');
+  await early.click('.ae-consent-buttons button:last-child');
   await early.waitForSelector('#ae-chat-greeting', {timeout:3000});
   await early.waitForFunction(() => !!document.querySelector('script[src*="embed.tawk.to"]'), {timeout:3000});
   assert(heldTawk !== null, 'Tawk network request was not started while the page loaded');
@@ -159,6 +151,18 @@ try {
   await early.waitForFunction(() => window.__tawkMockMaximized === true, {timeout:3000});
   assert(!(await early.$('#ae-chat-greeting')), 'Queued chat opening should hide greeting');
   await early.close();
+
+  for (const locale of ['en','ar']) {
+    const detail=await browser.newPage();
+    await detail.setViewport({width:390,height:844,isMobile:true});
+    for (const path of ['services/','services/laravel-saas-development/','projects/','projects/tikvideo/']) {
+      const response=await detail.goto(base+'/'+locale+'/'+path,{waitUntil:'domcontentloaded'});
+      assert(response.status()===200,'Detail HTTP: '+path);
+      const info=await detail.evaluate(()=>({h1:document.querySelectorAll('h1').length,overflow:document.documentElement.scrollWidth>innerWidth+4,canonical:document.querySelector('link[rel="canonical"]').href}));
+      assert(info.h1===1&&!info.overflow,'Detail layout '+locale+path+' '+JSON.stringify(info));
+    }
+    await detail.close();
+  }
 
   const privacy = await browser.newPage();
   let privacyChatRequests = 0;

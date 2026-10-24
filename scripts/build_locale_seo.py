@@ -33,8 +33,8 @@ def publication_metadata(item: dict, index: int, lang: str = 'en') -> tuple[str,
     """Use explicit per-article UTC dates when provided. Fall back to real
     historical batch-publication timestamps; do not invent unique dates.
     """
-    original = item.get('publishedAt') or (FIRST_RELEASE if index < 50 else LIBRARY_RELEASE)
-    changed = item.get('modifiedAt') or original
+    original = item.get('locales', {}).get(lang, {}).get('publishedAt') or item.get('publishedAt') or (FIRST_RELEASE if index < 50 else LIBRARY_RELEASE)
+    changed = item.get('locales', {}).get(lang, {}).get('modifiedAt') or item.get('modifiedAt') or original
 
     def parse(value: str) -> datetime:
         instant = datetime.fromisoformat(str(value).replace('Z', '+00:00'))
@@ -192,10 +192,30 @@ def responsive_article_thumbs(markup: str) -> str:
     return re.sub(r'<img\b[^>]*>', update, markup)
 
 
+def refresh_arabic_guide(source: str, item: dict) -> str:
+    """Replace the old generic summary with a topic-specific implementation note."""
+    guides = json.loads((ROOT/'blog/arabic-guides.json').read_text(encoding='utf8'))
+    guide = guides.get(item['slug'])
+    if not guide:
+        return source
+    source = re.sub(r'<h1\b[^>]*>.*?</h1>', '<h1>' + escape(guide['title']) + '</h1>', source, count=1, flags=re.S)
+    source = re.sub(r'<p class="article-hook">.*?</p>', '<p class="article-hook">' + escape(guide['decision']) + '</p>', source, count=1, flags=re.S)
+    source = re.sub(r'<p class="lead">.*?</p>', '<p class="lead">' + escape(guide['implementation']) + '</p>', source, count=1, flags=re.S)
+    source = re.sub(r'<meta name="description"[^>]*>', '<meta name="description" content="' + escape(guide['decision']) + '">', source, count=1)
+    prose = '<div class="quick-insights"><span class="eyebrow">قرار التنفيذ</span><p>' + escape(guide['decision']) + '</p></div>'
+    for heading, key in [('خطوات التصميم والتنفيذ','implementation'),('اختبار الفشل ومعيار القبول','test'),('مؤشرات تتابعها مع فريق التشغيل','metrics')]:
+        prose += '<h2>' + heading + '</h2><p>' + escape(guide[key]) + '</p>'
+    prose += '<div class="articlecta"><h2>هل يناسب هذا التصميم مشروعك؟</h2><p>أرسل رحلة العمل الحالية والأنظمة المطلوب ربطها والنتيجة التي تريد قياسها لنحدد نطاق التنفيذ.</p><a class="blogbutton" data-blog-cta="article" href="/ar/services/ai-workflow-automation/">استكشف خدمة التكامل والأتمتة ↗</a></div>'
+    source = re.sub(r'(<article class="blogprose">).*?(</article>)', lambda m: m[1] + prose + m[2], source, count=1, flags=re.S)
+    source = source.replace('اقرأ المقال الإنجليزي الكامل ↗', 'اقرأ بالإنجليزية ↗')
+    return source
+
 def process_article(item: dict, index: int, lang: str) -> str:
     slug = item["slug"]
     path = ROOT / "blog" / ("ar/" if lang == "ar" else "") / slug / "index.html"
     source = clean_legacy_marker(path.read_text(encoding="utf8"))
+    if lang == "ar":
+        source = refresh_arabic_guide(source, item)
     title = item["arTitle"] if lang == "ar" else item["title"]
     # Prefer the source's actual editorial title over the catalog label.
     h1 = re.search(r'<h1\b[^>]*>(.*?)</h1>', source, re.S | re.I)
@@ -206,6 +226,10 @@ def process_article(item: dict, index: int, lang: str) -> str:
     if orig_desc and len(html.unescape(orig_desc[1])) > 45:
         desc = html.unescape(orig_desc[1])
     desc = re.sub(r'\s+', ' ', desc).strip()[:225]
+    # Editorial state is authoritative; stale source directives cannot override it.
+    source = re.sub(r'<meta\s+name="robots"[^>]*>', '', source, flags=re.I)
+    if item.get('status') != 'published':
+        source = source.replace('</head>', '<meta name="robots" content="noindex,follow"></head>', 1)
     page = url_for(lang, slug)
     pic = re.search(r'<figure\b[^>]*class="article-hero-visual"[^>]*>.*?<img\b[^>]*src="([^"]+)"', source, re.S)
     if pic:
@@ -239,7 +263,7 @@ def process_article(item: dict, index: int, lang: str) -> str:
     # Strip editorial numbering if previously baked into any article template.
     source = re.sub(r'<span>\s*\d{1,3}\s*/\s*200\s*</span>', '', source)
     source = re.sub(r'<nav class="article-share".*?</nav>', '', source, flags=re.S)
-    byline = '<p class="byline">' + ("أحمد الخولي · نُشر " if lang == "ar" else "Ahmed Elkholy · Published ") + '<time datetime="' + published + '">' + display_date + '</time></p>'
+    byline = '<p class="byline">' + ("أحمد الخولي · نُشر " if lang == "ar" else "Ahmed Elkholy · Published ") + '<time datetime="' + published + '">' + display_date + '</time>' + ((' · آخر تحديث ' if lang == 'ar' else ' · Updated ') + '<time datetime="' + modified + '">' + modified[:10] + '</time>' if modified != published else '') + '</p>'
     if re.search(r'<p class="byline">.*?</p>', source, flags=re.S):
         source = re.sub(r'<p class="byline">.*?</p>', lambda _m: byline + share_markup(lang, title, page), source, count=1, flags=re.S)
     else:
@@ -278,6 +302,9 @@ def process_index(lang: str) -> str:
         open_card = re.compile(r'(<article class="blogcard[^"]*"[^>]*\bdata-review=")[^"]+("[^>]*><a href="/' +
                                lang + r'/blog/' + re.escape(slug) + r'/")')
         s = open_card.sub(lambda m: m[1] + ('published' if item.get('status') == 'published' else 'review') + m[2], s, count=1)
+        if lang == 'ar':
+            article_card = re.compile(r'(<article class="blogcard[^"]*"[^>]*><a href="/ar/blog/' + re.escape(slug) + r'/".*?</article>)', re.S)
+            s = article_card.sub(lambda m: re.sub(r'<h2>.*?</h2>', '<h2>' + escape(item['arTitle']) + '</h2>', re.sub(r'<p>.*?</p>', '<p>' + escape(item['arSummary']) + '</p>', m[0], count=1, flags=re.S), count=1, flags=re.S), s, count=1)
         card = re.compile(r'(<article class="blogcard[^"]*"[^>]*><a href="/' + lang + r'/blog/' + re.escape(slug) + r'/".*?<div class="cardfoot">)(.*?)(</div>)', re.S)
         s = card.sub(lambda m: m[1] + '<time datetime="' + published + '">' + display + '</time><b>' + ('اقرأ المقال ↗' if lang == 'ar' else 'Read article ↗') + '</b>' + m[3], s, count=1)
     total_published = sum(item.get('status') == 'published' for item in CATALOG)
@@ -299,6 +326,65 @@ def process_index(lang: str) -> str:
     s = head_metadata(s, title, desc, page, lang, '/assets/portfolio-social.jpg', 'website', schema)
     return s
 
+
+def build_paginated_indexes() -> None:
+    """Small, crawlable listing pages; previews stay separate and noindex."""
+    global INDEX_ROUTES
+    INDEX_ROUTES = []
+    page_size = 12
+    for lang in ('en', 'ar'):
+        ar = lang == 'ar'
+        source = process_index(lang)
+        listing = re.search(r'(<div id="blogList" class="bloggrid">)(.*?)(</div><p id="blogEmpty")', source, re.S)
+        if not listing:
+            raise ValueError('Missing listing: ' + lang)
+        cards = re.findall(r'<article class="blogcard\b.*?</article>', listing[2], re.S)
+        by_slug = {}
+        for card in cards:
+            slug = re.search(r'href="/' + lang + r'/blog/([^/]+)/"', card)[1]
+            by_slug[slug] = card
+        for previews in (False, True):
+            records = [x for x in CATALOG if (x.get('status') != 'published') == previews]
+            pages = (len(records) + page_size - 1) // page_size
+            prefix = '/' + lang + '/blog/' + ('previews/' if previews else '')
+            def route(number):
+                return prefix + ('page/' + str(number) + '/' if number > 1 else '')
+            for number in range(1, pages + 1):
+                page = source[:listing.start(2)] + ''.join(by_slug[x['slug']] for x in records[(number-1)*page_size:number*page_size]) + source[listing.end(2):]
+                # Featured cards belong only to the first published collection page.
+                if previews or number > 1:
+                    page = re.sub(r'<section class="featured-editorial.*?</section>', '', page, flags=re.S)
+                label = ('موضوعات قيد المراجعة' if ar else 'Editorial previews') if previews else ('المقالات المنشورة' if ar else 'Published articles')
+                heading = label + (' — صفحة ' if ar else ' — Page ') + str(number)
+                if not previews and number == 1:
+                    page = re.sub(r'<h1>.*?</h1>', '<h1>' + ('مقالات عملية عن Laravel والذكاء الاصطناعي' if ar else 'Laravel, AI & backend engineering insights') + '</h1>', page, count=1, flags=re.S)
+                if previews or number > 1:
+                    page = re.sub(r'<h1>.*?</h1>', '<h1>' + heading + '</h1>', page, count=1, flags=re.S)
+                page = re.sub(r'<p class="publication-note">.*?</p>', '<p class="publication-note">' + label + ' · ' + str(len(records)) + (' موضوع' if ar else ' articles') + '</p>', page, flags=re.S)
+                other_collection = '/' + lang + '/blog/' + ('' if previews else 'previews/')
+                other_label = ('المقالات المنشورة' if ar else 'Published articles') if previews else ('موضوعات قيد المراجعة' if ar else 'Editorial previews')
+                pagination = '<nav class="blog-pagination" aria-label="' + ('صفحات المقالات' if ar else 'Article pages') + '">'
+                for n in range(1,pages+1):
+                    pagination += '<a href="' + route(n) + '"' + (' aria-current="page"' if n == number else '') + '>' + str(n) + '</a>'
+                pagination += '</nav><p class="publication-note"><a href="' + other_collection + '">' + other_label + ' ↗</a></p>'
+                page = page.replace('<p id="blogEmpty"', pagination + '<p id="blogEmpty"', 1)
+                page = re.sub(r'(<input[^>]*id="blogSearch"[^>]*placeholder=")[^"]*(")', lambda m: m[1] + ('ابحث في هذه الصفحة…' if ar else 'Search this page…') + m[2], page)
+                page = re.sub(r'<meta name="robots"[^>]*>', '', page)
+                if previews:
+                    page = page.replace('</head>', '<meta name="robots" content="noindex,follow"></head>', 1)
+                path = route(number)
+                title = heading + (' | أحمد الخولي' if ar else ' | Ahmed Elkholy')
+                if not previews and number == 1:
+                    title = 'مقالات Laravel والذكاء الاصطناعي وهندسة الأنظمة | أحمد الخولي' if ar else 'Laravel, AI & Backend Engineering Articles | Ahmed Elkholy'
+                desc = ('مقالات عملية في Laravel والتكاملات وأتمتة الأعمال.' if ar else 'Practical engineering articles on Laravel, integrations and business automation.')
+                schema = {'@context':'https://schema.org','@type':'CollectionPage','name':heading,'url':ORIGIN+path,'inLanguage':lang}
+                page = head_metadata(page,title,desc,ORIGIN+path,lang,'/assets/portfolio-social.jpg','website',schema)
+                # Switch language without losing the collection or page number.
+                counterpart = path.replace('/'+lang+'/', '/'+('en' if ar else 'ar')+'/', 1)
+                page = re.sub(r'(<a[^>]*href=")/(?:en|ar)/blog/("[^>]*>(?:العربية|English)</a>)', lambda m: m[1] + counterpart + m[2], page)
+                put(ROOT/path.lstrip('/')/'index.html', page)
+                if lang == 'en' and not previews and number > 1:
+                    INDEX_ROUTES.append((path,path.replace('/en/','/ar/',1),LAST_REVISED))
 
 def localized_home_copy(page: str, lang: str) -> str:
     """Pre-render translated content instead of relying only on client JavaScript."""
@@ -363,6 +449,18 @@ def process_home(lang: str, original: str) -> str:
     # Static artwork and icons must work without JavaScript or third-party CDNs.
     source = re.sub(r'<script\b[^>]*src="https://unpkg.com/lucide[^"]+"[^>]*></script>', '', source)
     source = render_homepage_icons(source)
+    from build_profile_pages import projects
+    project_data = projects()
+    cards = []
+    for p in project_data['projects']:
+        picture = '/' + project_data['assets'][p['image']].replace('.webp', '-thumb.webp')
+        cards.append('<article class="project-card" data-id="' + escape(p['id']) + '"><a href="/' + lang + '/projects/' + escape(p['id']) + '/"><div class="project-cover"><img src="' + picture + '" loading="lazy" width="840" height="630" alt="' + escape(p['title']) + '"></div><div class="project-body"><h3>' + escape(p['title']) + '</h3><p>' + escape(p['arBlurb'] if lang == 'ar' else p['blurb']) + '</p></div></a></article>')
+    source = re.sub(r'(<div[^>]*id="projectGrid"[^>]*>).*?(</div>\s*<button[^>]*id="loadMore")', lambda m: m[1] + ''.join(cards) + m[2], source, count=1, flags=re.S)
+    source = source.replace('/en/services/', '/' + lang + '/services/').replace('/en/projects/', '/' + lang + '/projects/')
+    if lang == 'ar':
+        source = source.replace('View service ↗', 'تفاصيل الخدمة ↗').replace('Explore engineering services ↗', 'كل الخدمات الهندسية ↗').replace('All project case studies ↗', 'كل دراسات الحالة ↗')
+    source = re.sub(r'href="/' + lang + r'/#project/([^"]+)"', lambda m: 'href="/' + lang + '/projects/' + m[1] + '/"', source)
+    source = re.sub(r'(<img[^>]*class="hero-art"[^>]*)(>)', r'\1 width="1180" height="787"\2', source)
     source = responsive_article_thumbs(source)
     # Below-fold artwork should never compete with the first viewport for bandwidth.
     source = source.replace('loading="lazy"', 'loading="lazy" fetchpriority="low"')
@@ -462,6 +560,8 @@ def rewrite_sitemap() -> None:
     # Only quality-reviewed, indexable articles. Adding noindex drafts to sitemap
     # would waste crawl budget and send contradictory discovery signals.
     pages = [('/en/', '/ar/', LAST_REVISED), ('/en/blog/', '/ar/blog/', LAST_REVISED)]
+    pages.extend(PROFILE_ROUTES)
+    pages.extend(INDEX_ROUTES)
     for i, item in enumerate(CATALOG):
         if item.get('status') == 'published':
             slug = item['slug']
@@ -476,10 +576,6 @@ def rewrite_sitemap() -> None:
             for language, page in [('en', en), ('ar', ar)]:
                 ET.SubElement(el, '{%s}link' % XHTML, {'rel': 'alternate', 'hreflang': language, 'href': ORIGIN + page})
             ET.SubElement(el, '{%s}link' % XHTML, {'rel': 'alternate', 'hreflang': 'x-default', 'href': ORIGIN + en})
-    # Keep the privacy policy discoverable without claiming a translated version.
-    policy = ET.SubElement(root, '{%s}url' % XMLNS)
-    ET.SubElement(policy, '{%s}loc' % XMLNS).text = ORIGIN + '/privacy.html'
-    ET.SubElement(policy, '{%s}lastmod' % XMLNS).text = LAST_REVISED
     put(ROOT / 'sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(root, encoding='unicode') + '\n')
 
 
@@ -500,6 +596,10 @@ def main() -> None:
     for lang in ('en', 'ar'):
         put(ROOT / lang / 'index.html', process_home(lang, oldhome))
     put(home, legacy_redirect(oldhome, '/en/'))
+    from build_profile_pages import build as build_profile
+    global PROFILE_ROUTES
+    PROFILE_ROUTES = build_profile(head_metadata, put)
+    build_paginated_indexes()
     rewrite_sitemap()
     build_feeds()
     print('Generated 400 canonical localized articles, 2 indexes, 2 profiles, redirects and sitemap.')
