@@ -184,6 +184,10 @@ try {
   assert(gaLoads===1&&clarityLoads===1,'Consent must load each analytics provider once');
   await analytics.goto(base+'/en/services/laravel-saas-development/',{waitUntil:'networkidle2'});
   assert(await analytics.evaluate(()=>window.dataLayer?.some(x=>x[0]==='config'&&x[1]==='G-777MHCRRZZ')),'Service pages must initialize the portfolio analytics property');
+  await analytics.evaluate(()=>{window.__privacyCloseCount=0;document.addEventListener('ae:privacy-closed',()=>window.__privacyCloseCount++)});
+  await analytics.click('.ae-settings');
+  await analytics.click('.ae-settings');
+  assert(await analytics.evaluate(()=>window.__privacyCloseCount)===0,'Replacing a privacy panel must not announce a close or flash the greeting');
   await analyticsContext.close();
 
   const privacy = await browser.newPage();

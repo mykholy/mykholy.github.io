@@ -93,4 +93,4 @@ Keep examples accurate and explicitly framed as recommendations or architectural
 - The sitemap contains only canonical indexable pages (including collection pagination). A regression check rejects `noindex` URLs and broken internal links.
 - Live visitor monitoring still starts on page view. The first-party greeting waits while an analytics choice is open, then appears automatically when that choice closes. Analytics remain opt-in.
 
-Run `python3 scripts/build_locale_seo.py` and `python3 scripts/test_portfolio_routes.py` after editing sources. Run `node scripts/smoke_portfolio.mjs` with `puppeteer-core` and `CHROME_PATH` for browser verification. CI also records Lighthouse lab measurements; these do not replace field Core Web Vitals or Search Console indexing reports.
+Run `python3 scripts/build_locale_seo.py` and `python3 scripts/test_portfolio_routes.py` after editing sources. Run `SITE_TEST_ORIGIN=http://localhost:8000 node scripts/smoke_portfolio.mjs` with `puppeteer-core` and `CHROME_PATH` for browser verification. CI also records Lighthouse lab measurements; these do not replace field Core Web Vitals or Search Console indexing reports.

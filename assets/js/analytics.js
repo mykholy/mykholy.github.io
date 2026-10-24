@@ -49,9 +49,9 @@ function start(){
 const css=document.createElement("style");
 css.textContent=".ae-consent{position:fixed;z-index:10000;bottom:max(16px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(520px,calc(100vw - 24px));padding:14px;background:#191817;color:#e8dfd4;border:1px solid #e5a76e77;border-radius:13px;box-shadow:0 20px 60px #000d;font:13px/1.6 system-ui,sans-serif}.ae-consent strong{color:#fff4e7;font-size:15px}.ae-consent p{color:#c0b8ac;margin:8px 0 14px}.ae-consent a{color:#e5a76e;text-decoration:underline}.ae-consent-buttons{display:flex;gap:9px;flex-wrap:wrap}.ae-consent button{min-height:43px;padding:0 16px;border-radius:8px;border:1px solid #ffffff50;background:#27231f;color:#eee;cursor:pointer;font-weight:700}.ae-consent button[data-agree]{background:#e5a76e;color:#1a1009;border-color:#e5a76e}.ae-settings{background:none;border:0;color:#c9b6a4;text-decoration:underline;cursor:pointer;font:inherit}@media(max-width:480px){.ae-consent{padding:15px}.ae-consent-buttons button{flex:1 1 110px}}";
 document.head.appendChild(css);
-function hide(){if(panel){panel.remove();panel=null;document.dispatchEvent(new Event("ae:privacy-closed"))}}
+function hide(notify=true){if(panel){panel.remove();panel=null;if(notify)document.dispatchEvent(new Event("ae:privacy-closed"))}}
 function show(){
- hide();panel=document.createElement("div");panel.className="ae-consent";panel.setAttribute("role","dialog");panel.setAttribute("aria-label","Analytics privacy preferences");
+ hide(false);panel=document.createElement("div");panel.className="ae-consent";panel.setAttribute("role","dialog");panel.setAttribute("aria-label","Analytics privacy preferences");
  const title=document.createElement("strong");title.textContent=lang("Analytics preferences","اختيارات الخصوصية");
  const text=document.createElement("p");text.appendChild(document.createTextNode(lang("GA4 and Clarity run only with your consent. Live chat visitor monitoring is separate; you can disable it on the Privacy page. ","Google Analytics وClarity مش هيشتغلوا من غير موافقتك. متابعة زوار الشات منفصلة، وتقدر توقفها من صفحة الخصوصية. ")));
  const link=document.createElement("a");link.href="/privacy.html";link.textContent=lang("Privacy details","تفاصيل الخصوصية");text.appendChild(link);
