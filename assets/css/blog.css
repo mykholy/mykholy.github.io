@@ -47,3 +47,5 @@ html[lang="ar"] .blogcard[data-review="review"] .cardtop::after{content:"قيد 
 .blogcard[data-review="review"] .cardtop{flex-wrap:wrap}
 .publication-note{max-width:760px;color:#c4b6a8;line-height:1.8;font-size:13px;margin:8px 0 0}
 @media(max-width:440px){.publication-controls{align-items:stretch;flex-direction:column}.publication-controls button{width:100%}}
+
+.blog-pagination{display:flex;gap:9px;flex-wrap:wrap;margin-block:28px}.blog-pagination a{display:grid;place-items:center;min-width:44px;min-height:44px;border:1px solid #e5a76e70;border-radius:8px;color:#eac7a4}.blog-pagination a[aria-current="page"]{background:#e5a76e;color:#17100b}.publication-note a{text-decoration:underline;text-underline-offset:4px}

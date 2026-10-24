@@ -66,7 +66,7 @@
 
   function showWelcome() {
     // Render the first-party greeting without waiting for external network calls.
-    if (welcome || welcomeWasShown() || !document.body) return;
+    if (welcome || welcomeWasShown() || !document.body || document.querySelector(".ae-consent")) return;
     welcome = document.createElement('aside');
     welcome.id = 'ae-chat-greeting';
     welcome.lang = 'en';
@@ -101,6 +101,8 @@
     }
   }
 
+  document.addEventListener('ae:privacy-closed', () => { if (document.visibilityState !== 'hidden') showWelcome(); });
+  document.addEventListener('ae:privacy-opened', () => { if (welcome) { welcome.remove(); welcome = null; } });
   window.addEventListener('resize', positionAbovePrivacyPrompt, { passive: true });
   window.Tawk_API = window.Tawk_API || {};
   // autoStart must remain enabled for anonymous visits to appear in Live Visitors.

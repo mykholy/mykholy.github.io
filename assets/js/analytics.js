@@ -47,11 +47,11 @@ function start(){
  const blogSlug=document.body.getAttribute("data-blog-slug");if(blogSlug)send("blog_article_view",{article_slug:blogSlug.slice(0,90)});
 }
 const css=document.createElement("style");
-css.textContent=".ae-consent{position:fixed;z-index:10000;bottom:max(16px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(580px,calc(100vw - 24px));padding:19px;background:#191817;color:#e8dfd4;border:1px solid #e5a76e77;border-radius:13px;box-shadow:0 20px 60px #000d;font:14px/1.7 system-ui,sans-serif}.ae-consent strong{color:#fff4e7;font-size:16px}.ae-consent p{color:#c0b8ac;margin:8px 0 14px}.ae-consent a{color:#e5a76e;text-decoration:underline}.ae-consent-buttons{display:flex;gap:9px;flex-wrap:wrap}.ae-consent button{min-height:43px;padding:0 16px;border-radius:8px;border:1px solid #ffffff50;background:#27231f;color:#eee;cursor:pointer;font-weight:700}.ae-consent button[data-agree]{background:#e5a76e;color:#1a1009;border-color:#e5a76e}.ae-settings{background:none;border:0;color:#c9b6a4;text-decoration:underline;cursor:pointer;font:inherit}@media(max-width:480px){.ae-consent{padding:15px}.ae-consent-buttons button{flex:1 1 110px}}";
+css.textContent=".ae-consent{position:fixed;z-index:10000;bottom:max(16px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(520px,calc(100vw - 24px));padding:14px;background:#191817;color:#e8dfd4;border:1px solid #e5a76e77;border-radius:13px;box-shadow:0 20px 60px #000d;font:13px/1.6 system-ui,sans-serif}.ae-consent strong{color:#fff4e7;font-size:15px}.ae-consent p{color:#c0b8ac;margin:8px 0 14px}.ae-consent a{color:#e5a76e;text-decoration:underline}.ae-consent-buttons{display:flex;gap:9px;flex-wrap:wrap}.ae-consent button{min-height:43px;padding:0 16px;border-radius:8px;border:1px solid #ffffff50;background:#27231f;color:#eee;cursor:pointer;font-weight:700}.ae-consent button[data-agree]{background:#e5a76e;color:#1a1009;border-color:#e5a76e}.ae-settings{background:none;border:0;color:#c9b6a4;text-decoration:underline;cursor:pointer;font:inherit}@media(max-width:480px){.ae-consent{padding:15px}.ae-consent-buttons button{flex:1 1 110px}}";
 document.head.appendChild(css);
-function hide(){if(panel){panel.remove();panel=null}}
+function hide(notify=true){if(panel){panel.remove();panel=null;if(notify)document.dispatchEvent(new Event("ae:privacy-closed"))}}
 function show(){
- hide();panel=document.createElement("aside");panel.className="ae-consent";panel.setAttribute("role","dialog");panel.setAttribute("aria-label","Analytics privacy preferences");
+ hide(false);panel=document.createElement("div");panel.className="ae-consent";panel.setAttribute("role","dialog");panel.setAttribute("aria-label","Analytics privacy preferences");
  const title=document.createElement("strong");title.textContent=lang("Analytics preferences","اختيارات الخصوصية");
  const text=document.createElement("p");text.appendChild(document.createTextNode(lang("GA4 and Clarity run only with your consent. Live chat visitor monitoring is separate; you can disable it on the Privacy page. ","Google Analytics وClarity مش هيشتغلوا من غير موافقتك. متابعة زوار الشات منفصلة، وتقدر توقفها من صفحة الخصوصية. ")));
  const link=document.createElement("a");link.href="/privacy.html";link.textContent=lang("Privacy details","تفاصيل الخصوصية");text.appendChild(link);
@@ -67,7 +67,7 @@ function show(){
     location.reload();
   }
 });
- actions.append(yes,no);panel.append(title,text,actions);document.body.appendChild(panel);
+ actions.append(yes,no);panel.append(title,text,actions);document.body.appendChild(panel);document.dispatchEvent(new Event("ae:privacy-opened"));
 }
 const footer=document.querySelector(".footer-links");
 if(footer){const btn=document.createElement("button");btn.type="button";btn.className="ae-settings";btn.textContent=lang("Privacy settings","إعدادات الخصوصية");btn.addEventListener("click",show);footer.insertBefore(btn,footer.firstChild)}
@@ -77,6 +77,7 @@ else if(read()!=="no")show();
 document.addEventListener("click",e=>{
  if(!accepted||!(e.target instanceof Element))return;
  const el=e.target;
+ const service=el.closest("[data-service]");if(service)send("service_interest",{service_slug:service.dataset.service});
  const card=el.closest(".project-card[data-id]");if(card){send("project_open",{project_id:String(card.dataset.id||"").slice(0,40)});return}
  const filter=el.closest("[data-filter]");if(filter){send("project_filter",{project_category:String(filter.dataset.filter||"").slice(0,30)});return}
  if(el.closest("#langSwitch")){send("language_toggle",{to_language:ar()?"en":"ar"});return}
@@ -86,8 +87,9 @@ document.addEventListener("click",e=>{
  if(href.includes(".pdf")||a.id==="heroCv"||a.id==="quickCv"){send("cv_download_click",{placement:a.id||"link"});return}
  if(href.startsWith("mailto:")){send("contact_intent",{channel:"email"});return}
  if(href.includes("wa.me/")){send("contact_intent",{channel:"whatsapp"});return}
- if(href==="#ai"){send("ai_section_navigation");return}
- if(href==="#work"){send("portfolio_navigation");return}
+ const targetPath=href.split("#")[0];const hash=href.includes("#")?"#"+href.split("#")[1]:"";
+ if(hash==="#ai"){send("ai_section_navigation");return}
+ if(hash==="#work"){send("portfolio_navigation");return}
  if(href.startsWith("#project/")){send("project_deep_link",{project_id:href.slice(9,60)});return}
  if(href.startsWith("https://github.com/")||href.startsWith("https://www.linkedin.com/"))send("outbound_profile_click",{destination:href.includes("github")?"github":"linkedin"});
 },{capture:true,passive:true});
