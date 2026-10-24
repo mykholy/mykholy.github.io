@@ -65,6 +65,8 @@ def check_articles() -> None:
                 assert 0 < len(page_links) <= 12, listing_page
                 assert ('content="noindex,follow"' in listing_html) == previews, listing_page
                 links.extend(page_links)
+                if previews or '/page/' in str(listing_page):
+                    assert 'class="feature-story' not in listing_html, listing_page
             expected = [f'/{locale}/blog/{x["slug"]}/' for x in ARTICLES if (x['status'] != 'published') == previews]
             assert sorted(links) == sorted(expected), (locale, previews)
             assert len(set(links)) == len(links)

@@ -164,6 +164,28 @@ try {
     await detail.close();
   }
 
+  // Verify consent boundaries and initialization without sending synthetic analytics to production.
+  const analytics=await browser.newPage();
+  await analytics.evaluateOnNewDocument(()=>localStorage.removeItem('ae_portfolio_analytics_consent_v2'));
+  let gaLoads=0,clarityLoads=0;
+  await analytics.setRequestInterception(true);
+  analytics.on('request',request=>{
+    if(request.url().startsWith('https://www.googletagmanager.com/gtag/js')){gaLoads++;return request.respond({status:200,contentType:'application/javascript',body:''})}
+    if(request.url().startsWith('https://www.clarity.ms/tag/')){clarityLoads++;return request.respond({status:200,contentType:'application/javascript',body:''})}
+    if(request.url().includes('embed.tawk.to/'))return request.respond({status:200,contentType:'application/javascript',body:''});
+    return request.continue();
+  });
+  await analytics.goto(base+'/en/',{waitUntil:'networkidle2'});
+  assert(gaLoads===0&&clarityLoads===0,'Analytics must not load before consent');
+  await analytics.click('.ae-consent button[data-agree]');
+  await analytics.waitForFunction(()=>window.dataLayer?.some(x=>x[0]==='config'&&x[1]==='G-777MHCRRZZ'));
+  assert(await analytics.evaluate(()=>window.dataLayer.filter(x=>x[0]==='config').length)===1,'GA4 must initialize only once');
+  await analytics.waitForNetworkIdle();
+  assert(gaLoads===1&&clarityLoads===1,'Consent must load each analytics provider once');
+  await analytics.goto(base+'/en/services/laravel-saas-development/',{waitUntil:'networkidle2'});
+  assert(await analytics.evaluate(()=>window.dataLayer?.some(x=>x[0]==='config'&&x[1]==='G-777MHCRRZZ')),'Service pages must initialize the portfolio analytics property');
+  await analytics.close();
+
   const privacy = await browser.newPage();
   let privacyChatRequests = 0;
   await privacy.setRequestInterception(true);

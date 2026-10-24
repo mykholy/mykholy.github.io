@@ -51,7 +51,7 @@ css.textContent=".ae-consent{position:fixed;z-index:10000;bottom:max(16px,env(sa
 document.head.appendChild(css);
 function hide(){if(panel){panel.remove();panel=null;document.dispatchEvent(new Event("ae:privacy-closed"))}}
 function show(){
- hide();panel=document.createElement("aside");panel.className="ae-consent";panel.setAttribute("role","dialog");panel.setAttribute("aria-label","Analytics privacy preferences");
+ hide();panel=document.createElement("div");panel.className="ae-consent";panel.setAttribute("role","dialog");panel.setAttribute("aria-label","Analytics privacy preferences");
  const title=document.createElement("strong");title.textContent=lang("Analytics preferences","اختيارات الخصوصية");
  const text=document.createElement("p");text.appendChild(document.createTextNode(lang("GA4 and Clarity run only with your consent. Live chat visitor monitoring is separate; you can disable it on the Privacy page. ","Google Analytics وClarity مش هيشتغلوا من غير موافقتك. متابعة زوار الشات منفصلة، وتقدر توقفها من صفحة الخصوصية. ")));
  const link=document.createElement("a");link.href="/privacy.html";link.textContent=lang("Privacy details","تفاصيل الخصوصية");text.appendChild(link);

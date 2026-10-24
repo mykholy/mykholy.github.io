@@ -155,6 +155,8 @@ def head_metadata(source: str, title: str, description: str, page: str, lang: st
     if kind != 'article':
         x.append('<link rel="alternate" type="application/rss+xml" title="' + ('مقالات أحمد الخولي' if lang == 'ar' else 'Ahmed Elkholy Engineering Insights') + '" href="/' + lang + '/feed.xml">')
     x.append('<script type="application/ld+json">' + json.dumps(schema, ensure_ascii=False, separators=(',', ':')).replace('<', '\\u003c') + '</script>')
+    if 'rel="icon"' not in head:
+        x.append('<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 64 64\'%3E%3Crect width=\'64\' height=\'64\' rx=\'14\' fill=\'%230a0a0a\'/%3E%3Ctext x=\'32\' y=\'43\' text-anchor=\'middle\' font-family=\'Arial\' font-size=\'28\' font-weight=\'700\' fill=\'%23e5a76e\'%3EAE%3C/text%3E%3C/svg%3E">')
     newhead = head + "\n" + "\n".join(x) + "\n"
     return source[:found.start()] + found[1] + newhead + found[3] + source[found.end():]
 
@@ -353,7 +355,7 @@ def build_paginated_indexes() -> None:
                 page = source[:listing.start(2)] + ''.join(by_slug[x['slug']] for x in records[(number-1)*page_size:number*page_size]) + source[listing.end(2):]
                 # Featured cards belong only to the first published collection page.
                 if previews or number > 1:
-                    page = re.sub(r'<section class="featured-editorial.*?</section>', '', page, flags=re.S)
+                    page = re.sub(r'<section class="featured-articles.*?</section>', '', page, flags=re.S)
                 label = ('موضوعات قيد المراجعة' if ar else 'Editorial previews') if previews else ('المقالات المنشورة' if ar else 'Published articles')
                 heading = label + (' — صفحة ' if ar else ' — Page ') + str(number)
                 if not previews and number == 1:
@@ -562,17 +564,20 @@ def rewrite_sitemap() -> None:
     pages = [('/en/', '/ar/', LAST_REVISED), ('/en/blog/', '/ar/blog/', LAST_REVISED)]
     pages.extend(PROFILE_ROUTES)
     pages.extend(INDEX_ROUTES)
+    article_modified = {}
     for i, item in enumerate(CATALOG):
         if item.get('status') == 'published':
             slug = item['slug']
             _published, modified, _display = publication_metadata(item, i)
             pages.append((locale_path('en', slug), locale_path('ar', slug), modified[:10]))
+            for lang in ('en', 'ar'):
+                article_modified[locale_path(lang, slug)] = publication_metadata(item, i, lang)[1][:10]
     root = ET.Element('{%s}urlset' % XMLNS)
     for en, ar, last_modified in pages:
         for loc in (en, ar):
             el = ET.SubElement(root, '{%s}url' % XMLNS)
             ET.SubElement(el, '{%s}loc' % XMLNS).text = ORIGIN + loc
-            ET.SubElement(el, '{%s}lastmod' % XMLNS).text = last_modified
+            ET.SubElement(el, '{%s}lastmod' % XMLNS).text = article_modified.get(loc, last_modified)
             for language, page in [('en', en), ('ar', ar)]:
                 ET.SubElement(el, '{%s}link' % XHTML, {'rel': 'alternate', 'hreflang': language, 'href': ORIGIN + page})
             ET.SubElement(el, '{%s}link' % XHTML, {'rel': 'alternate', 'hreflang': 'x-default', 'href': ORIGIN + en})
