@@ -152,6 +152,72 @@ try {
   assert(!(await early.$('#ae-chat-greeting')), 'Queued chat opening should hide greeting');
   await early.close();
 
+  // Readiness must be bounded even when the vendor script never completes.
+  const stalledContext=await browser.createBrowserContext();
+  const stalled=await stalledContext.newPage();
+  await stalled.evaluateOnNewDocument(()=>localStorage.setItem('ae_portfolio_analytics_consent_v2','no'));
+  await stalled.setRequestInterception(true);
+  let stalledRequest=null;
+  let stallRequests=0;
+  stalled.on('request',request=>{
+    if(request.url()==='https://embed.tawk.to/6adba7539cb48b346f87ea7e/default'){
+      stallRequests++;
+      stalledRequest=request;
+      return;
+    }
+    return request.continue();
+  });
+  await stalled.goto(base+'/en/',{waitUntil:'domcontentloaded'});
+  await stalled.waitForSelector('#ae-chat-greeting');
+  await stalled.click('.ae-chat-start');
+  assert(await stalled.evaluate(()=>document.querySelector('.ae-chat-start').disabled),'An opening request should show pending state');
+  await stalled.waitForSelector('.ae-chat-retry:not([hidden])',{timeout:18000});
+  assert(await stalled.evaluate(()=>!document.querySelector('.ae-chat-start').disabled&&document.querySelector('.ae-chat-start').textContent==='Email me instead'),'Timeout must restore an actionable fallback');
+  assert(stallRequests===1,'A timeout must not start duplicate vendor SDKs');
+  assert(stalledRequest,'Expected the initial visitor connection to start automatically');
+  // A late SDK readiness event recovers the UI but must not reopen an expired user request.
+  await stalledRequest.respond({status:200,contentType:'application/javascript',body:'window.Tawk_API.maximize=function(){window.__lateTawkOpened=true};window.Tawk_API.showWidget=function(){};window.Tawk_API.onLoad();'});
+  await stalled.waitForFunction(()=>document.querySelector('.ae-chat-start')?.textContent==='Start a conversation');
+  assert(await stalled.evaluate(()=>document.querySelector('.ae-chat-retry').hidden&&!window.__lateTawkOpened),'Late readiness must clear fallback without unexpected chat opening');
+  await stalled.click('.ae-chat-start');
+  assert(await stalled.evaluate(()=>window.__lateTawkOpened===true),'Recovered chat must be usable');
+  await stalledContext.close();
+
+  // A network error before the greeting renders must expose retry; retry uses a fresh document.
+  const retryContext=await browser.createBrowserContext();
+  const retry=await retryContext.newPage();
+  await retry.evaluateOnNewDocument(()=>localStorage.setItem('ae_portfolio_analytics_consent_v2','no'));
+  await retry.setRequestInterception(true);
+  let retryRequests=0;
+  retry.on('request',request=>{
+    if(request.url()==='https://embed.tawk.to/6adba7539cb48b346f87ea7e/default'){
+      retryRequests++;
+      if(retryRequests===1)return request.abort('failed');
+      return request.respond({status:200,contentType:'application/javascript',body:'window.Tawk_API.maximize=function(){window.__retriedTawkOpened=true};window.Tawk_API.showWidget=function(){};window.Tawk_API.onLoad();'});
+    }
+    return request.continue();
+  });
+  await retry.goto(base+'/en/',{waitUntil:'domcontentloaded'});
+  await retry.waitForSelector('.ae-chat-retry:not([hidden])');
+  await Promise.all([retry.waitForNavigation({waitUntil:'domcontentloaded'}),retry.click('.ae-chat-retry')]);
+  await retry.waitForFunction(()=>document.querySelector('.ae-chat-start')?.textContent==='Start a conversation');
+  assert(retryRequests===2,'Retry should create exactly one new page-view connection');
+  await retry.click('.ae-chat-start');
+  assert(await retry.evaluate(()=>window.__retriedTawkOpened===true),'Retry should restore native chat opening');
+  await retryContext.close();
+
+  // A loaded embed without SDK readiness is also a timeout, not successful chat initialization.
+  const unreadyContext=await browser.createBrowserContext();
+  const unready=await unreadyContext.newPage();
+  await unready.evaluateOnNewDocument(()=>localStorage.setItem('ae_portfolio_analytics_consent_v2','no'));
+  await unready.setRequestInterception(true);
+  unready.on('request',request=>request.url().includes('embed.tawk.to/')?
+    request.respond({status:200,contentType:'application/javascript',body:'/* SDK never becomes ready */'}):request.continue());
+  await unready.goto(base+'/en/',{waitUntil:'domcontentloaded'});
+  await unready.waitForSelector('.ae-chat-retry:not([hidden])',{timeout:18000});
+  assert(await unready.evaluate(()=>document.querySelector('.ae-chat-start').textContent==='Email me instead'),'A successful script download is not SDK readiness');
+  await unreadyContext.close();
+
   for (const locale of ['en','ar']) {
     const detail=await browser.newPage();
     await detail.setViewport({width:390,height:844,isMobile:true});
@@ -207,7 +273,7 @@ try {
   assert(privacyChatRequests === 1, 'Explicit chat opt-out should suppress third-party requests on reload');
   assert(!(await privacy.$('#ae-chat-greeting')), 'Explicit chat opt-out should suppress greeting');
   await privacy.close();
-  console.log('PASS: ' + checked + ' real-browser bilingual desktop/mobile smoke checks, icons, article navigation, switches and no JS exceptions');
+  console.log('PASS: ' + checked + ' real-browser bilingual desktop/mobile smoke checks, chat timeouts/retry/late readiness, consent, navigation and no JS exceptions');
 } finally {
   await browser.close();
 }

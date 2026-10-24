@@ -22,6 +22,8 @@ CATALOG = json.loads((ROOT / "blog/articles.json").read_text(encoding="utf8"))
 FIRST_RELEASE = "2026-10-22T23:54:00Z"
 LIBRARY_RELEASE = "2026-10-23T00:30:41Z"
 LAST_REVISED = "2026-10-24"
+# Last substantive profile revision: the verified PR #6 publication, not build time.
+PROFILE_LAST_MODIFIED = "2026-10-24T02:26:44Z"
 XMLNS = "http://www.sitemaps.org/schemas/sitemap/0.9"
 XHTML = "http://www.w3.org/1999/xhtml"
 ET.register_namespace("", XMLNS)
@@ -495,7 +497,7 @@ def process_home(lang: str, original: str) -> str:
          "url": ORIGIN + "/en/", "sameAs": ["https://github.com/mykholy", "https://www.linkedin.com/in/mykholy/"],
          "knowsAbout": ["Laravel", "PHP", "API Architecture", "SaaS", "Shopify", "Payment Systems", "AI Automation"]},
         {"@type": "ProfilePage", "@id": url + "#profile", "url": url, "inLanguage": lang,
-         "mainEntity": {"@id": ORIGIN + "/#person"}, "dateModified": LAST_REVISED},
+         "mainEntity": {"@id": ORIGIN + "/#person"}, "dateModified": PROFILE_LAST_MODIFIED},
         {"@type": "WebSite", "@id": ORIGIN + "/#website", "name": "Ahmed Elkholy | Engineering Portfolio", "url": ORIGIN + "/",
          "inLanguage": ["en", "ar"]}
     ]}

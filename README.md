@@ -94,3 +94,9 @@ Keep examples accurate and explicitly framed as recommendations or architectural
 - Live visitor monitoring still starts on page view. The first-party greeting waits while an analytics choice is open, then appears automatically when that choice closes. Analytics remain opt-in.
 
 Run `python3 scripts/build_locale_seo.py` and `python3 scripts/test_portfolio_routes.py` after editing sources. Run `SITE_TEST_ORIGIN=http://localhost:8000 node scripts/smoke_portfolio.mjs` with `puppeteer-core` and `CHROME_PATH` for browser verification. CI also records Lighthouse lab measurements; these do not replace field Core Web Vitals or Search Console indexing reports.
+
+### Profile dates and chat readiness
+
+`ProfilePage.dateModified` uses a full ISO 8601 DateTime with a timezone in the root and both localized pages. `PROFILE_LAST_MODIFIED` records the substantive profile publication, not the time a build happens. Route checks reject date-only values and future timestamps.
+
+Tawk visitor presence still starts immediately on page view. If neither download nor SDK readiness completes within 15 seconds, the greeting offers an enabled email fallback and **Retry live chat**. Retrying reloads the document to avoid racing a late SDK with a duplicate instance. A late `onLoad` restores the chat controls without automatically reopening an expired request. Browser smoke checks cover a stalled download, network-error retry, a loaded but unready SDK, and late readiness.
