@@ -19,15 +19,29 @@
   let openWhenReady = false;
   let chatFailed = false;
   let connectTimeout = null;
+  let retryButton = null;
   const connectTimeoutMs = 15000;
 
   const syncWelcomeState = () => {
+    // Recovery remains available even if the once-per-session welcome was dismissed.
+    if (!retryButton && document.body) {
+      retryButton = document.createElement('button');
+      retryButton.id = 'ae-chat-retry';
+      retryButton.className = 'ae-chat-retry';
+      retryButton.type = 'button';
+      retryButton.hidden = true;
+      retryButton.textContent = 'Retry live chat';
+      retryButton.lang = 'en';
+      retryButton.dir = 'ltr';
+      retryButton.addEventListener('click', () => window.location.reload());
+      document.body.appendChild(retryButton);
+    }
+    if (retryButton) retryButton.hidden = !chatFailed || Boolean(document.querySelector('.ae-consent'));
     const button = welcome?.querySelector('.ae-chat-start');
     if (!button) return;
     button.disabled = !chatFailed && openWhenReady && !widgetReady;
     button.textContent = chatFailed ? 'Email me instead' :
       (button.disabled ? 'Connecting to live chat…' : 'Start a conversation');
-    welcome.querySelector('.ae-chat-retry').hidden = !chatFailed;
   };
   const clearConnectTimeout = () => {
     if (connectTimeout !== null) window.clearTimeout(connectTimeout);
@@ -58,11 +72,11 @@
     '#ae-chat-greeting strong{display:block;padding-right:34px;color:#fff;font-size:16px;line-height:1.5}',
     '#ae-chat-greeting p{margin:8px 0 15px;color:#d1c5b7;font-size:13px}',
     '#ae-chat-greeting .ae-chat-start{border:1px solid #e5a76e;background:#e5a76e;color:#17100b;border-radius:9px;min-height:40px;padding:8px 15px;font:700 13px/1.4 inherit;cursor:pointer}',
-    '#ae-chat-greeting .ae-chat-retry{margin-left:8px;border:1px solid #e5a76e77;border-radius:9px;min-height:40px;padding:8px 12px;background:transparent;color:#eee7dd;font:700 13px/1.4 system-ui,sans-serif;cursor:pointer}',
+    '#ae-chat-retry{position:fixed;z-index:9999;right:calc(max(20px,env(safe-area-inset-right)) + 70px);bottom:max(24px,env(safe-area-inset-bottom));border:1px solid #e5a76e77;border-radius:9px;min-height:40px;padding:8px 12px;background:#191715;color:#eee7dd;font:700 13px/1.4 system-ui,sans-serif;cursor:pointer}',
     '#ae-chat-greeting .ae-chat-dismiss{position:absolute;right:10px;top:10px;width:32px;height:32px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:#d9c3af;cursor:pointer;font:20px/1 system-ui,sans-serif}',
     '#ae-chat-greeting button:focus-visible{outline:2px solid #fff;outline-offset:3px}',
     '@media(max-width:480px){#ae-chat-greeting{right:14px;padding:16px;bottom:calc(max(94px,env(safe-area-inset-bottom) + 84px) + var(--chat-welcome-lift,0px));width:min(310px,calc(100vw - 28px))}}',
-    '@media print{#ae-chat-greeting{display:none!important}}'
+    '@media print{#ae-chat-greeting,#ae-chat-retry{display:none!important}}'
   ].join('');
   document.head.appendChild(css);
 
@@ -96,10 +110,9 @@
     welcome.dir = 'ltr';
     welcome.setAttribute('role', 'status');
     welcome.setAttribute('aria-label', 'Welcome to Ahmed Elkholy portfolio');
-    welcome.innerHTML = '<button class="ae-chat-dismiss" type="button" aria-label="Dismiss welcome message">&times;</button><strong>Hi there! 👋</strong><p>Welcome to my portfolio. Have a question about Laravel, SaaS, or AI automation? I\'d be happy to help!</p><button class="ae-chat-start" type="button">Start a conversation</button><button class="ae-chat-retry" type="button" hidden>Retry live chat</button>';
+    welcome.innerHTML = '<button class="ae-chat-dismiss" type="button" aria-label="Dismiss welcome message">&times;</button><strong>Hi there! 👋</strong><p>Welcome to my portfolio. Have a question about Laravel, SaaS, or AI automation? I\'d be happy to help!</p><button class="ae-chat-start" type="button">Start a conversation</button>';
     document.body.appendChild(welcome);
     welcome.querySelector('.ae-chat-dismiss').addEventListener('click', removeWelcome);
-    welcome.querySelector('.ae-chat-retry').addEventListener('click', () => window.location.reload());
     const startButton = welcome.querySelector('.ae-chat-start');
     startButton.addEventListener('click', () => {
       if (chatFailed) {
@@ -126,8 +139,8 @@
     }
   }
 
-  document.addEventListener('ae:privacy-closed', () => { if (document.visibilityState !== 'hidden') showWelcome(); });
-  document.addEventListener('ae:privacy-opened', () => { if (welcome) { welcome.remove(); welcome = null; } });
+  document.addEventListener('ae:privacy-closed', () => { if (document.visibilityState !== 'hidden') showWelcome(); syncWelcomeState(); });
+  document.addEventListener('ae:privacy-opened', () => { if (welcome) { welcome.remove(); welcome = null; } syncWelcomeState(); });
   window.addEventListener('resize', positionAbovePrivacyPrompt, { passive: true });
   window.Tawk_API = window.Tawk_API || {};
   // autoStart must remain enabled for anonymous visits to appear in Live Visitors.

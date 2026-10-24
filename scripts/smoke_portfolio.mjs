@@ -193,17 +193,18 @@ try {
     if(request.url()==='https://embed.tawk.to/6adba7539cb48b346f87ea7e/default'){
       retryRequests++;
       if(retryRequests===1)return request.abort('failed');
-      return request.respond({status:200,headers:{'access-control-allow-origin':'*'},contentType:'application/javascript',body:'window.Tawk_API.maximize=function(){window.__retriedTawkOpened=true};window.Tawk_API.showWidget=function(){};window.Tawk_API.onLoad();'});
+      return request.respond({status:200,headers:{'access-control-allow-origin':'*'},contentType:'application/javascript',body:'window.Tawk_API.maximize=function(){window.__retriedTawkOpened=true};window.Tawk_API.showWidget=function(){};window.Tawk_API.onLoad();window.__retriedTawkReady=true;'});
     }
     return request.continue();
   });
   await retry.goto(base+'/en/',{waitUntil:'domcontentloaded'});
   await retry.waitForSelector('.ae-chat-retry:not([hidden])');
+  await retry.click('.ae-chat-dismiss');
+  assert(await retry.evaluate(()=>!document.querySelector('#ae-chat-greeting')&&!document.querySelector('#ae-chat-retry').hidden),'Retry must remain available after dismissing the welcome');
   await Promise.all([retry.waitForNavigation({waitUntil:'domcontentloaded'}),retry.click('.ae-chat-retry')]);
-  await retry.waitForFunction(()=>document.querySelector('.ae-chat-start')?.textContent==='Start a conversation');
+  await retry.waitForFunction(()=>window.__retriedTawkReady===true);
   assert(retryRequests===2,'Retry should create exactly one new page-view connection');
-  await retry.click('.ae-chat-start');
-  assert(await retry.evaluate(()=>window.__retriedTawkOpened===true),'Retry should restore native chat opening');
+  assert(await retry.evaluate(()=>document.querySelector('#ae-chat-retry').hidden&&!document.querySelector('#ae-chat-greeting')),'Successful retry must clear the failure without resurrecting a dismissed welcome');
   await retryContext.close();
 
   // A loaded embed without SDK readiness is also a timeout, not successful chat initialization.
