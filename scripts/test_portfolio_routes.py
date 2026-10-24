@@ -50,6 +50,23 @@ def check_home(locale: str) -> None:
     check_assets(page, path)
 
 
+def check_profile_dates() -> None:
+    from datetime import datetime, timezone
+    pattern = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$')
+    for relative in ('index.html', 'en/index.html', 'ar/index.html'):
+        source=(ROOT/relative).read_text()
+        profiles=[]
+        for raw in re.findall(r'<script[^>]*type="application/ld\+json"[^>]*>(.*?)</script>',source,re.S):
+            data=json.loads(raw)
+            profiles.extend(node for node in data.get('@graph',[data]) if node.get('@type')=='ProfilePage')
+        assert profiles, relative
+        for profile in profiles:
+            value=profile.get('dateModified','')
+            assert pattern.fullmatch(value), (relative,'ProfilePage.dateModified needs a full ISO 8601 DateTime with timezone',value)
+            instant=datetime.fromisoformat(value.replace('Z','+00:00'))
+            assert instant.tzinfo is not None and instant<=datetime.now(timezone.utc), (relative,value)
+
+
 def check_articles() -> None:
     for locale in ('en', 'ar'):
         index = (ROOT/locale/'blog/index.html').read_text(encoding='utf-8')
@@ -172,6 +189,7 @@ def check_discovery() -> None:
 def main() -> None:
     for lang in ('en', 'ar'):
         check_home(lang)
+    check_profile_dates()
     check_articles()
     check_scripts_and_weights()
     check_discovery()
