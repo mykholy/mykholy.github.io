@@ -165,8 +165,8 @@ try {
   }
 
   // Verify consent boundaries and initialization without sending synthetic analytics to production.
-  const analytics=await browser.newPage();
-  await analytics.evaluateOnNewDocument(()=>localStorage.removeItem('ae_portfolio_analytics_consent_v2'));
+  const analyticsContext=await browser.createBrowserContext();
+  const analytics=await analyticsContext.newPage();
   let gaLoads=0,clarityLoads=0;
   await analytics.setRequestInterception(true);
   analytics.on('request',request=>{
@@ -184,7 +184,7 @@ try {
   assert(gaLoads===1&&clarityLoads===1,'Consent must load each analytics provider once');
   await analytics.goto(base+'/en/services/laravel-saas-development/',{waitUntil:'networkidle2'});
   assert(await analytics.evaluate(()=>window.dataLayer?.some(x=>x[0]==='config'&&x[1]==='G-777MHCRRZZ')),'Service pages must initialize the portfolio analytics property');
-  await analytics.close();
+  await analyticsContext.close();
 
   const privacy = await browser.newPage();
   let privacyChatRequests = 0;
