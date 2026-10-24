@@ -454,9 +454,9 @@ def process_home(lang: str, original: str) -> str:
     from build_profile_pages import projects
     project_data = projects()
     cards = []
-    for p in project_data['projects']:
+    for p in project_data['projects'][:6]:
         picture = '/' + project_data['assets'][p['image']].replace('.webp', '-thumb.webp')
-        cards.append('<article class="project-card" data-id="' + escape(p['id']) + '"><a href="/' + lang + '/projects/' + escape(p['id']) + '/"><div class="project-cover"><img src="' + picture + '" loading="lazy" width="840" height="630" alt="' + escape(p['title']) + '"></div><div class="project-body"><h3>' + escape(p['title']) + '</h3><p>' + escape(p['arBlurb'] if lang == 'ar' else p['blurb']) + '</p></div></a></article>')
+        cards.append('<article class="project-card' + (' wide' if p.get('featured') else '') + '" data-id="' + escape(p['id']) + '"><a href="/' + lang + '/projects/' + escape(p['id']) + '/"><div class="project-cover"><img src="' + picture + '" loading="lazy" width="840" height="630" alt="' + escape(p['title']) + '"></div><div class="project-body"><h3>' + escape(p['title']) + '</h3><p>' + escape(p['arBlurb'] if lang == 'ar' else p['blurb']) + '</p></div></a></article>')
     source = re.sub(r'(<div[^>]*id="projectGrid"[^>]*>).*?(</div>\s*<button[^>]*id="loadMore")', lambda m: m[1] + ''.join(cards) + m[2], source, count=1, flags=re.S)
     source = source.replace('/en/services/', '/' + lang + '/services/').replace('/en/projects/', '/' + lang + '/projects/')
     if lang == 'ar':
